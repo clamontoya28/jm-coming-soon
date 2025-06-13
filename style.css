@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+canvas#bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+  padding: 20px;
+}
+
+.content {
+  text-align: center;
+  max-width: 90%;
+}
+
+h1 {
+  font-size: 2.8rem;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  animation: fadeIn 1.2s ease;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  animation: fadeIn 2s ease;
+}
+
+.loader {
+  margin: 25px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.loader span {
+  width: 10px;
+  height: 10px;
+  background: #0ff;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.email {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  animation: fadeIn 2.5s ease;
+}
+
+@keyframes bounce {
+  to {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
+  .subtitle {
+    font-size: 1rem;
+  }
+  .email {
+    font-size: 0.8rem;
+  }
+}
