@@ -1,24 +1,1683 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JM Enterprise – Coming Soon</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.M Enterprises | Innovazione Tecnologica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        /* VARIABILI E RESET */
+        :root {
+            --dark-bg: #0a0a14;
+            --darker-bg: #05050f;
+            --accent: #2563eb;
+            --accent-light: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --text: #f0f0f0;
+            --text-secondary: #a1a1aa;
+            --card-bg: rgba(20, 20, 35, 0.6);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(30, 30, 50, 0.2);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: radial-gradient(ellipse at center, #0a0a20 0%, #050510 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* SFONDO STELLATO ANIMATO */
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration, 5s) infinite var(--delay, 0s);
+            opacity: 0.2;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* NAVBAR STILE PREMIUM */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 8%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navbar.scrolled {
+            padding: 1rem 8%;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 42px;
+            width: 42px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 0 25px var(--accent-glow);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .logo:hover {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.8rem;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            letter-spacing: -0.2px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-light);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-light);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            padding: 0.7rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+            border: none;
+            cursor: pointer;
+            letter-spacing: -0.2px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.6rem;
+            color: var(--text);
+        }
+
+        /* SEZIONI PRINCIPALI */
+        section {
+            padding: 10rem 8% 6rem;
+            min-height: auto;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 12rem;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -2px;
+            max-width: 1000px;
+        }
+
+        .hero p {
+            font-size: 1.6rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.8rem;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            padding: 1.1rem 2.8rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.15rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            letter-spacing: -0.2px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            box-shadow: 0 4px 25px rgba(37, 99, 235, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-light);
+            transform: translateY(-3px);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+
+        /* CHI SIAMO */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 5rem;
+        }
+
+        .about-text h3 {
+            color: var(--accent-light);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .about-text p {
+            margin-bottom: 1.8rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.8rem;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent-light), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .team-member {
+            text-align: center;
+            background: var(--glass-bg);
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .team-member:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+            border-color: transparent;
+        }
+
+        .team-member:hover::before {
+            transform: scaleX(1);
+        }
+
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.8rem;
+            background: linear-gradient(135deg, var(--darker-bg), var(--dark-bg));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            color: var(--accent-light);
+            border: 3px solid var(--accent);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .team-member:hover .member-photo {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .team-link {
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+        }
+
+        .team-member h3 {
+            margin-bottom: 0.6rem;
+            color: var(--text);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .team-member p {
+            color: var(--text);
+            font-size: 1.1rem;
+        }
+
+        .team-member .text-secondary {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* MISSIONE */
+        .mission-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .mission-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .mission-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .mission-icon {
+            font-size: 3.5rem;
+            color: var(--accent-light);
+            margin-bottom: 1.8rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .mission-card h3 {
+            margin-bottom: 1.2rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .mission-card p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* ROADMAP TIMELINE */
+        .roadmap-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 3rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-light), transparent);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 10px;
+        }
+
+        .timeline-item {
+            width: 50%;
+            padding: 2.5rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 5rem;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 5rem;
+        }
+
+        .timeline-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-content {
+            background: var(--glass-bg);
+            padding: 3rem;
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-light));
+        }
+
+        .timeline-content h4 {
+            color: var(--accent-light);
+            font-size: 1.7rem;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+
+        .timeline-date {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: var(--dark-bg);
+            border: 4px solid var(--accent-light);
+            border-radius: 50%;
+            top: 50%;
+            right: -13px;
+            transform: translateY(-50%);
+            z-index: 1;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .timeline-item:nth-child(even)::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: var(--dark-bg);
+            border: 4px solid var(--accent-light);
+            border-radius: 50%;
+            top: 50%;
+            left: -13px;
+            transform: translateY(-50%);
+            z-index: 1;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* PRODOTTI */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: block;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #2563eb, #3b82f6, #60a5fa, #93c5fd);
+            z-index: -1;
+            border-radius: 26px;
+            opacity: 0;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+            border-color: transparent;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            color: var(--accent-light);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .product-card:hover .product-icon {
+            transform: scale(1.2);
+        }
+
+        .product-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .product-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-features {
+            margin-top: 1.5rem;
+            text-align: left;
+            padding: 0 1.5rem;
+        }
+
+        .product-features span {
+            display: block;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-features i {
+            color: var(--accent-light);
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .learn-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-light);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .learn-more:hover {
+            gap: 1rem;
+        }
+
+        /* CONTATTI - FORM DI LUSSO */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-light);
+        }
+
+        .info-icon {
+            font-size: 2.2rem;
+            color: var(--accent-light);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .contact-form {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .form-header h3 {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(to right, #fff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .form-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            background: rgba(15, 15, 30, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-light);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+
+        .form-group textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.3rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        /* FOOTER STILE PREMIUM */
+        .footer {
+            background: rgba(5, 5, 15, 0.95);
+            padding: 5rem 0 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 8%;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-about {
+            padding-right: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo .logo {
+            width: 42px;
+            height: 42px;
+            font-size: 1.1rem;
+        }
+
+        .footer-about p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            font-size: 1.3rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text);
+            position: relative;
+            padding-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: 3px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1.2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-light);
+            gap: 1.2rem;
+        }
+
+        .footer-links i {
+            font-size: 0.9rem;
+            color: var(--accent-light);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-legal a:hover {
+            color: var(--accent-light);
+        }
+
+        /* ANIMATIONS */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .floating {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(30px); }
+        }
+
+        .fade-out {
+            animation: fadeOut 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .hero h1 { font-size: 4.2rem; }
+            .section-title { font-size: 3rem; }
+            .timeline::before { left: 40px; }
+            .timeline-item { width: 100%; padding-left: 90px; padding-right: 30px; }
+            .timeline-item:nth-child(even) { left: 0; text-align: left; }
+            .timeline-item::after { left: 38px !important; }
+            .timeline-item:nth-child(odd)::after { right: auto; left: 38px; }
+            .about-content { grid-template-columns: 1fr; }
+            .mission-content { grid-template-columns: repeat(2, 1fr); }
+            .contact-container { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 900px) {
+            .navbar { padding: 1.2rem 5%; }
+            .nav-links { 
+                display: none; 
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 25, 0.98);
+                flex-direction: column;
+                padding: 3rem;
+                gap: 2rem;
+                transform: translateY(-100%);
+                transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                border-top: 1px solid var(--glass-border);
+            }
+            .nav-links.active {
+                transform: translateY(0);
+                display: flex;
+            }
+            .hamburger { display: block; }
+            .hero h1 { font-size: 3.5rem; }
+            .hero p { font-size: 1.4rem; }
+            .hero-buttons { flex-direction: column; gap: 1.5rem; }
+            .section-header { margin-bottom: 4rem; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-legal { justify-content: center; }
+            .footer-logo { justify-content: center; }
+            .mission-content { grid-template-columns: 1fr; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.8rem; }
+            .hero { padding-top: 10rem; }
+            .section-title { font-size: 2.4rem; }
+            .section-subtitle { font-size: 1.2rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-about { padding-right: 0; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .contact-form { padding: 2.5rem; }
+        }
+    </style>
 </head>
 <body>
-  <canvas id="bg"></canvas>
-  <div class="overlay">
-    <div class="content">
-      <h1>J.M ENTERPRISES</h1>
-      <p class="subtitle">Revolution is coming. Stay tuned.</p>
-      <div class="loader">
-        <span></span><span></span><span></span>
-      </div>
-      <p class="email">📩 claudio@jmenterprises.it</p>
-      <p class="email">📩 info@jmenterprises.it</p>
-    </div>
-  </div>
-  <script src="script.js"></script>
+    <!-- SFONDO STELLATO DINAMICO -->
+    <div class="stars-bg" id="stars-bg"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="logo-container">
+            <div class="logo">J.M</div>
+            <div class="logo-text">Enterprises</div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="#about" class="nav-link">Chi Siamo</a>
+            <a href="#mission" class="nav-link">Missione</a>
+            <a href="#roadmap" class="nav-link">Roadmap</a>
+            <a href="#products" class="nav-link">Prodotti</a>
+        </div>
+        
+        <a href="#contact" class="cta-button">Contatti</a>
+        
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <h1>Innovazione Tecnologica per un Futuro Migliore</h1>
+        <p>JM Enterprise crea soluzioni rivoluzionarie che trasformano il modo in cui le persone interagiscono con la tecnologia</p>
+        
+        <div class="hero-buttons">
+            <a href="#products" class="btn btn-primary">
+                <i class="fas fa-rocket"></i> Scopri i Prodotti
+            </a>
+            <a href="#about" class="btn btn-secondary">
+                <i class="fas fa-users"></i> Conosci il Team
+            </a>
+        </div>
+        
+        <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- CHI SIAMO -->
+    <section id="about" class="section">
+        <div class="section-header">
+            <h2 class="section-title">Chi Siamo</h2>
+            <p class="section-subtitle">Un team di visionari che crede nel potere della tecnologia per migliorare la vita umana</p>
+        </div>
+        
+        <div class="about-content">
+            <div class="about-text fade-in">
+                <h3>La Nostra Storia</h3>
+                <p>Fondata nel 2025 da Claudio Montoya, J.M Enterprises nasce dalla visione di creare un futuro dove tecnologia e benessere umano coesistono in perfetta armonia. Con un team di esperti provenienti da Google, MIT e Stanford, abbiamo sviluppato soluzioni che stanno ridefinendo i confini dell'innovazione.</p>
+                
+                <h3>Il Nostro Approccio</h3>
+                <p>Combiniamo ricerca scientifica avanzata con design intuitivo per creare prodotti che risolvono problemi reali. Ogni soluzione nasce da anni di studio e sviluppo, con un focus su:</p>
+                <ul>
+                    <li>Sostenibilità e impatto ambientale</li>
+                    <li>Accessibilità globale</li>
+                    <li>Etica nell'intelligenza artificiale</li>
+                    <li>Esperienza utente senza compromessi</li>
+                </ul>
+            </div>
+            
+            <div class="stats-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Esperto nel team</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Paesi raggiunti</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Utenti attivi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">N/A</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="team-grid">
+            <div class="team-member fade-in">
+                <a href="team/ceo.html" class="team-link">
+                    <div class="member-photo">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Claudio Montoya</h3>
+                    <p>Fondatore & CEO</p>
+                    <p class="text-secondary">Data Engineering & ML Student.</p>
+                </a>
+            </div>
+            
+            <div class="team-member fade-in">
+                <a href="team/cto.html" class="team-link">
+                    <div class="member-photo">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>N/A</h3>
+                    <p>CTO</p>
+                    <p class="text-secondary">N/A</p>
+                </a>
+            </div>
+            
+            <div class="team-member fade-in">
+                <a href="team/design.html" class="team-link">
+                    <div class="member-photo">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>N/A</h3>
+                    <p>Lead Designer</p>
+                    <p class="text-secondary">N/A</p>
+                </a>
+            </div>
+            
+            <div class="team-member fade-in">
+                <a href="team/dev.html" class="team-link">
+                    <div class="member-photo">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>N/A</h3>
+                    <p>Lead Developer</p>
+                    <p class="text-secondary">N/A</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSIONE -->
+    <section id="mission" class="section">
+        <div class="section-header">
+            <h2 class="section-title">La Nostra Missione</h2>
+            <p class="section-subtitle">Creare tecnologie che migliorino concretamente la qualità della vita umana</p>
+        </div>
+        
+        <div class="mission-content">
+            <div class="mission-card fade-in">
+                <div class="mission-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>Potenziare la Mente Umana</h3>
+                <p>Sviluppiamo interfacce neurali che amplificano le capacità cognitive, rendendo l'apprendimento più rapido e la creatività illimitata.</p>
+            </div>
+            
+            <div class="mission-card fade-in">
+                <div class="mission-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Proteggere la Privacy</h3>
+                <p>Creiamo tecnologie di sicurezza che difendono la tua identità digitale senza compromessi, in un mondo sempre più connesso.</p>
+            </div>
+            
+            <div class="mission-card fade-in">
+                <div class="mission-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>Sostenibilità Globale</h3>
+                <p>Integriamo soluzioni eco-compatibili in tutti i nostri prodotti, riducendo l'impatto ambientale della tecnologia.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section id="roadmap" class="section">
+        <div class="section-header">
+            <h2 class="section-title">Roadmap Sviluppo</h2>
+            <p class="section-subtitle">Il nostro percorso verso l'innovazione</p>
+        </div>
+        
+        <div class="roadmap-container">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content fade-in">
+                        <span class="timeline-date">Q3 2023</span>
+                        <h4>Lancio Alpha di Harmonia</h4>
+                        <ul>
+                            <li>Sviluppo core functionality</li>
+                            <li>Primi test utente con 500 partecipanti</li>
+                            <li>Raccolta fondi Serie A completata ($5M)</li>
+                            <li>Partnership con Università di Stanford</li>
+                            <li>Primi algoritmi di intelligenza emotiva</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content fade-in">
+                        <span class="timeline-date">Q1 2024</span>
+                        <h4>Beta Pubblica di Saint</h4>
+                        <ul>
+                            <li>Integrazione blockchain in Aurax</li>
+                            <li>Partnership con leader cybersecurity</li>
+                            <li>Espansione team a 75 membri</li>
+                            <li>Implementazione crittografia quantistica</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content fade-in">
+                        <span class="timeline-date">Q3 2024</span>
+                        <h4>Lancio Ufficiale Harmonia</h4>
+                        <ul>
+                            <li>Integrazione ecosistema JM Enterprise</li>
+                            <li>Espansione in 10 nuovi mercati</li>
+                            <li>Versione Enterprise per aziende</li>
+                            <li>Certificazione medica UE e FDA</li>
+                            <li>Integrazione con dispositivi indossabili</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content fade-in">
+                        <span class="timeline-date">2025</span>
+                        <h4>Integrazione Completa</h4>
+                        <ul>
+                            <li>Nuove funzionalità cross-prodotto</li>
+                            <li>IA avanzata in tutta la suite</li>
+                            <li>Piattaforma unificata JM OS</li>
+                            <li>Espansione in Asia e Sud America</li>
+                            <li>Integrazione con smart home e IoT</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODOTTI -->
+    <section id="products" class="section">
+        <div class="section-header">
+            <h2 class="section-title">I Nostri Prodotti</h2>
+            <p class="section-subtitle">Soluzioni innovative per un futuro migliore</p>
+        </div>
+        
+        <div class="products-grid">
+            <a href="harmonia" class="product-card fade-in">
+                <div class="product-icon floating">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>Harmonia | Building The Health of Tomorrow</h3>
+                <p>Piattaforma AI per il benessere mentale e l'equilibrio emotivo. Tecnologia avanzata che adatta le soluzioni alle tue esigenze personali.</p>
+                <div class="product-features">
+                    <span><i class="fas fa-check-circle"></i> Analisi avanzata dell'umore</span>
+                    <span><i class="fas fa-check-circle"></i> Coaching personalizzato 24/7</span>
+                    <span><i class="fas fa-check-circle"></i> Integrazione wearables</span>
+                    <span><i class="fas fa-check-circle"></i> Reportistica approfondita</span>
+                </div>
+                <div class="learn-more">
+                    Scopri di più <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+            
+            <a href="saint" class="product-card fade-in">
+                <div class="product-icon floating" style="animation-delay: 0.2s;">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Saint & Co. | The Architecture of Tomorrow</h3>
+                <p>Sistema di sicurezza con crittografia quantistica per protezione digitale totale. Difesa proattiva contro minacce emergenti.</p>
+                <div class="product-features">
+                    <span><i class="fas fa-check-circle"></i> Crittografia quantistica</span>
+                    <span><i class="fas fa-check-circle"></i> Protezione in tempo reale</span>
+                    <span><i class="fas fa-check-circle"></i> Zero conoscenza dei dati</span>
+                    <span><i class="fas fa-check-circle"></i> Monitoraggio continuo</span>
+                </div>
+                <div class="learn-more">
+                    Scopri di più <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+            
+            <a href="aurax" class="product-card fade-in">
+                <div class="product-icon floating" style="animation-delay: 0.4s;">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <h3>AuraX</h3>
+                <p>Tecnologia indossabile che monitora e ottimizza il tuo campo energetico. Integrazione perfetta tra biometria e benessere.</p>
+                <div class="product-features">
+                    <span><i class="fas fa-check-circle"></i> Monitoraggio energetico</span>
+                    <span><i class="fas fa-check-circle"></i> Analisi predittiva della salute</span>
+                    <span><i class="fas fa-check-circle"></i> Design elegante e discreto</span>
+                    <span><i class="fas fa-check-circle"></i> Integrazione cloud</span>
+                </div>
+                <div class="learn-more">
+                    Scopri di più <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- CONTATTI - FORM MODERNO -->
+    <section id="contact" class="section">
+        <div class="section-header">
+            <h2 class="section-title">Contattaci</h2>
+            <p class="section-subtitle">Siamo pronti a trasformare il futuro insieme</p>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="info-card fade-in">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h4>La Nostra Sede</h4>
+                    <p>Via dell'Innovazione 23<br>Milano, Italia 20100</p>
+                </div>
+                
+                <div class="info-card fade-in">
+                    <div class="info-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h4>Telefono</h4>
+                    <p>+39 3274545932</p>
+                </div>
+                
+                <div class="info-card fade-in">
+                    <div class="info-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4>Email</h4>
+                    <p>claudio@jmenterprises.com</p>
+                    <p>info@jmenterprises.com</p>
+                </div>
+                
+                <div class="info-card fade-in">
+                    <div class="info-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h4>Supporto</h4>
+                    <p>Disponibili 24/7 per assistenza<br>e informazioni tecniche</p>
+                </div>
+            </div>
+            
+            <div class="contact-form fade-in">
+                <div class="form-header">
+                    <h3>Scrivici un Messaggio</h3>
+                    <p>Tutte le richieste inviate tramite questo form verranno recapitati direttamente alla tua email</p>
+                </div>
+                <form id="contactForm" action="ttps://formspree.io/f/mzzggvde" method="POST">
+                    <div class="form-group">
+                        <label for="name">Nome Completo</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Oggetto</label>
+                        <select id="subject" name="subject">
+                            <option value="Informazioni Generali">Informazioni Generali</option>
+                            <option value="Supporto Tecnico">Supporto Tecnico</option>
+                            <option value="Opportunità Commerciali">Opportunità Commerciali</option>
+                            <option value="Partnership">Partnership</option>
+                            <option value="Lavora con Noi">Lavora con Noi</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Messaggio</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Invia Messaggio</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="logo">J.M</div>
+                        <div class="logo-text">Enterprises</div>
+                    </div>
+                    <p>Innovazione tecnologica per un futuro migliore. Creiamo soluzioni rivoluzionarie che trasformano il modo in cui le persone interagiscono con la tecnologia.</p>
+                    <div class="social-links">
+                        <a href="https://x.com/sambucooo" target="_blank"><i class="fab fa-twitter" ></i></a>
+                        <a href="https://www.linkedin.com/in/clamontoya" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://instagram.com/_claudiomontoya_" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Prodotti</h4>
+                    <ul class="footer-links">
+                        <li><a href="harmonia"><i class="fas fa-chevron-right"></i> Harmonia</a></li>
+                        <li><a href="saint"><i class="fas fa-chevron-right"></i> Saint</a></li>
+                        <li><a href="aurax"><i class="fas fa-chevron-right"></i> Aurax</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> JM Core Platform</a></li>
+                        
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Azienda</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about"><i class="fas fa-chevron-right"></i> Chi Siamo</a></li>
+                        <li><a href="#mission"><i class="fas fa-chevron-right"></i> Missione</a></li>
+                        <li><a href="#roadmap"><i class="fas fa-chevron-right"></i> Roadmap</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Lavora con Noi</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Newsroom</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Risorse</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Documentazione</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Tutorial</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Community</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Supporto</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">© 2025 J.M Enterprises. Tutti i diritti riservati.</div>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Termini di Servizio</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Creazione stelle dinamiche
+        function createStars() {
+            const starsContainer = document.getElementById('stars-bg');
+            const starsCount = 400;
+            
+            for(let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Posizione casuale
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                
+                // Dimensioni casuali
+                const size = Math.random() * 3 + 1;
+                
+                // Animazione personalizzata
+                const duration = Math.random() * 10 + 5;
+                const delay = Math.random() * 5;
+                
+                star.style.left = `${posX}%`;
+                star.style.top = `${posY}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.setProperty('--delay', `${delay}s`);
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Animazioni al scroll
+        function animateOnScroll() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        entry.target.classList.remove('fade-out');
+                    } else {
+                        entry.target.classList.add('fade-out');
+                        entry.target.classList.remove('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Osserva tutte le sezioni principali
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Osserva gli elementi con classe fade-in
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Navbar scroll effect
+        function setupNavbar() {
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // Menu mobile
+        function setupMobileMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+        }
+
+        // Effetto parallax per stelle
+        function setupParallax() {
+            window.addEventListener('scroll', () => {
+                const stars = document.querySelectorAll('.star');
+                const scrollPosition = window.pageYOffset;
+                
+                stars.forEach(star => {
+                    const speed = parseFloat(star.style.getPropertyValue('--duration')) * 0.1;
+                    star.style.transform = `translateY(${scrollPosition * speed}px)`;
+                });
+            });
+        }
+
+        // Gestione del form
+        function setupForm() {
+            const form = document.getElementById('contactForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Simulazione di invio
+                    const submitBtn = form.querySelector('.submit-btn');
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Invio in corso...';
+                    submitBtn.disabled = true;
+                    
+                    // Simula un ritardo di invio
+                    setTimeout(() => {
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> Messaggio Inviato!';
+                        submitBtn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+                        
+                        // Reset dopo 3 secondi
+                        setTimeout(() => {
+                            form.reset();
+                            submitBtn.innerHTML = 'Invia Messaggio';
+                            submitBtn.style.background = 'linear-gradient(135deg, var(--accent), var(--accent-light))';
+                            submitBtn.disabled = false;
+                        }, 3000);
+                    }, 1500);
+                });
+            }
+        }
+
+        // Inizializzazione
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            animateOnScroll();
+            setupNavbar();
+            setupMobileMenu();
+            setupParallax();
+            setupForm();
+            
+            // Attiva la prima sezione (hero) immediatamente
+            document.querySelector('.hero').classList.add('active');
+        });
+    </script>
 </body>
 </html>
