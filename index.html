@@ -70,6 +70,26 @@
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
             transition: var(--transition);
+            position: relative;
+        }
+        /* Fix mobile menu click bug */
+        .mobile-menu {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--accent);
+            cursor: pointer;
+            min-width: 44px;
+            min-height: 44px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
         }
 
         .logo {
