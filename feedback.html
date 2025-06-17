@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Annina AI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+    .bg-blur {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 80% 10%, #d4af37cc 0%, transparent 60%),
+                  radial-gradient(circle at 10% 90%, #a1a1aacc 0%, transparent 60%);
+      filter: blur(60px) saturate(1.2);
+      opacity: 0.5;
+    }
+    .feedback-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 48px auto 0 auto;
+      background: rgba(255,255,255,0.92);
+      border-radius: 24px;
+      box-shadow: 0 8px 40px 0 #0002;
+      padding: 2.5rem 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .feedback-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #23232b;
+      margin-bottom: 0.2rem;
+      letter-spacing: -0.01em;
+    }
+    .feedback-desc {
+      color: #a1a1aa;
+      font-size: 1.05rem;
+      margin-bottom: 1.2rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    label {
+      font-weight: 500;
+      color: #23232b;
+      margin-bottom: 0.3rem;
+      font-size: 1.04rem;
+    }
+    select, textarea, input[type="text"], input[type="email"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.7rem 0.9rem;
+      border-radius: 14px;
+      border: 1.5px solid #d4af37;
+      font-size: 1.03rem;
+      background: #fffbe6;
+      color: #23232b;
+      outline: none;
+      transition: border 0.2s;
+      margin-bottom: 0.2rem;
+    }
+    select:focus, textarea:focus, input[type="text"]:focus, input[type="email"]:focus {
+      border: 1.5px solid #a1a1aa;
+    }
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+    .stars {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 1.5rem;
+      margin-bottom: 0.2rem;
+    }
+    .star {
+      color: #d4af37;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .star.inactive {
+      color: #e0e0e0;
+    }
+    .feedback-btn {
+      background: linear-gradient(135deg, #d4af37, #e6c567);
+      color: #23232b;
+      border: none;
+      border-radius: 24px;
+      padding: 1rem 0;
+      font-size: 1.13rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 0.5rem auto 0 auto;
+      box-shadow: 0 2px 8px #d4af3733;
+      transition: background 0.2s;
+      display: block;
+      width: 70%;
+      max-width: 260px;
+      min-width: 140px;
+    }
+    .feedback-btn:hover {
+      background: linear-gradient(135deg, #e6c567, #d4af37);
+    }
+    .feedback-success {
+      background: #dcf8c6;
+      color: #23232b;
+      border-radius: 16px;
+      padding: 1.1rem 1.2rem;
+      font-size: 1.08rem;
+      margin-top: 1.2rem;
+      text-align: center;
+      box-shadow: 0 2px 8px #d4af3733;
+      border: 1.5px solid #d4af37;
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .feedback-wrapper { max-width: 100vw; border-radius: 0; margin: 0; padding: 1.2rem 0.5rem; }
+    }
+  </style>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    // Theme switch logic
+    document.addEventListener('DOMContentLoaded', function() {
+      const themeSwitch = document.getElementById('theme-switch');
+      function setTheme(dark) {
+        document.body.classList.toggle('dark-mode', dark);
+        localStorage.setItem('feedbackTheme', dark ? 'dark' : 'light');
+      }
+      themeSwitch.addEventListener('click', function() {
+        setTheme(!document.body.classList.contains('dark-mode'));
+      });
+      // On load, set theme
+      const savedTheme = localStorage.getItem('feedbackTheme');
+      if(savedTheme === 'dark') setTheme(true);
+    });
+  </script>
+</head>
+<body>
+  <div class="bg-blur"></div>
+  <div class="feedback-wrapper">
+    <button class="theme-switch" id="theme-switch" title="Switch theme">
+      <i class="fas fa-moon"></i>
+      <i class="fas fa-sun"></i>
+    </button>
+    <div class="lang-switcher" title="Cambia lingua">
+      <img id="current-lang-flag" src="https://flagcdn.com/24x18/it.png" alt="Lingua attuale" style="width:32px; height:24px; cursor:pointer; border-radius:4px; border:1.5px solid #d4af37;">
+      <div class="lang-dropdown" style="display:none; position:absolute; right:0; margin-top:8px; background:rgba(10,10,15,0.98); border-radius:8px; box-shadow:0 4px 16px #0008; z-index:3000; padding:8px 0; min-width:120px;">
+        <img class="lang-flag" data-lang="it" src="https://flagcdn.com/24x18/it.png" alt="Italiano" style="width:32px; height:24px; margin:4px 12px; cursor:pointer; border-radius:4px;">
+        <img class="lang-flag" data-lang="en" src="https://flagcdn.com/24x18/gb.png" alt="English" style="width:32px; height:24px; margin:4px 12px; cursor:pointer; border-radius:4px;">
+        <img class="lang-flag" data-lang="fr" src="https://flagcdn.com/24x18/fr.png" alt="Français" style="width:32px; height:24px; margin:4px 12px; cursor:pointer; border-radius:4px;">
+        <img class="lang-flag" data-lang="es" src="https://flagcdn.com/24x18/es.png" alt="Español" style="width:32px; height:24px; margin:4px 12px; cursor:pointer; border-radius:4px;">
+      </div>
+    </div>
+    <div class="feedback-title-row" style="display: flex; align-items: center; justify-content: center; min-height: 40px; margin-top: 2.5rem;">
+      <div class="feedback-title" id="feedback-title">Feedback su Annina AI</div>
+    </div>
+    <div class="feedback-desc" id="feedback-desc">Aiutaci a migliorare Annina! Compila il modulo qui sotto per inviare un feedback, segnalare bug, suggerire idee o raccontare la tua esperienza.</div>
+    <form id="feedback-form" autocomplete="off">
+      <div>
+        <label for="type" id="label-type">Tipo di feedback</label>
+        <select id="type" name="type" required>
+          <option value="">Seleziona...</option>
+          <option value="bug">Bug</option>
+          <option value="suggerimento">Suggerimento</option>
+          <option value="emozione">Esperienza emotiva</option>
+          <option value="altro">Altro</option>
+        </select>
+      </div>
+      <div>
+        <label for="message" id="label-message">Messaggio</label>
+        <textarea id="message" name="message" required placeholder="Scrivi qui il tuo feedback..."></textarea>
+      </div>
+      <div>
+        <label id="label-rating">Valutazione</label>
+        <div class="stars" id="star-rating">
+          <i class="fa fa-star star inactive" data-value="1"></i>
+          <i class="fa fa-star star inactive" data-value="2"></i>
+          <i class="fa fa-star star inactive" data-value="3"></i>
+          <i class="fa fa-star star inactive" data-value="4"></i>
+          <i class="fa fa-star star inactive" data-value="5"></i>
+        </div>
+        <input type="hidden" name="rating" id="rating" value="0" required />
+      </div>
+      <div>
+        <label for="name" id="label-name">Nome</label>
+        <input type="text" id="name" name="name" required placeholder="Il tuo nome" />
+      </div>
+      <div>
+        <label for="email" id="label-email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="La tua email" />
+      </div>
+      <div style="margin-bottom: 0.5rem;">
+        <label style="font-size:0.98rem; color:#555; display:flex; align-items:center; gap:0.5em;">
+          <input type="checkbox" id="send-thankyou" name="send-thankyou" style="width:1.1em; height:1.1em;"> <span id="label-thankyou">Voglio ricevere una mail di ringraziamento</span>
+        </label>
+      </div>
+      <button type="submit" class="feedback-btn" id="feedback-btn">Invia feedback</button>
+    </form>
+    <div class="feedback-success" id="feedback-success">
+      Grazie per il tuo feedback! Ti abbiamo inviato una mail di ringraziamento.
+    </div>
+  </div>
+  <style>
+    .lang-switcher { display: flex; align-items: center; position: absolute; top: 24px; right: 24px; z-index: 10; }
+    .lang-switcher img { transition: box-shadow 0.2s; }
+    .lang-switcher img:hover { box-shadow: 0 0 0 2px #d4af37; }
+    .lang-dropdown { background: rgba(10,10,15,0.98); border-radius: 8px; box-shadow: 0 4px 16px #0008; position: absolute; right: 0; margin-top: 8px; min-width: 120px; display: none; flex-direction: column; align-items: flex-start; padding: 8px 0; }
+    .lang-dropdown .lang-flag { margin: 4px 12px; cursor: pointer; border-radius: 4px; border: 1.5px solid transparent; transition: border 0.2s; }
+    .lang-dropdown .lang-flag:hover { border: 1.5px solid #d4af37; }
+    @media (max-width: 600px) { .lang-switcher { top: 10px; right: 10px; } }
+    .theme-switch {
+      position: absolute;
+      left: 50%;
+      top: 0.7rem;
+      transform: translateX(-50%);
+      background: none;
+      border: none;
+      outline: none;
+      font-size: 1.5rem;
+      color: #d4af37;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      width: 40px;
+      padding: 0;
+      margin: 0;
+      transition: color 0.3s;
+      z-index: 20;
+    }
+    .theme-switch:hover { color: #a1a1aa; }
+    .theme-switch .fa-sun { display: none; }
+    body.dark-mode .theme-switch .fa-moon { display: none; }
+    body.dark-mode .theme-switch .fa-sun { display: inline; }
+    .lang-switcher {
+      position: absolute;
+      top: 0.7rem;
+      right: 2rem;
+      z-index: 21;
+      display: flex;
+      align-items: center;
+    }
+    .feedback-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      margin-top: 2.5rem;
+    }
+    .feedback-title-row .feedback-title {
+      font-size: 1.25rem;
+      text-align: center;
+      width: 100%;
+    }
+    .theme-switch {
+      background: none;
+      border: none;
+      outline: none;
+      font-size: 1.5rem;
+      color: #d4af37;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      width: 40px;
+      padding: 0;
+      margin: 0;
+      transition: color 0.3s;
+    }
+    .theme-switch:hover { color: #a1a1aa; }
+    .theme-switch .fa-sun { display: none; }
+    body.dark-mode .theme-switch .fa-moon { display: none; }
+    body.dark-mode .theme-switch .fa-sun { display: inline; }
+    body.dark-mode {
+      background: linear-gradient(135deg, #181a1b 0%, #23232b 100%);
+    }
+    body.dark-mode .bg-blur {
+      opacity: 0.18;
+    }
+    body.dark-mode .feedback-wrapper {
+      background: rgba(26,26,36,0.93);
+      box-shadow: 0 8px 40px 0 #0008;
+    }
+    body.dark-mode .feedback-title, body.dark-mode label {
+      color: #f5f5f7;
+    }
+    body.dark-mode .feedback-desc {
+      color: #e6c567;
+    }
+    body.dark-mode select, body.dark-mode textarea, body.dark-mode input[type="text"], body.dark-mode input[type="email"] {
+      background: #23232b;
+      color: #f5f5f7;
+      border: 1.5px solid #a1a1aa;
+    }
+    body.dark-mode select:focus, body.dark-mode textarea:focus, body.dark-mode input[type="text"]:focus, body.dark-mode input[type="email"]:focus {
+      border: 1.5px solid #d4af37;
+    }
+    body.dark-mode .feedback-btn {
+      background: linear-gradient(135deg, #23232b, #181a1b);
+      color: #d4af37;
+      border: 1.5px solid #d4af37;
+    }
+    body.dark-mode .feedback-btn:hover {
+      background: linear-gradient(135deg, #181a1b, #23232b);
+      color: #e6c567;
+    }
+    body.dark-mode .feedback-success {
+      background: #23232b;
+      color: #e6c567;
+      border: 1.5px solid #d4af37;
+    }
+    body.dark-mode .star {
+      color: #e6c567;
+    }
+    body.dark-mode .lang-switcher img {
+      border-color: #e6c567;
+    }
+  </style>
+  <script>
+    // Traduzioni
+    const translations = {
+      it: {
+        title: 'Feedback su Annina AI',
+        desc: 'Aiutaci a migliorare Annina! Compila il modulo qui sotto per inviare un feedback, segnalare bug, suggerire idee o raccontare la tua esperienza.',
+        type: 'Tipo di feedback',
+        select: 'Seleziona...',
+        bug: 'Bug',
+        suggerimento: 'Suggerimento',
+        emozione: 'Esperienza emotiva',
+        altro: 'Altro',
+        message: 'Messaggio',
+        message_ph: 'Scrivi qui il tuo feedback...',
+        rating: 'Valutazione',
+        name: 'Nome',
+        name_ph: 'Il tuo nome',
+        email: 'Email',
+        email_ph: 'La tua email',
+        btn: 'Invia feedback',
+        success: 'Grazie per il tuo feedback! Ti abbiamo inviato una mail di ringraziamento.',
+        thankyou: 'Voglio ricevere una mail di ringraziamento'
+      },
+      en: {
+        title: 'Feedback on Annina AI',
+        desc: 'Help us improve Annina! Fill out the form below to send feedback, report bugs, suggest ideas or share your experience.',
+        type: 'Feedback type',
+        select: 'Select...',
+        bug: 'Bug',
+        suggerimento: 'Suggestion',
+        emozione: 'Emotional experience',
+        altro: 'Other',
+        message: 'Message',
+        message_ph: 'Write your feedback here...',
+        rating: 'Rating',
+        name: 'Name',
+        name_ph: 'Your name',
+        email: 'Email',
+        email_ph: 'Your email',
+        btn: 'Send feedback',
+        success: 'Thank you for your feedback! We have sent you a thank you email.',
+        thankyou: 'I want to receive a thank you email'
+      },
+      fr: {
+        title: 'Retour sur Annina AI',
+        desc: 'Aidez-nous à améliorer Annina ! Remplissez le formulaire ci-dessous pour envoyer un retour, signaler un bug, suggérer des idées ou partager votre expérience.',
+        type: 'Type de retour',
+        select: 'Sélectionner...',
+        bug: 'Bug',
+        suggerimento: 'Suggestion',
+        emozione: 'Expérience émotionnelle',
+        altro: 'Autre',
+        message: 'Message',
+        message_ph: 'Écrivez votre retour ici...',
+        rating: 'Évaluation',
+        name: 'Nom',
+        name_ph: 'Votre nom',
+        email: 'Email',
+        email_ph: 'Votre email',
+        btn: 'Envoyer le retour',
+        success: 'Merci pour votre retour ! Nous vous avons envoyé un email de remerciement.',
+        thankyou: 'Je souhaite recevoir un email de remerciement'
+      },
+      es: {
+        title: 'Feedback sobre Annina AI',
+        desc: '¡Ayúdanos a mejorar Annina! Completa el formulario para enviar feedback, reportar bugs, sugerir ideas o compartir tu experiencia.',
+        type: 'Tipo de feedback',
+        select: 'Seleccionar...',
+        bug: 'Bug',
+        suggerimento: 'Sugerencia',
+        emozione: 'Experiencia emocional',
+        altro: 'Otro',
+        message: 'Mensaje',
+        message_ph: 'Escribe aquí tu feedback...',
+        rating: 'Valoración',
+        name: 'Nombre',
+        name_ph: 'Tu nombre',
+        email: 'Email',
+        email_ph: 'Tu email',
+        btn: 'Enviar feedback',
+        success: '¡Gracias por tu feedback! Te hemos enviado un correo de agradecimiento.',
+        thankyou: 'Quiero recibir un correo de agradecimiento'
+      }
+    };
+    const langFlags = {
+      it: 'https://flagcdn.com/24x18/it.png',
+      en: 'https://flagcdn.com/24x18/gb.png',
+      fr: 'https://flagcdn.com/24x18/fr.png',
+      es: 'https://flagcdn.com/24x18/es.png'
+    };
+    function setLang(lang) {
+      localStorage.setItem('feedbackLang', lang);
+      document.getElementById('current-lang-flag').src = langFlags[lang];
+      const t = translations[lang];
+      document.getElementById('feedback-title').textContent = t.title;
+      document.getElementById('feedback-desc').textContent = t.desc;
+      document.getElementById('label-type').textContent = t.type;
+      const typeSel = document.getElementById('type');
+      typeSel.options[0].textContent = t.select;
+      typeSel.options[1].textContent = t.bug;
+      typeSel.options[2].textContent = t.suggerimento;
+      typeSel.options[3].textContent = t.emozione;
+      typeSel.options[4].textContent = t.altro;
+      document.getElementById('label-message').textContent = t.message;
+      document.getElementById('message').placeholder = t.message_ph;
+      document.getElementById('label-rating').textContent = t.rating;
+      document.getElementById('label-name').textContent = t.name;
+      document.getElementById('name').placeholder = t.name_ph;
+      document.getElementById('label-email').textContent = t.email;
+      document.getElementById('email').placeholder = t.email_ph;
+      document.getElementById('feedback-btn').textContent = t.btn;
+      document.getElementById('feedback-success').textContent = t.success;
+      document.getElementById('label-thankyou').textContent = t.thankyou;
+    }
+    // Dropdown logic
+    const langSwitcher = document.querySelector('.lang-switcher');
+    const langDropdown = langSwitcher.querySelector('.lang-dropdown');
+    const currentFlag = document.getElementById('current-lang-flag');
+    currentFlag.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langDropdown.style.display = langDropdown.style.display === 'flex' ? 'none' : 'flex';
+    });
+    langDropdown.querySelectorAll('.lang-flag').forEach(flag => {
+      flag.addEventListener('click', (e) => {
+        const lang = flag.getAttribute('data-lang');
+        setLang(lang);
+        langDropdown.style.display = 'none';
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(langDropdown.style.display === 'flex') langDropdown.style.display = 'none';
+    });
+    // On load, set language
+    let userLang = localStorage.getItem('feedbackLang') || (navigator.language || navigator.userLanguage).slice(0,2);
+    if(!['it','en','fr','es'].includes(userLang)) userLang = 'it';
+    setLang(userLang);
+  </script>
+  <script>
+    // EmailJS INIT (inserisci la tua user id sotto)
+    emailjs.init('user_xxxxxxxxxxxxxxxxxxxxx'); // <-- INSERISCI QUI LA TUA USER ID EMAILJS
+
+    // Stelle rating
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('rating');
+    stars.forEach(star => {
+      star.addEventListener('mouseenter', () => {
+        const val = parseInt(star.getAttribute('data-value'));
+        stars.forEach(s => s.classList.toggle('inactive', parseInt(s.getAttribute('data-value')) > val));
+      });
+      star.addEventListener('mouseleave', () => {
+        const val = parseInt(ratingInput.value);
+        stars.forEach(s => s.classList.toggle('inactive', parseInt(s.getAttribute('data-value')) > val));
+      });
+      star.addEventListener('click', () => {
+        const val = parseInt(star.getAttribute('data-value'));
+        ratingInput.value = val;
+        stars.forEach(s => s.classList.toggle('inactive', parseInt(s.getAttribute('data-value')) > val));
+      });
+    });
+    // Form submit
+    document.getElementById('feedback-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (parseInt(ratingInput.value) < 1) {
+        alert('Seleziona una valutazione da 1 a 5 stelle.');
+        return;
+      }
+      const form = this;
+      const data = {
+        type: form.type.value,
+        message: form.message.value,
+        rating: form.rating.value,
+        name: form.name.value,
+        email: form.email.value
+      };
+      // Invia tramite EmailJS solo se la checkbox è selezionata
+      if(document.getElementById('send-thankyou').checked) {
+        emailjs.send('default_service', 'template_annina_feedback', data)
+          .then(function(response) {
+            document.getElementById('feedback-success').style.display = 'block';
+            form.reset();
+            ratingInput.value = 0;
+            stars.forEach(s => s.classList.add('inactive'));
+          }, function(error) {
+            alert('Errore nell\'invio del feedback. Riprova più tardi.');
+          });
+      } else {
+        document.getElementById('feedback-success').textContent = translations[localStorage.getItem('feedbackLang')||'it'].success.replace(/!.*$/, '!');
+        document.getElementById('feedback-success').style.display = 'block';
+        form.reset();
+        ratingInput.value = 0;
+        stars.forEach(s => s.classList.add('inactive'));
+      }
+    });
+  </script>
+</body>
+</html>

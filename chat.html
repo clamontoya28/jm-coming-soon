@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beta Annina - Chat</title>
+  <link rel="icon" href="favicon.png" type="img/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+    .bg-blur {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 80% 10%, #d4af37cc 0%, transparent 60%),
+                  radial-gradient(circle at 10% 90%, #a1a1aacc 0%, transparent 60%);
+      filter: blur(60px) saturate(1.2);
+      opacity: 0.5;
+      transition: opacity 0.4s;
+    }
+    .chat-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 40px auto 0 auto;
+      background: rgba(255,255,255,0.85);
+      border-radius: 24px;
+      box-shadow: 0 8px 40px 0 #0002;
+      display: flex;
+      flex-direction: column;
+      height: 80vh;
+      min-height: 480px;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+    .chat-header {
+      background: transparent;
+      padding: 1.2rem 2rem 1.2rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid #ececec;
+      position: relative;
+    }
+    .chat-header .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      color: #d4af37;
+      font-weight: bold;
+      box-shadow: 0 2px 8px #d4af3733;
+      overflow: hidden;
+    }
+    .chat-header .title-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      min-width: 0;
+    }
+    .chat-header .title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #23232b;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+    .chat-header .subtitle-beta {
+      font-size: 0.92rem;
+      color: #a1a1aa;
+      font-style: italic;
+      margin-top: 0.1rem;
+      margin-bottom: 0.1rem;
+      margin-left: 2px;
+    }
+    body.dark-mode .chat-header .subtitle-beta {
+      color: #e6c567;
+    }
+    .theme-switch {
+      position: absolute;
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.6rem;
+      color: #d4af37;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      z-index: 2;
+      transition: color 0.3s;
+    }
+    .theme-switch:hover {
+      color: #a1a1aa;
+    }
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+      overflow-y: auto;
+      background: transparent;
+      transition: background 0.4s;
+    }
+    .message-row {
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 1.2rem;
+    }
+    .message-row.annina {
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+    .message-row.user {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+    .msg-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 8px #d4af3733;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0.7rem;
+      overflow: hidden;
+    }
+    .msg-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .msg-avatar.annina {
+      background: #fffbe6;
+    }
+    .msg-avatar.user {
+      background: #e6e9f0;
+    }
+    .message {
+      max-width: 70vw;
+      min-width: 48px;
+      padding: 1rem 1.3rem;
+      border-radius: 18px 18px 18px 4px;
+      font-size: 1.08rem;
+      line-height: 1.6;
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 2px 12px #0001;
+      color: #23232b;
+      position: relative;
+      backdrop-filter: blur(4px);
+      border: 1px solid #ececec;
+      word-break: break-word;
+      margin: 0;
+      transition: background 0.4s, color 0.4s, border 0.4s;
+    }
+    .message-row.user .message {
+      background: rgba(212,175,55,0.13);
+      color: #23232b;
+      border-radius: 18px 18px 4px 18px;
+      border: 1.5px solid #d4af37;
+      margin-left: auto;
+    }
+    .message-row.annina .message {
+      background: rgba(255,255,255,0.8);
+      color: #23232b;
+      border-radius: 18px 18px 18px 4px;
+      border: 1.5px solid #ececec;
+      margin-right: auto;
+    }
+    .chat-input {
+      display: flex;
+      align-items: center;
+      padding: 1.1rem 1.2rem;
+      background: rgba(255,255,255,0.92);
+      border-top: 1px solid #ececec;
+      gap: 0.7rem;
+      transition: background 0.4s;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border-radius: 24px;
+      border: 1.5px solid #d4af37;
+      font-size: 1.08rem;
+      outline: none;
+      background: #fffbe6;
+      color: #23232b;
+      transition: border 0.2s, background 0.4s, color 0.4s;
+    }
+    .chat-input input:focus {
+      border: 1.5px solid #a1a1aa;
+    }
+    .chat-input .input-btns {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .chat-input button, .chat-input a.feedback-btn {
+      background: linear-gradient(135deg, #d4af37, #e6c567);
+      color: #23232b;
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #d4af3733;
+      transition: background 0.2s, color 0.4s;
+      text-decoration: none;
+    }
+    .chat-input button:hover, .chat-input a.feedback-btn:hover {
+      background: linear-gradient(135deg, #e6c567, #d4af37);
+      color: #23232b;
+    }
+    .chat-input a.feedback-btn {
+      font-size: 1.25rem;
+      margin-left: 0.1rem;
+    }
+    /* DARK MODE */
+    body.dark-mode {
+      background: linear-gradient(135deg, #181a1b 0%, #23232b 100%);
+    }
+    body.dark-mode .bg-blur {
+      opacity: 0.18;
+    }
+    body.dark-mode .chat-wrapper {
+      background: rgba(26,26,36,0.93);
+      box-shadow: 0 8px 40px 0 #0008;
+    }
+    body.dark-mode .chat-header .title {
+      color: #f5f5f7;
+    }
+    body.dark-mode .chat-header .avatar {
+      background: #23232b;
+      color: #d4af37;
+    }
+    body.dark-mode .chat-container {
+      background: transparent;
+    }
+    body.dark-mode .message {
+      background: rgba(30,30,40,0.85);
+      color: #f5f5f7;
+      border: 1.5px solid #23232b;
+    }
+    body.dark-mode .message-row.user .message {
+      background: rgba(212,175,55,0.18);
+      color: #23232b;
+      border: 1.5px solid #d4af37;
+    }
+    body.dark-mode .message-row.annina .message {
+      background: rgba(30,30,40,0.85);
+      color: #f5f5f7;
+      border: 1.5px solid #23232b;
+    }
+    body.dark-mode .msg-avatar.annina {
+      background: #23232b;
+    }
+    body.dark-mode .msg-avatar.user {
+      background: #181a1b;
+    }
+    body.dark-mode .chat-input {
+      background: rgba(26,26,36,0.98);
+      border-top: 1px solid #23232b;
+    }
+    body.dark-mode .chat-input input {
+      background: #23232b;
+      color: #f5f5f7;
+      border: 1.5px solid #a1a1aa;
+    }
+    body.dark-mode .chat-input input:focus {
+      border: 1.5px solid #d4af37;
+    }
+    body.dark-mode .chat-input button, body.dark-mode .chat-input a.feedback-btn {
+      background: linear-gradient(135deg, #23232b, #181a1b);
+      color: #d4af37;
+      border: 1.5px solid #d4af37;
+    }
+    body.dark-mode .chat-input button:hover, body.dark-mode .chat-input a.feedback-btn:hover {
+      background: linear-gradient(135deg, #181a1b, #23232b);
+      color: #e6c567;
+    }
+    .theme-switch .fa-sun { display: none; }
+    body.dark-mode .theme-switch .fa-moon { display: none; }
+    body.dark-mode .theme-switch .fa-sun { display: inline; }
+    @media (max-width: 600px) {
+      .chat-wrapper { max-width: 100vw; height: 100vh; min-height: 0; border-radius: 0; margin: 0; }
+      .chat-header { padding: 0.8rem 0.7rem; }
+      .chat-container { padding: 1rem 0.3rem 0.7rem 0.3rem; }
+      .chat-input { padding: 0.7rem; }
+      .message { font-size: 0.98rem; }
+      .theme-switch { right: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blur"></div>
+  <div class="chat-wrapper">
+    <div class="chat-header">
+      <div class="avatar">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Annina" id="annina-avatar" style="width:100%;height:100%;object-fit:cover;" />
+      </div>
+      <div class="title-group">
+        <div class="title">Annina AI❤️</div>
+        <div class="subtitle-beta">Beta Pubblica</div>
+      </div>
+      <button class="theme-switch" id="theme-switch" title="Switch theme">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+      </button>
+    </div>
+    <div class="chat-container" id="chat-container">
+      <div class="message-row annina">
+        <div class="msg-avatar annina">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Annina" id="annina-avatar-msg" />
+        </div>
+        <div class="message">Ciao! Sono Annina 🤖<br>Presto qui potrai chattare con la mia intelligenza artificiale.<br>Scrivi un messaggio per provare l'interfaccia!</div>
+      </div>
+    </div>
+    <form class="chat-input" id="chat-form" autocomplete="off">
+      <input type="text" id="chat-input" placeholder="Scrivi un messaggio..." required />
+      <div class="input-btns">
+        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+        <a href="feedback.html" class="feedback-btn" title="Lascia un feedback su Annina" target="_blank"><i class="fas fa-comments"></i></a>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Avatar di esempio per Annina e utente
+    const anninaAvatar = 'https://randomuser.me/api/portraits/women/44.jpg';
+    const userAvatar = 'https://randomuser.me/api/portraits/men/32.jpg';
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatContainer = document.getElementById('chat-container');
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+      // Messaggio utente
+      const userRow = document.createElement('div');
+      userRow.className = 'message-row user';
+      userRow.innerHTML = `
+        <div class="msg-avatar user"><img src="${userAvatar}" alt="Utente" /></div>
+        <div class="message">${text}</div>
+      `;
+      chatContainer.appendChild(userRow);
+      chatInput.value = '';
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      // Risposta placeholder Annina
+      setTimeout(() => {
+        const botRow = document.createElement('div');
+        botRow.className = 'message-row annina';
+        botRow.innerHTML = `
+          <div class="msg-avatar annina"><img src="${anninaAvatar}" alt="Annina" /></div>
+          <div class="message">Funzionalità AI in arrivo!</div>
+        `;
+        chatContainer.appendChild(botRow);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }, 700);
+    });
+    // Theme switch logic
+    const themeSwitch = document.getElementById('theme-switch');
+    function setTheme(dark) {
+      document.body.classList.toggle('dark-mode', dark);
+      localStorage.setItem('anninaTheme', dark ? 'dark' : 'light');
+    }
+    themeSwitch.addEventListener('click', function() {
+      setTheme(!document.body.classList.contains('dark-mode'));
+    });
+    // On load, set theme
+    const savedTheme = localStorage.getItem('anninaTheme');
+    if(savedTheme === 'dark') setTheme(true);
+    </script>
+</body>
+</html>
