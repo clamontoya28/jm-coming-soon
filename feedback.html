@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Feedback Annina AI</title>
+  <link rel="icon" href="favicon.png" type="img/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
@@ -127,6 +128,82 @@
       border: 1.5px solid #d4af37;
       display: none;
     }
+    .thankyou-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      padding: 2.5rem 1rem 2rem 1rem;
+      animation: fadeIn 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    .thankyou-anim {
+      margin-bottom: 1.2rem;
+    }
+    .checkmark {
+      width: 72px;
+      height: 72px;
+      display: block;
+      stroke: #25d366;
+      stroke-width: 3;
+      stroke-miterlimit: 10;
+      box-shadow: 0 2px 8px #25d36633;
+      border-radius: 50%;
+      background: #fff;
+      margin: 0 auto;
+    }
+    .checkmark-circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-width: 3;
+      stroke-miterlimit: 10;
+      stroke: #25d366;
+      fill: none;
+      animation: strokeCircle 0.6s cubic-bezier(.65,.05,.36,1) forwards;
+    }
+    .checkmark-check {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: strokeCheck 0.4s 0.5s cubic-bezier(.65,.05,.36,1) forwards;
+      stroke: #25d366;
+      stroke-width: 3;
+    }
+    @keyframes strokeCircle {
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes strokeCheck {
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .thankyou-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #25d366;
+      margin-bottom: 0.7rem;
+      text-align: center;
+      animation: fadeIn 0.8s 0.2s both;
+    }
+    .thankyou-msg {
+      font-size: 1.13rem;
+      color: #23232b;
+      text-align: center;
+      margin-bottom: 0.2rem;
+      animation: fadeIn 0.8s 0.4s both;
+    }
+    body.dark-mode .thankyou-title {
+      color: #25d366;
+    }
+    body.dark-mode .thankyou-msg {
+      color: #e6c567;
+    }
+    body.dark-mode .checkmark {
+      background: #23232b;
+      box-shadow: 0 2px 8px #25d36633;
+    }
     @media (max-width: 600px) {
       .feedback-wrapper { max-width: 100vw; border-radius: 0; margin: 0; padding: 1.2rem 0.5rem; }
     }
@@ -211,8 +288,13 @@
       </div>
       <button type="submit" class="feedback-btn" id="feedback-btn">Invia feedback</button>
     </form>
-    <div class="feedback-success" id="feedback-success">
-      Grazie per il tuo feedback! Ti abbiamo inviato una mail di ringraziamento.
+    <div class="feedback-success" id="feedback-success" style="display:none;"></div>
+    <div class="thankyou-page" id="thankyou-page" style="display:none;">
+      <div class="thankyou-anim">
+        <svg class="checkmark" viewBox="0 0 52 52"><circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/></svg>
+      </div>
+      <div class="thankyou-title" id="thankyou-title"></div>
+      <div class="thankyou-msg" id="thankyou-msg"></div>
     </div>
   </div>
   <style>
@@ -472,7 +554,7 @@
   </script>
   <script>
     // EmailJS INIT (inserisci la tua user id sotto)
-    emailjs.init('user_xxxxxxxxxxxxxxxxxxxxx'); // <-- INSERISCI QUI LA TUA USER ID EMAILJS
+    emailjs.init('LNSdjwcw1c8GB1a8c'); // <-- INSERISCI QUI LA TUA USER ID EMAILJS
 
     // Stelle rating
     const stars = document.querySelectorAll('.star');
@@ -508,19 +590,30 @@
         email: form.email.value
       };
       // Invia tramite EmailJS solo se la checkbox è selezionata
+      const showThankYou = (name) => {
+        document.getElementById('feedback-form').style.display = 'none';
+        document.getElementById('feedback-success').style.display = 'none';
+        document.getElementById('thankyou-page').style.display = 'flex';
+        document.getElementById('thankyou-title').textContent = `Grazie ${name}!`;
+        document.getElementById('thankyou-msg').textContent = `Il tuo feedback è stato inviato con successo. Ti abbiamo inviato una mail di ringraziamento se richiesto.`;
+      };
       if(document.getElementById('send-thankyou').checked) {
-        emailjs.send('default_service', 'template_annina_feedback', data)
+        emailjs.send('service_va7c6jv', 'template_rvjpka5', data)
           .then(function(response) {
-            document.getElementById('feedback-success').style.display = 'block';
+            showThankYou(form.name.value);
             form.reset();
             ratingInput.value = 0;
             stars.forEach(s => s.classList.add('inactive'));
           }, function(error) {
-            alert('Errore nell\'invio del feedback. Riprova più tardi.');
+            // Mostra errore dettagliato a schermo
+            const feedbackSuccess = document.getElementById('feedback-success');
+            feedbackSuccess.style.display = 'block';
+            feedbackSuccess.style.background = '#ffd6d6';
+            feedbackSuccess.style.color = '#b00020';
+            feedbackSuccess.textContent = `Errore nell'invio del feedback: ${error.text || error}`;
           });
       } else {
-        document.getElementById('feedback-success').textContent = translations[localStorage.getItem('feedbackLang')||'it'].success.replace(/!.*$/, '!');
-        document.getElementById('feedback-success').style.display = 'block';
+        showThankYou(form.name.value);
         form.reset();
         ratingInput.value = 0;
         stars.forEach(s => s.classList.add('inactive'));
