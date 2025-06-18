@@ -20,6 +20,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --harmonia-bg-light: #FDFCFB;
@@ -31,7 +32,7 @@
             --harmonia-accent: #F9D5A7;
             --harmonia-card-bg-light: rgba(255, 255, 255, 0.9);
             --harmonia-card-bg-dark: rgba(45, 48, 65, 0.85); /* Sfondo card più scuro */
-            --harmonia-border-light: rgba(130, 192, 204, 0.3);
+            --harmonia-border-light: rgba(130, 192, 204, 0.6); /* Opacità aumentata per maggior visibilità */
             --harmonia-border-dark: rgba(130, 192, 204, 0.4);
             --harmonia-shadow-light: rgba(0, 0, 0, 0.08);
             --harmonia-shadow-dark: rgba(0, 0, 0, 0.25);
@@ -391,6 +392,123 @@
             opacity: 0.8;
         }
 
+        /* Animazione fluttuante per i container della timeline */
+        @keyframes floatAnimation {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
+        }
+
+        /* Harmonia Roadmap Section */
+        #harmonia-roadmap {
+            background-color: var(--harmonia-bg-light); /* Leggermente diverso per stacco, o usa lo stesso del body */
+        }
+        .timeline-harmonia {
+            position: relative;
+            max-width: 900px; /* Leggermente più stretto per design pulito */
+            margin: 0 auto;
+        }
+        .timeline-harmonia::after { /* La linea centrale della timeline */
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--harmonia-primary), var(--harmonia-accent));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(var(--harmonia-primary-rgb), 0.3);
+        }
+        .timeline-container-harmonia {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            margin-bottom: 3.5rem; /* Spazio tra i quarter */
+            animation: floatAnimation 4s ease-in-out infinite;
+        }
+        .timeline-container-harmonia:nth-child(odd) {
+            left: 0;
+        }
+        .timeline-container-harmonia:nth-child(even) {
+            left: 50%;
+        }
+        /* Cerchio sulla linea della timeline */
+        .timeline-container-harmonia::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--harmonia-bg-light);
+            border: 4px solid var(--harmonia-primary);
+            top: 20px; /* Allineato con l'inizio del contenuto */
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 8px rgba(var(--harmonia-primary-rgb), 0.2);
+        }
+        .timeline-container-harmonia:nth-child(even)::after {
+            left: -10px;
+        }
+        .timeline-content-harmonia {
+            padding: 1.8rem 2rem;
+            background: var(--harmonia-card-bg-light);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 25px var(--harmonia-shadow-light);
+            border: 1px solid var(--harmonia-border-light);
+            position: relative;
+            transition: var(--transition);
+            cursor: pointer; /* Indica che è cliccabile */
+        }
+        .timeline-content-harmonia:hover {
+            transform: translateY(-8px) scale(1.02); /* Manteniamo ingrandimento e sollevamento attuali */
+            /* "Illuminazione" attraverso un box-shadow che simula un bagliore + ombra di profondità */
+            box-shadow: 0 0 15px 3px rgba(var(--harmonia-primary-rgb), 0.3), /* Bagliore con colore primario */
+                        0 6px 20px rgba(0, 0, 0, 0.12); /* Ombra di profondità leggermente più marcata */
+            border-color: var(--harmonia-primary);
+        }
+        .timeline-content-harmonia .quarter-badge {
+            display: inline-block;
+            background: var(--harmonia-primary);
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .timeline-content-harmonia h3 {
+            color: var(--harmonia-primary);
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+        }
+        .timeline-content-harmonia p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+        /* Stili per l'anteprima dell'immagine nella timeline */
+        .timeline-image-preview {
+            display: none; /* Nascosto di default */
+            margin-top: 1.5rem;
+            text-align: center;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.55s ease-in-out, opacity 0.55s ease-in-out, margin-top 0.55s ease-in-out;
+            opacity: 0;
+        }
+        .timeline-image-preview.visible {
+            display: block;
+            max-height: 250px; /* Altezza massima per l'immagine, puoi aggiustarla */
+            opacity: 1;
+        }
+        .timeline-image-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 6px 18px var(--harmonia-shadow-light);
+            border: 1px solid var(--harmonia-border-light);
+        }
+
         /* Annina AI Section */
         #annina-ai .content-split {
             display: flex;
@@ -441,6 +559,132 @@
             margin-bottom: 1.5rem;
         }
         #mission-harmonia strong { color: var(--harmonia-primary); }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: flex; /* Cambiato da grid a flex */
+            flex-wrap: nowrap; /* Aggiunto per mantenere le card su una singola riga */
+            gap: 2rem; /* Mantenuto */
+            /* overflow-x: auto; Rimosso per farle stare tutte visibili se il contenitore è abbastanza largo */
+            justify-content: center; /* Centra le card se c'è spazio extra o se sono meno di quelle che riempirebbero la riga */
+        }
+        /* Specifica per la sezione prezzi per allargare il contenitore principale su desktop */
+        #pricing-harmonia .section-content {
+            max-width: 1320px; /* Abbastanza per 4 card da ~300px + 3 gap da 2rem (32px*3=96px) => 1200+96 = 1296px. Diamo un po' di margine. */
+        }
+
+        .pricing-card {
+            background-color: var(--harmonia-card-bg-light);
+            border-radius: var(--border-radius);
+            padding: 2.5rem 2rem;
+            box-shadow: 0 10px 30px var(--harmonia-shadow-light);
+            border: 1px solid var(--harmonia-border-light);
+            transition: var(--transition);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            position: relative; /* Per il badge */
+            flex: 1; /* Permette alle card di crescere per riempire lo spazio */
+            min-width: 300px; /* Larghezza minima per le card, "un po' più grandi" */
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px var(--harmonia-shadow-light);
+        }
+
+        .pricing-card.recommended {
+            border-width: 2px; /* Bordo più spesso per il raccomandato */
+            border-color: var(--harmonia-primary);
+            box-shadow: 0 10px 40px rgba(var(--harmonia-primary-rgb), 0.3);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--harmonia-primary);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(var(--harmonia-primary-rgb), 0.3);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--harmonia-primary);
+        }
+
+        .price-tag {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--harmonia-text-light);
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .price-tag span {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.7;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .pricing-card .features-list { /* Specificità per evitare conflitti */
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 2rem;
+            text-align: left;
+            flex-grow: 1; 
+        }
+        .pricing-card .features-list li {
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start; 
+        }
+        .pricing-card .features-list li i {
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            width: 20px; 
+            text-align: center;
+            flex-shrink: 0; /* Impedisce all'icona di restringersi */
+            margin-top: 2px; /* Allineamento verticale fine */
+        }
+        .pricing-card .features-list li .fa-check { color: var(--harmonia-primary); }
+        .pricing-card .features-list li .fa-times { color: var(--harmonia-secondary); opacity: 0.7; }
+
+        .btn-harmonia-pricing {
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            border: 2px solid var(--harmonia-primary);
+            background-color: var(--harmonia-primary);
+            color: white;
+            margin-top: auto; 
+        }
+        .btn-harmonia-pricing:hover {
+            background-color: transparent;
+            color: var(--harmonia-primary);
+        }
+        .pricing-card.recommended .btn-harmonia-pricing {
+            background-color: var(--harmonia-primary); /* Mantiene lo stile primario per il raccomandato */
+            border-color: var(--harmonia-primary);
+            color: white;
+        }
+        .pricing-card.recommended .btn-harmonia-pricing:hover {
+            background-color: var(--harmonia-accent); 
+            border-color: var(--harmonia-accent);
+            color: var(--harmonia-text-light);
+        }
 
 
         /* More Annina Features (Table) */
@@ -559,7 +803,7 @@
             color: var(--harmonia-text-dark);
         }
         body.dark-mode nav.harmonia-nav {
-            background: rgba(39, 42, 61, 0.85); /* --harmonia-bg-dark con trasparenza */
+            background: rgba(39, 42, 61, 0.85);
             border-bottom: 1px solid var(--harmonia-border-dark);
         }
         body.dark-mode .harmonia-nav .nav-links a { color: var(--harmonia-text-dark); }
@@ -592,8 +836,48 @@
         body.dark-mode #annina-ai .content-split .image-content img {
             box-shadow: 0 10px 30px var(--harmonia-shadow-dark);
         }
+        /* Dark Mode per Harmonia Roadmap */
+        body.dark-mode #harmonia-roadmap {
+            background-color: var(--harmonia-bg-dark);
+        }
+        body.dark-mode .timeline-harmonia::after {
+            box-shadow: 0 0 10px rgba(var(--harmonia-primary-rgb), 0.2);
+        }
+        body.dark-mode .timeline-container-harmonia::after {
+            background-color: var(--harmonia-bg-dark);
+            border-color: var(--harmonia-primary);
+        }
+        body.dark-mode .timeline-content-harmonia {
+            background: var(--harmonia-card-bg-dark);
+            box-shadow: 0 8px 25px var(--harmonia-shadow-dark);
+            border: 1px solid var(--harmonia-border-dark);
+        }
+        /* Effetto hover specifico per dark mode per la timeline */
+        body.dark-mode .timeline-content-harmonia:hover {
+            transform: translateY(-8px) scale(1.02); /* Stesso transform */
+            box-shadow: 0 0 20px 4px rgba(var(--harmonia-primary-rgb), 0.35), /* Bagliore primario più visibile in dark mode */
+                        0 8px 25px rgba(0, 0, 0, 0.3); /* Ombra di profondità più marcata per dark mode */
+            border-color: var(--harmonia-primary); /* Stesso colore bordo */
+        }
+        body.dark-mode .timeline-image-preview img {
+            box-shadow: 0 6px 18px var(--harmonia-shadow-dark);
+            border: 1px solid var(--harmonia-border-dark);
+        }
         body.dark-mode #mission-harmonia {
-            background-color: var(--harmonia-accent); /* Mantenuto chiaro per contrasto, testo rimane scuro */
+            background-color: var(--harmonia-accent);
+            color: var(--harmonia-text-light); 
+            border: 1px solid var(--harmonia-border-dark);
+        }
+        body.dark-mode #mission-harmonia {
+            background-color: var(--harmonia-accent);
+            color: var(--harmonia-text-light); 
+        }
+        body.dark-mode #mission-harmonia .section-header h2,
+        body.dark-mode #mission-harmonia .section-header p.subtitle {
+            color: var(--harmonia-text-light);
+        }
+        body.dark-mode #mission-harmonia .section-header h2::after {
+            background: var(--harmonia-text-light);
         }
         body.dark-mode .features-table th {
             background-color: rgba(130, 192, 204, 0.15);
@@ -609,24 +893,41 @@
             background-color: var(--harmonia-bg-dark);
         }
         body.dark-mode .chat-input-area input[type="text"] {
-            background-color: rgba(224, 224, 229, 0.1); /* Usando RGB di --harmonia-text-dark */
+            background-color: rgba(224, 224, 229, 0.1); 
             border-color: var(--harmonia-border-dark);
-            color: var(--harmonia-text-dark); /* Colore testo input in dark mode */
+            color: var(--harmonia-text-dark); 
         }
         body.dark-mode .chat-input-area input[type="text"]:focus {
             border-color: var(--harmonia-primary);
             box-shadow: 0 0 0 2px rgba(var(--harmonia-primary-rgb), 0.3);
+        }
+        /* Dark Mode per Pricing Section */
+        body.dark-mode .pricing-card {
+            background-color: var(--harmonia-card-bg-dark);
+            box-shadow: 0 10px 30px var(--harmonia-shadow-dark);
+            border: 1px solid var(--harmonia-border-dark);
+        }
+        body.dark-mode .pricing-card h3 {
+            color: var(--harmonia-primary); 
+        }
+        body.dark-mode .price-tag {
+            color: var(--harmonia-text-dark);
+        }
+        body.dark-mode .pricing-card.recommended {
+            border-color: var(--harmonia-primary);
+
+            box-shadow: 0 10px 30px var(--harmonia-shadow-dark), 0 0 20px rgba(var(--harmonia-primary-rgb), 0.15);
         }
         .chat-message {
             padding: 0.5rem 0.8rem; border-radius: 8px; margin-bottom: 0.5rem;
             font-size: 0.9rem; line-height: 1.4; max-width: 80%; word-wrap: break-word;
         }
         .user-message {
-            background-color: rgba(var(--harmonia-primary-rgb), 0.2); color: #333; /* Testo scuro per messaggi utente su sfondo chiaro */
+            background-color: rgba(var(--harmonia-primary-rgb), 0.2); color: #333; 
             margin-left: auto; text-align: left;
         }
         .annina-message {
-            background-color: rgba(var(--harmonia-accent-rgb), 0.25); color: #333; /* Testo scuro per messaggi Annina su sfondo chiaro */
+            background-color: rgba(var(--harmonia-accent-rgb), 0.25); color: #333; 
             margin-right: auto; text-align: left;
         }
         body.dark-mode .user-message { background-color: rgba(var(--harmonia-primary-rgb), 0.3); color: var(--harmonia-text-dark); }
@@ -639,13 +940,35 @@
             .section-header h2 { font-size: 2.4rem; }
             #annina-ai .content-split { flex-direction: column; }
             #annina-ai .content-split .image-content { margin-top: 2rem; flex: 0 0 auto; max-width: 300px;}
-            #what-is-harmonia .section-content-grid {
-                grid-template-columns: 1fr; /* Colonne impilate */
+            
+            /* Roadmap responsive per tablet */
+            .timeline-harmonia::after {
+                left: 31px; /* Sposta la linea a sinistra */
             }
+            .timeline-container-harmonia {
+                width: 100%;
+                padding-left: 70px; /* Spazio per la linea e il cerchio */
+                padding-right: 25px;
+            }
+            .timeline-container-harmonia:nth-child(even) {
+                left: 0%; /* Allinea tutti i box a sinistra */
+            }
+            .timeline-container-harmonia::after, .timeline-container-harmonia:nth-child(even)::after {
+                left: 21px; /* Posiziona il cerchio sulla linea spostata */
+            }
+            #what-is-harmonia .section-content-grid {
+                grid-template-columns: 1fr;
+            }
+            /* Staggering animazione float per tablet */
+            .timeline-container-harmonia:nth-child(1) { animation-delay: 0s; }
+            .timeline-container-harmonia:nth-child(2) { animation-delay: 0.8s; }
+            .timeline-container-harmonia:nth-child(3) { animation-delay: 0.4s; }
+            .timeline-container-harmonia:nth-child(4) { animation-delay: 1.2s; }
+
         }
         @media (max-width: 768px) {
             body {
-                --section-spacing: 6rem; /* Ridotto lo spazio per le sezioni su mobile */
+                --section-spacing: 6rem; 
             }
             .harmonia-nav .nav-links {
                 position: fixed; top: 0; right: -100%; height: 100vh;
@@ -664,8 +987,88 @@
             .hero-harmonia-content .app-icon { width: 80px; height: 80px; }
             .hero-harmonia-content .app-icon i { font-size: 2.5rem; }
             .section-header h2 { font-size: 2rem; }
+
+            /* Modifiche per la galleria in #features-harmonia (Struttura Modulare) */
+            #features-harmonia .features-grid {
+                scroll-snap-stop: always; /* Aggiunto per snapping più deciso */
+                display: flex; /* Cambia da grid a flex per lo scorrimento orizzontale */
+                overflow-x: auto; /* Abilita lo scroll orizzontale */
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch; /* Migliora l'esperienza di scroll su iOS */
+
+                gap: 1.5rem; 
+                padding-top: 0.5rem; 
+                padding-bottom: 1.5rem; /* Allineato con pricing per coerenza estetica (es. ombre) */
+
+                /* Nascondi la scrollbar per un look più pulito */
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none;  /* IE 10+ */
+
+                /* Adattamenti per compensare il padding della section (5%) e centrare le card (80vw) */
+                /* La section ha padding: var(--section-spacing) 5% */
+                /* .section-content ha max-width, su mobile sarà 100% del genitore (section) meno i padding laterali della section */
+                /* Quindi .section-content è circa 90vw. */
+                /* features-grid è figlio di section-content. */
+                margin-left: -5vw; /* Compensa il padding 5% della section a sinistra */
+                margin-right: -5vw; /* Compensa il padding 5% della section a destra */
+                width: calc(100% + 10vw); /* 100% del section-content (90vw) + 10vw = 100vw */
+                
+                padding-left: 10vw; /* Per centrare la prima card da 80vw: (100vw - 80vw) / 2 */
+                padding-right: 10vw; /* Per centrare l'ultima card da 80vw */
+            }
+            #features-harmonia .features-grid::-webkit-scrollbar {
+                display: none; /* Chrome, Safari, Opera */
+            }
+
+            #features-harmonia .features-grid .feature-card {
+                flex-shrink: 0; /* Impedisce il restringimento */
+                flex-basis: 80vw; /* Ogni card occupa l'80% della larghezza della viewport */
+                min-width: 0; /* Cruciale per sovrascrivere min-width globali e permettere corretto flex-basis */
+                scroll-snap-align: center; /* Allinea la card al centro */
+                /* opacity: 1 !important; Rimosso per permettere animazioni JS */
+                /* transform: translateY(0) !important; Rimosso per permettere animazioni JS */
+                transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; 
+                height: auto; /* Assicura che l'altezza sia definita dal contenuto */
+            }
+            /* Layout normale per i piani tariffari su mobile (stack verticale) */
+            #pricing-harmonia .pricing-grid {
+                flex-direction: column; /* Impila le card verticalmente */
+                align-items: center; /* Centra le card nella colonna */
+                /* Rimuove le proprietà specifiche dello scorrimento orizzontale */
+                overflow-x: visible;
+                scroll-snap-type: none;
+                margin-left: auto; /* Resetta i margini laterali */
+                margin-right: auto;
+                width: auto; /* Resetta la larghezza, lasciala al flusso normale */
+                padding-left: 0; /* Resetta i padding laterali */
+                padding-right: 0;
+                padding-top: 0; /* Resetta padding superiore */
+                padding-bottom: 0; /* Resetta padding inferiore */
+                /* gap: 2rem; è ereditato dal desktop e ora si applica verticalmente */
+            }
+
+            #pricing-harmonia .pricing-grid .pricing-card {
+                width: 90%;       /* Larghezza della card */
+                max-width: 400px; /* Massimo per leggibilità su schermi piccoli */
+                flex: 0 1 auto;   /* Non crescere, permetti restringimento, base automatica */
+                min-width: unset; /* Rimuovi il min-width del desktop */
+                scroll-snap-align: unset; /* Rimuovi lo snap */
+            }
+            .timeline-container-harmonia { /* Rimuovi animazione float su mobile se preferisci */
+                scroll-snap-align: center; 
+                /* opacity: 1 !important; Rimosso per permettere animazioni JS */
+                /* transform: translateY(0) !important; Rimosso per permettere animazioni JS */
+                height: auto; 
+                transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; 
+            }
+
+            /* Staggering animazione float per mobile, se mantenuta */
+            .timeline-container-harmonia:nth-child(1) { animation-delay: 0.1s; }
+            .timeline-container-harmonia:nth-child(2) { animation-delay: 0.9s; }
+            .timeline-container-harmonia:nth-child(3) { animation-delay: 0.5s; }
+            .timeline-container-harmonia:nth-child(4) { animation-delay: 1.3s; }
         }
-        @media (max-width: 768px) { /* Già presente, aggiungo solo la regola per il chat-column */
+        @media (max-width: 768px){
             #what-is-harmonia .chat-column { margin-top: 2rem; }
         }
     </style>
@@ -680,7 +1083,9 @@
             <a href="index.html">Home</a>
             <a href="#features-harmonia">Funzionalità</a>
             <a href="#annina-ai">Annina AI</a>
+            <a href="#harmonia-roadmap">Roadmap</a>
             <a href="#mission-harmonia">Missione</a>
+            <a href="#pricing-harmonia">Prezzi</a>
             <a href="index.html#forum">Contatti</a>
         </div>
         <div style="display: flex; align-items: center; gap: 1rem;">
@@ -774,6 +1179,123 @@
                 </div>
             </div>
         </section>
+
+        <section id="harmonia-roadmap">
+            <div class="section-header">
+                <h2>Roadmap di Harmonia</h2>
+                <p class="subtitle">Il nostro percorso per costruire il futuro del benessere emotivo.</p>
+            </div>
+            <div class="section-content">
+                <div class="timeline-harmonia">
+                    <div class="timeline-container-harmonia">
+                        <div class="timeline-content-harmonia">
+                            <div class="quarter-badge">Q1 2025</div>
+                            <h3>Lancio Beta Iniziale</h3>
+                            <p>Rilascio della prima versione beta di Harmonia con focus su mood tracking, diario scritto e suggerimenti base. Raccolta feedback utenti.</p>
+                            <div class="timeline-image-preview">
+                                <img src="harmonia-q1.png" alt="Anteprima Roadmap Q1 2025">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-container-harmonia">
+                        <div class="timeline-content-harmonia">
+                            <div class="quarter-badge">Q2 2025</div>
+                            <h3>Integrazione Annina AI (Base)</h3>
+                            <p>Introduzione delle prime interazioni con Annina AI per supporto empatico e analisi preliminare dei dati emotivi.</p>
+                            <div class="timeline-image-preview">
+                                <img src="harmonia-q2.png" alt="Anteprima Roadmap Q2 2025">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-container-harmonia">
+                        <div class="timeline-content-harmonia">
+                            <div class="quarter-badge">Q3 2025</div>
+                            <h3>Funzionalità Avanzate</h3>
+                            <p>Aggiunta del diario vocale, check-in emotivi guidati da Annina e grafici di progresso più dettagliati.</p>
+                            <div class="timeline-image-preview">
+                                <img src="harmonia-q3.png" alt="Anteprima Roadmap Q3 2025">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-container-harmonia">
+                        <div class="timeline-content-harmonia">
+                            <div class="quarter-badge">Q4 2025</div>
+                            <h3>Harmonia Premium & Espansione</h3>
+                            <p>Lancio dei piani di abbonamento Premium con funzionalità esclusive. Esplorazione di integrazioni con dispositivi wearable e nuove aree di supporto.</p>
+                            <div class="timeline-image-preview">
+                                <img src="harmonia-q4.png" alt="Anteprima Roadmap Q4 2025">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing-harmonia">
+            <div class="section-header">
+                <h2>Piani e Prezzi</h2>
+                <p class="subtitle">Scegli il piano Harmonia più adatto alle tue esigenze.</p>
+            </div>
+            <div class="section-content">
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Free</h3>
+                        <div class="price-tag">€0 <span>/ mese</span></div>
+                        <ul class="features-list">
+                            <li><i class="fas fa-check"></i> Monitoraggio umore base</li>
+                            <li><i class="fas fa-check"></i> Diario scritto (3 voci/mese)</li>
+                            <li><i class="fas fa-times"></i> Diario vocale</li>
+                            <li><i class="fas fa-check"></i> Suggerimenti giornalieri generici</li>
+                            <li><i class="fas fa-times"></i> Supporto Annina AI limitato</li>
+                        </ul>
+                        <a href="index.html#forum" class="btn-harmonia-pricing">Inizia Gratis</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>Essential</h3>
+                        <div class="price-tag">€4.99 <span>/ mese</span></div>
+                        <ul class="features-list">
+                            <li><i class="fas fa-check"></i> Tutte le funzionalità Free, più:</li>
+                            <li><i class="fas fa-check"></i> Diario scritto illimitato</li>
+                            <li><i class="fas fa-check"></i> Diario vocale (fino a 5 min/giorno)</li>
+                            <li><i class="fas fa-check"></i> Suggerimenti giornalieri personalizzati</li>
+                            <li><i class="fas fa-times"></i> Supporto Annina AI avanzato</li>
+                        </ul>
+                        <a href="index.html#forum" class="btn-harmonia-pricing">Scegli Essential</a>
+                    </div>
+
+                    <div class="pricing-card recommended">
+                        <div class="recommended-badge">Consigliato</div>
+                        <h3>Premium</h3>
+                        <div class="price-tag">€9.99 <span>/ mese</span></div>
+                        <ul class="features-list">
+                            <li><i class="fas fa-check"></i> Tutte le funzionalità Essential, più:</li>
+                            <li><i class="fas fa-check"></i> Diario vocale illimitato</li>
+                            <li><i class="fas fa-check"></i> Supporto Annina AI completo</li>
+                            <li><i class="fas fa-check"></i> Grafici e report avanzati</li>
+                            <li><i class="fas fa-check"></i> Check-in emotivi guidati</li>
+                        </ul>
+                        <a href="index.html#forum" class="btn-harmonia-pricing">Scegli Premium</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>Pro</h3>
+                        <div class="price-tag">€19.99 <span>/ mese</span></div>
+                        <ul class="features-list">
+                            <li><i class="fas fa-check"></i> Tutte le funzionalità Premium, più:</li>
+                            <li><i class="fas fa-check"></i> Accesso prioritario a nuove funzionalità</li>
+                            <li><i class="fas fa-check"></i> Sessioni di mindfulness guidate esclusive</li>
+                            <li><i class="fas fa-check"></i> Opzioni di esportazione dati avanzate</li>
+                            <li><i class="fas fa-check"></i> Supporto dedicato via email</li>
+                        </ul>
+                        <a href="index.html#forum" class="btn-harmonia-pricing">Scegli Pro</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
 
         <section id="annina-ai">
             <div class="section-header">
@@ -883,13 +1405,14 @@
                 <a href="#features-harmonia">Funzionalità</a>
                 <a href="#annina-ai">Annina AI</a>
                 <a href="#mission-harmonia">La Nostra Missione</a>
+                <a href="#pricing-harmonia">Prezzi Abbonamenti</a>
             </div>
             <div class="footer-column">
                 <h3>Link Utili</h3>
                 <a href="index.html">Sito Principale J.M.</a>
                 <a href="index.html#products">Altri Prodotti</a>
                 <a href="index.html#forum">Contattaci</a>
-                <a href="#">Privacy Policy (TBD)</a>
+                <a href="gdpr.html" target="_blank"">Privacy Policy (TBD)</a>
             </div>
             <div class="footer-column">
                 <h3>Seguici</h3>
@@ -965,26 +1488,129 @@
         });
 
         // Simple scroll animations for cards/sections (optional)
-        const animatedElements = document.querySelectorAll('.feature-card, #annina-ai .content-split > div, #mission-harmonia .section-content > p, .features-table');
+        // Seleziona gli elementi che dovrebbero avere l'animazione
+        const animatedElements = document.querySelectorAll('.feature-card, .pricing-card, .timeline-container-harmonia, #annina-ai .content-split > div, #mission-harmonia .section-content > p, .features-table');
+
+        // Crea un IntersectionObserver
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    // Quando l'elemento entra nel viewport, applica gli stili finali
+                    // Questi stili sono gestiti dalla transizione CSS definita altrove
+                    // Qui ci assicuriamo che lo stato finale sia raggiunto
+                    entry.target.style.opacity = ''; // Rimuove lo stile inline per permettere al CSS di prendere il controllo
+                    entry.target.style.transform = ''; // Rimuove lo stile inline
+                    entry.target.style.transition = ''; // Rimuove lo stile inline
+
+                    // Smetti di osservare l'elemento una volta animato
                     observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
+        // Applica gli stili iniziali (nascosti) e osserva gli elementi
         animatedElements.forEach(el => {
+            // Controlla se l'elemento è una card all'interno di una griglia carosello mobile
+            const parentGrid = el.parentElement;
+            const isMobileCarouselCard = (
+                (parentGrid && (parentGrid.classList.contains('features-grid') || parentGrid.classList.contains('pricing-grid'))) &&
+                window.innerWidth <= 768 // Controlla se siamo su uno schermo mobile
+            );
+
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
             observer.observe(el);
         });
+
+        // Harmonia Roadmap Interactivity
+        const timelineContentsHarmonia = document.querySelectorAll('#harmonia-roadmap .timeline-content-harmonia');
+
+        timelineContentsHarmonia.forEach(content => {
+            content.addEventListener('click', function() {
+                // Confetti
+                if (typeof confetti === 'function') {
+                    const rect = this.getBoundingClientRect();
+                    const x = (rect.left + rect.right) / 2 / window.innerWidth;
+                    const y = (rect.top + rect.bottom) / 2 / window.innerHeight;
+                    confetti({
+                        particleCount: 120,
+                        spread: 80,
+                        origin: { x: x, y: y }
+                    });
+                }
+
+                // Image Preview
+                const imagePreview = this.querySelector('.timeline-image-preview');
+                if (imagePreview) {
+                    document.querySelectorAll('.timeline-image-preview.visible').forEach(visiblePreview => {
+                        if (visiblePreview !== imagePreview) visiblePreview.classList.remove('visible');
+                    });
+                    imagePreview.classList.toggle('visible');
+                }
+            });
+        });
     </script>
     <script>
+    // Script per la chat demo di Harmonia (mantenuto separato per chiarezza)
+    // ... (il codice della chat demo rimane qui) ...
+    </script>
+    <script>
+    // Script per l'animazione di scrittura del titolo (mantenuto separato per chiarezza)
+    // ... (il codice dell'animazione del titolo rimane qui) ...
     document.addEventListener('DOMContentLoaded', function() {
+        // Funzione per l'animazione di scrittura nella chat
+        function typeWriterForChat(element, fullMessage, loopDelay = 3000, typingSpeed = 70, enableLoop = true) {
+            let prefix = "";
+            let textToType = fullMessage;
+
+            // Estrae il prefisso (es. "Annina: ")
+            const prefixMatch = fullMessage.match(/^[^:]+:\s*/);
+            if (prefixMatch) {
+                prefix = prefixMatch[0];
+                textToType = fullMessage.substring(prefix.length);
+            } else {
+                textToType = fullMessage; // Se non c'è prefisso, anima tutto il messaggio
+            }
+
+            let currentIndex = 0;
+            element.innerHTML = ''; // Pulisce l'elemento target inizialmente
+
+            const prefixNode = document.createTextNode(prefix);
+            element.appendChild(prefixNode);
+
+            const typedTextNode = document.createTextNode(''); // Nodo per il testo che viene scritto
+            element.appendChild(typedTextNode);
+
+            const cursorSpan = document.createElement('span');
+            cursorSpan.className = 'typing-cursor'; // Usa la stessa classe del cursore dell'hero
+            cursorSpan.textContent = '▍';
+            element.appendChild(cursorSpan);
+
+            function typeCharacter() {
+                if (currentIndex < textToType.length) {
+                    typedTextNode.textContent += textToType.charAt(currentIndex);
+                    currentIndex++;
+                    setTimeout(typeCharacter, typingSpeed);
+                } else {
+                    // Testo completamente scritto
+                    if (enableLoop) {
+                        setTimeout(() => {
+                            typedTextNode.textContent = ''; // Cancella solo la parte scritta
+                            currentIndex = 0;
+                            typeCharacter(); // Ricomincia
+                        }, loopDelay);
+                    } else {
+                        // Loop non abilitato, rimuovi il cursore se esiste
+                        if (cursorSpan && cursorSpan.parentNode) {
+                            cursorSpan.parentNode.removeChild(cursorSpan);
+                        }
+                    }
+                }
+            }
+            typeCharacter(); // Avvia l'animazione
+        }
+
         // Animazione di scrittura per il titolo Harmonia
         const heroTitle = document.getElementById('harmonia-hero-title');
         if (heroTitle) {
@@ -1022,9 +1648,16 @@
         function addChatMessage(text, sender) {
             if (!chatDisplay) return;
             const messageDiv = document.createElement('div');
-            messageDiv.classList.add('chat-message', sender === 'user' ? 'user-message' : 'annina-message');
-            messageDiv.textContent = text;
+            messageDiv.classList.add('chat-message', sender === 'user' ? 'user-message' : 'annina-message');            
+            
             chatDisplay.appendChild(messageDiv);
+            if (sender === 'annina') {
+                // Per i messaggi di Annina (risposte), usa l'effetto typewriter senza loop
+                typeWriterForChat(messageDiv, text, 0, 50, false); // loopDelay non rilevante, typingSpeed 50ms, enableLoop false
+            } else {
+                // Per i messaggi dell'utente, imposta il testo direttamente
+                messageDiv.textContent = text;
+            }
             chatDisplay.scrollTop = chatDisplay.scrollHeight;
         }
 
@@ -1044,8 +1677,19 @@
         }
         if (sendBtn) sendBtn.addEventListener('click', handleHarmoniaUserMessage);
         if (chatInput) chatInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') handleHarmoniaUserMessage(); });
-        addChatMessage("Annina: Ciao! Scrivimi qualcosa per provare. 😊", 'annina');
-    });
+        
+        // Aggiunge il messaggio iniziale di Annina con l'effetto typewriter
+        if (chatDisplay) {
+            const initialAnninaMessageDiv = document.createElement('div');
+            initialAnninaMessageDiv.classList.add('chat-message', 'annina-message');
+            chatDisplay.appendChild(initialAnninaMessageDiv);
+            
+            const initialAnninaText = "Annina: Ciao! Scrivimi qualcosa per provare. 😊";
+            typeWriterForChat(initialAnninaMessageDiv, initialAnninaText, 3000, 70, true); // enableLoop è true per il messaggio iniziale
+            chatDisplay.scrollTop = chatDisplay.scrollHeight; // Assicura che il messaggio sia visibile
+        }
+    }); // Chiusura del listener DOMContentLoaded
     </script>
 </body>
 </html>
+
