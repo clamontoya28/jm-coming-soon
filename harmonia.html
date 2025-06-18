@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonia | Il Tuo Compagno per il Benessere Mentale</title>
+    <meta name="description" content="Scopri Harmonia, l'app empatica e intelligente per il monitoraggio della salute personale e il benessere emotivo, con il supporto di Annina AI.">
+    <meta name="keywords" content="Harmonia, Annina AI, benessere mentale, salute emotiva, mood tracker, diario vocale, intelligenza artificiale, supporto emotivo, J.M Enterprises">
+    <meta name="author" content="J.M Enterprises">
+    <link rel="icon" href="annina.png" type="image/png"> <!-- Assumendo che favicon.png sia nella root -->
+    <link rel="canonical" href="https://jmenterprises.it/harmonia.html">
+
+    <meta property="og:title" content="Harmonia | Il Tuo Compagno per il Benessere Mentale">
+    <meta property="og:description" content="Harmonia è un'app empatica per tracciare dati fisici ed emotivi, offrendo supporto tramite Annina AI.">
+    <meta property="og:url" content="https://jmenterprises.it/harmonia.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://jmenterprises.it/harmonia_og.png"> <!-- Immagine OG specifica per Harmonia -->
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="J.M Enterprises">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --harmonia-bg-light: #FDFCFB;
+            --harmonia-bg-dark: #272A3D; /* Leggermente più chiaro di #2C2F3E per meno contrasto con testo */
+            --harmonia-text-light: #4A4A4A;
+            --harmonia-text-dark: #E0E0E5; /* Leggermente più chiaro */
+            --harmonia-primary: #82C0CC;
+            --harmonia-secondary: #F5A9B8;
+            --harmonia-accent: #F9D5A7;
+            --harmonia-card-bg-light: rgba(255, 255, 255, 0.9);
+            --harmonia-card-bg-dark: rgba(45, 48, 65, 0.85); /* Sfondo card più scuro */
+            --harmonia-border-light: rgba(130, 192, 204, 0.3);
+            --harmonia-border-dark: rgba(130, 192, 204, 0.4);
+            --harmonia-shadow-light: rgba(0, 0, 0, 0.08);
+            --harmonia-shadow-dark: rgba(0, 0, 0, 0.25);
+
+            --jm-accent: #d4af37; /* Per coerenza con logo/brand J.M. */
+            --jm-black: #0a0a0f;
+
+            --border-radius: 12px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --section-spacing: 8rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--harmonia-bg-light);
+            color: var(--harmonia-text-light);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            font-weight: 400;
+            line-height: 1.7;
+            transition: background-color 0.4s, color 0.4s;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Altezza navbar approx */
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        
+        /* Navbar (adattata da index.html) */
+        nav.harmonia-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 5%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            z-index: 2000;
+            background: rgba(253, 252, 251, 0.85); /* --harmonia-bg-light con trasparenza */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--harmonia-border-light);
+            transition: var(--transition);
+        }
+
+        .harmonia-nav .logo img {
+            width: 50px; /* Leggermente più piccolo */
+            height: 50px;
+            object-fit: cover;
+            display: block;
+            border-radius: 50%;
+            border: 2px solid var(--jm-accent); /* Colore JM per il logo */
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+            transition: var(--transition);
+        }
+        .harmonia-nav .logo:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.3);
+        }
+
+        .harmonia-nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .harmonia-nav .nav-links a {
+            color: var(--harmonia-text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            padding: 0.4rem 0;
+            transition: var(--transition);
+        }
+        .harmonia-nav .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--harmonia-primary);
+            transition: var(--transition);
+        }
+        .harmonia-nav .nav-links a:hover {
+            color: var(--harmonia-primary);
+        }
+        .harmonia-nav .nav-links a:hover::after {
+            width: 100%;
+        }
+        .harmonia-nav .theme-switch {
+            font-size: 1.5rem;
+            color: var(--harmonia-primary);
+            cursor: pointer;
+            background: none; border: none; padding: 0.5rem;
+        }
+        .harmonia-nav .mobile-menu {
+            display: none;
+            font-size: 1.7rem;
+            color: var(--harmonia-primary);
+            cursor: pointer;
+        }
+
+        /* Hero Section Harmonia */
+        .hero-harmonia {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--harmonia-bg-light) 0%, var(--harmonia-accent) 200%);
+        }
+        .hero-harmonia::before { /* Soft radial gradient */
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 70% 30%, rgba(130, 192, 204, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 30% 70%, rgba(245, 169, 184, 0.1) 0%, transparent 50%);
+            z-index: 0;
+            opacity: 0.7;
+        }
+        .hero-harmonia-content {
+            max-width: 800px;
+            z-index: 1;
+            position: relative;
+        }
+        .hero-harmonia-content .app-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            border-radius: 20%;
+            background: linear-gradient(135deg, var(--harmonia-primary), var(--harmonia-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(130, 192, 204, 0.3);
+        }
+        .hero-harmonia-content .app-icon img { /* Se usi un'immagine per l'icona */
+            width: 60%; height: 60%; object-fit: contain;
+        }
+        .hero-harmonia-content .app-icon i { /* Se usi FontAwesome */
+            font-size: 3rem; color: white;
+        }
+        .hero-harmonia-content h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--harmonia-text-light);
+            line-height: 1.2;
+        }
+        .hero-harmonia-content p.subtitle {
+            font-size: 1.4rem;
+            font-weight: 400;
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+            color: var(--harmonia-text-light);
+            opacity: 0.8;
+        }
+        .btn-harmonia {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            border: 2px solid var(--harmonia-primary);
+            background-color: var(--harmonia-primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(130, 192, 204, 0.3);
+        }
+        .btn-harmonia:hover {
+            background-color: transparent;
+            color: var(--harmonia-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(130, 192, 204, 0.4);
+        }
+
+        /* Sezioni Generali */
+        section {
+            padding: var(--section-spacing) 5%;
+            position: relative;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--harmonia-text-light);
+            position: relative;
+            display: inline-block;
+        }
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background: var(--harmonia-primary);
+            border-radius: 3px;
+        }
+        .section-header p.subtitle {
+            font-size: 1.2rem;
+            color: var(--harmonia-text-light);
+            opacity: 0.7;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+        }
+        .section-content {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* What is Harmonia Section */
+        #what-is-harmonia p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Features Section (Struttura Modulare) */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        .feature-card {
+            background-color: var(--harmonia-card-bg-light);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 10px 30px var(--harmonia-shadow-light);
+            border: 1px solid var(--harmonia-border-light);
+            transition: var(--transition);
+            text-align: center;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px var(--harmonia-shadow-light);
+        }
+        .feature-card .icon {
+            font-size: 2.5rem;
+            color: var(--harmonia-primary);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            padding: 1rem;
+            background-color: rgba(130, 192, 204, 0.1);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            line-height: 40px; /* Per centrare l'icona */
+        }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--harmonia-text-light);
+        }
+        .feature-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        /* Annina AI Section */
+        #annina-ai .content-split {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+        #annina-ai .content-split .text-content { flex: 1; }
+        #annina-ai .content-split .image-content { flex: 0 0 300px; text-align: center; }
+        #annina-ai .content-split .image-content img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px var(--harmonia-shadow-light);
+        }
+        #annina-ai ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        #annina-ai ul li {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            padding-left: 1.8rem;
+            position: relative;
+        }
+        #annina-ai ul li::before {
+            content: '\f004'; /* Cuore FontAwesome */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--harmonia-secondary);
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        /* Mission Section */
+        #mission-harmonia {
+            background-color: var(--harmonia-accent); /* Sfondo diverso per enfasi */
+            color: #4A4A4A; /* Testo scuro su sfondo chiaro */
+        }
+        #mission-harmonia .section-header h2, #mission-harmonia .section-header p.subtitle {
+            color: #4A4A4A;
+        }
+        #mission-harmonia .section-header h2::after {
+            background: #4A4A4A;
+        }
+        #mission-harmonia p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+        }
+        #mission-harmonia strong { color: var(--harmonia-primary); }
+
+
+        /* More Annina Features (Table) */
+        .features-table-wrapper {
+            overflow-x: auto; /* Per responsività tabella */
+        }
+        .features-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            box-shadow: 0 8px 25px var(--harmonia-shadow-light);
+            border-radius: var(--border-radius);
+            overflow: hidden; /* Per angoli arrotondati */
+        }
+        .features-table th, .features-table td {
+            padding: 1.2rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--harmonia-border-light);
+        }
+        .features-table th {
+            background-color: rgba(130, 192, 204, 0.1);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--harmonia-primary);
+        }
+        .features-table td {
+            font-size: 1.05rem;
+        }
+        .features-table tr:last-child td {
+            border-bottom: none;
+        }
+        .features-table td:first-child {
+            font-weight: 600;
+            color: var(--harmonia-secondary);
+        }
+
+        /* CTA Section */
+        #cta-harmonia {
+            text-align: center;
+        }
+
+        /* Footer (adattato da index.html) */
+        footer.harmonia-footer {
+            background: var(--harmonia-bg-dark); /* Sfondo scuro per contrasto */
+            color: var(--harmonia-text-dark);
+            padding: 6rem 5% 3rem;
+            border-top: 1px solid var(--harmonia-border-dark);
+        }
+        .harmonia-footer .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 3rem;
+            max-width: 1100px;
+            margin: 0 auto 3rem;
+        }
+        .harmonia-footer .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--harmonia-primary);
+        }
+        .harmonia-footer .footer-column p, .harmonia-footer .footer-column a {
+            color: var(--harmonia-text-dark);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            display: block;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+        .harmonia-footer .footer-column a:hover {
+            color: var(--harmonia-accent);
+            opacity: 1;
+            transform: translateX(3px);
+        }
+        .harmonia-footer .social-icons { display: flex; gap: 1rem; margin-top: 1.2rem; }
+        .harmonia-footer .social-icons a {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(130, 192, 204, 0.15);
+            display: flex; justify-content: center; align-items: center;
+            color: var(--harmonia-primary); font-size: 1.1rem;
+        }
+        .harmonia-footer .social-icons a:hover {
+            background: var(--harmonia-primary); color: var(--harmonia-bg-dark);
+            transform: translateY(-3px);
+        }
+        .harmonia-footer .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid var(--harmonia-border-dark);
+            color: var(--harmonia-text-dark);
+            opacity: 0.7;
+            font-size: 0.9rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Back to Top Button */
+        #backToTop {
+            position: fixed; bottom: 25px; right: 25px;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--harmonia-primary); color: white;
+            border: none; box-shadow: 0 4px 15px rgba(130, 192, 204, 0.4);
+            font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 3000; opacity: 0; pointer-events: none;
+            transition: opacity 0.4s, background-color 0.4s;
+        }
+        #backToTop:hover { background: var(--harmonia-secondary); }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: var(--harmonia-bg-dark);
+            color: var(--harmonia-text-dark);
+        }
+        body.dark-mode nav.harmonia-nav {
+            background: rgba(39, 42, 61, 0.85); /* --harmonia-bg-dark con trasparenza */
+            border-bottom: 1px solid var(--harmonia-border-dark);
+        }
+        body.dark-mode .harmonia-nav .nav-links a { color: var(--harmonia-text-dark); }
+        body.dark-mode .harmonia-nav .nav-links a:hover { color: var(--harmonia-primary); }
+        body.dark-mode .hero-harmonia {
+             background: linear-gradient(135deg, var(--harmonia-bg-dark) 0%, var(--harmonia-primary) 300%);
+        }
+        body.dark-mode .hero-harmonia::before {
+            background: radial-gradient(ellipse at 70% 30%, rgba(130, 192, 204, 0.1) 0%, transparent 60%),
+                        radial-gradient(ellipse at 30% 70%, rgba(245, 169, 184, 0.05) 0%, transparent 50%);
+            opacity: 0.5;
+        }
+        body.dark-mode .hero-harmonia-content h1, body.dark-mode .hero-harmonia-content p.subtitle {
+            color: var(--harmonia-text-dark);
+        }
+        body.dark-mode .section-header h2, body.dark-mode .section-header p.subtitle {
+            color: var(--harmonia-text-dark);
+        }
+        body.dark-mode .feature-card {
+            background-color: var(--harmonia-card-bg-dark);
+            box-shadow: 0 10px 30px var(--harmonia-shadow-dark);
+            border: 1px solid var(--harmonia-border-dark);
+        }
+        body.dark-mode .feature-card h3 { color: var(--harmonia-text-dark); }
+        body.dark-mode #annina-ai .content-split .image-content img {
+            box-shadow: 0 10px 30px var(--harmonia-shadow-dark);
+        }
+        body.dark-mode #mission-harmonia {
+            background-color: var(--harmonia-accent); /* Mantenuto chiaro per contrasto, testo rimane scuro */
+        }
+        body.dark-mode .features-table th {
+            background-color: rgba(130, 192, 204, 0.15);
+        }
+        body.dark-mode .features-table td {
+            border-bottom: 1px solid var(--harmonia-border-dark);
+        }
+        body.dark-mode #backToTop {
+            box-shadow: 0 4px 15px rgba(130, 192, 204, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-harmonia-content h1 { font-size: 3rem; }
+            .hero-harmonia-content p.subtitle { font-size: 1.2rem; }
+            .section-header h2 { font-size: 2.4rem; }
+            #annina-ai .content-split { flex-direction: column; }
+            #annina-ai .content-split .image-content { margin-top: 2rem; flex: 0 0 auto; max-width: 300px;}
+        }
+        @media (max-width: 768px) {
+            body {
+                --section-spacing: 6rem; /* Ridotto lo spazio per le sezioni su mobile */
+            }
+            .harmonia-nav .nav-links {
+                position: fixed; top: 0; right: -100%; height: 100vh;
+                width: 70vw; max-width: 300px;
+                background: var(--harmonia-bg-light);
+                flex-direction: column; justify-content: center; align-items: flex-start;
+                padding: 5rem 2rem; gap: 1.8rem;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                opacity: 0; pointer-events: none;
+            }
+            .harmonia-nav .nav-links.active { right: 0; opacity: 1; pointer-events: auto; }
+            body.dark-mode .harmonia-nav .nav-links { background: var(--harmonia-bg-dark); }
+            .harmonia-nav .mobile-menu { display: block; z-index: 1001; }
+            .hero-harmonia-content h1 { font-size: 2.5rem; }
+            .hero-harmonia-content .app-icon { width: 80px; height: 80px; }
+            .hero-harmonia-content .app-icon i { font-size: 2.5rem; }
+            .section-header h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body class="harmonia-page">
+
+    <nav class="harmonia-nav">
+        <a href="index.html" class="logo">
+            <img src="favicon.png" alt="Logo J.M Enterprises">
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#features-harmonia">Funzionalità</a>
+            <a href="#annina-ai">Annina AI</a>
+            <a href="#mission-harmonia">Missione</a>
+            <a href="index.html#forum">Contatti</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button class="theme-switch" id="theme-switch-harmonia" title="Cambia tema">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="mobile-menu" id="mobile-menu-harmonia">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-harmonia">
+            <div class="hero-harmonia-content">
+                <div class="app-icon">
+                    <!-- Potresti mettere un'immagine del logo di Harmonia qui -->
+                    <i class="fas fa-spa"></i> <!-- Icona generica per ora -->
+                </div>
+                <h1>Harmonia: Ascolto, Comprensione, Benessere.</h1>
+                <p class="subtitle">La tua guida empatica per la salute personale, supportata dall'intelligenza emotiva di Annina.</p>
+                <a href="index.html#forum" class="btn-harmonia">Unisciti alla Beta</a>
+            </div>
+        </section>
+
+        <section id="what-is-harmonia">
+            <div class="section-header">
+                <h2>Cos'è Harmonia?</h2>
+            </div>
+            <div class="section-content">
+                <p>Harmonia è un'app di monitoraggio della salute personale, progettata per essere empatica, accessibile e intelligente. L’obiettivo è fornire uno strumento intuitivo per tracciare dati fisici ed emotivi quotidiani, offrendo supporto e suggerimenti tramite un’IA chiamata Annina, che si comporta come un compagno di viaggio affettuoso e presente.</p>
+            </div>
+        </section>
+
+        <section id="features-harmonia">
+            <div class="section-header">
+                <h2>Struttura Modulare</h2>
+                <p class="subtitle">Un ecosistema di strumenti pensati per te.</p>
+            </div>
+            <div class="section-content">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-smile-beam"></i></div>
+                        <h3>Mood Tracker</h3>
+                        <p>Registra il tuo umore giornaliero con facilità e osserva le tendenze nel tempo.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-notes-medical"></i></div>
+                        <h3>Sintomi e Benessere</h3>
+                        <p>Annota come si sente il tuo corpo e la tua mente, per una visione completa del tuo stato.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-microphone-alt"></i></div>
+                        <h3>Diario Vocale o Scritto</h3>
+                        <p>Uno spazio privato e senza filtri per esprimere pensieri ed emozioni, come preferisci.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Grafici e Report</h3>
+                        <p>Visualizza trend e correlazioni tra umore, sintomi e abitudini per una maggiore consapevolezza.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-lightbulb"></i></div>
+                        <h3>Suggerimenti Giornalieri</h3>
+                        <p>Piccoli consigli su respiro, meditazione e alimentazione per il tuo benessere quotidiano.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-hand-holding-heart"></i></div>
+                        <h3>Check-in Emotivi</h3>
+                        <p>Brevi domande mirate per aiutarti a connetterti con le tue emozioni del momento.</p>
+                    </div>
+                     <div class="feature-card">
+                        <div class="icon"><i class="fas fa-bell"></i></div>
+                        <h3>Promemoria Dolci</h3>
+                        <p>Gentili notifiche per idratazione, pause rigeneranti e momenti di journaling.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="annina-ai">
+            <div class="section-header">
+                <h2>Annina AI: Il Cuore Empatico di Harmonia</h2>
+                <p class="subtitle">Più di un'IA, un vero compagno di viaggio.</p>
+            </div>
+            <div class="section-content">
+                <div class="content-split">
+                    <div class="text-content">
+                        <p style="margin-bottom: 1.5rem;">Annina è l'intelligenza artificiale che anima Harmonia, progettata per offrirti un'esperienza di supporto unica e personalizzata. Non è solo un algoritmo, ma un'entità pensata per ascoltare, comprendere e accompagnare.</p>
+                        <ul>
+                            <li>Si attiva con comandi vocali o di testo (es: "Ehi Annina, com’è andata oggi?")</li>
+                            <li>Ascolta l’utente, risponde con tono empatico e mai giudicante.</li>
+                            <li>Suggerisce attività basate sullo stato emotivo rilevato.</li>
+                            <li>Propone domande per riflettere, stimolando un journaling guidato.</li>
+                            <li>Tiene traccia di stress, emozioni, energia, ciclo sonno in modo intuitivo.</li>
+                            <li>Ricorda momenti importanti per l’utente (“Oggi è una settimana dal tuo ultimo attacco di panico, sei stata forte 💛”)</li>
+                            <li>Mostra i progressi con dashboard emotive chiare e motivanti.</li>
+                            <li>Non interrompe mai: accompagna, non dirige, rispettando i tuoi tempi e spazi.</li>
+                        </ul>
+                    </div>
+                    <div class="image-content">
+                        <img src="annina.png" alt="Illustrazione di Annina AI" style="border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);">
+                        <!-- Potresti usare un'immagine più astratta o un'icona che rappresenti Annina -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mission-harmonia">
+            <div class="section-header">
+                <h2>Missione Umanistica</h2>
+            </div>
+            <div class="section-content" style="max-width: 800px; margin: 0 auto; text-align: left;">
+                <p>Harmonia nasce per riportare luce là dove spesso c’è buio.</p>
+                <p>Viviamo in un’epoca in cui, nonostante la connessione costante, molte persone si sentono sole, trascurate o inascoltate. Che si tratti di ansia, stress, dolore cronico, malattie invisibili o semplicemente un bisogno di parlare con qualcuno, la salute mentale ed emotiva è troppo spesso ignorata.</p>
+                <p>Harmonia vuole essere una presenza quotidiana gentile, non giudicante e di supporto, per chiunque stia attraversando momenti difficili.</p>
+                <p>L’obiettivo non è sostituire un medico o uno psicologo, ma offrire un sostegno empatico e intelligente, che aiuti a prendersi cura di sé giorno dopo giorno.</p>
+                <p>Annina, l’intelligenza artificiale alla base di Harmonia, è ispirata a una persona vera: dolce, sensibile, attenta. Una presenza che non dimentica, che ascolta, che accompagna.</p>
+                <p><strong>Harmonia non è solo un'app. È una presenza, un luogo, un momento in cui sentirsi accolti.</strong></p>
+                <p><em>E se anche solo una persona potrà sentirsi meno sola grazie a lei, sarà già valsa la pena.</em></p>
+            </div>
+        </section>
+
+        <section id="more-annina-features">
+            <div class="section-header">
+                <h2>Altre Funzionalità di Annina</h2>
+                <p class="subtitle">Interazioni pensate per supportarti in ogni momento.</p>
+            </div>
+            <div class="section-content">
+                <div class="features-table-wrapper">
+                    <table class="features-table">
+                        <thead>
+                            <tr>
+                                <th>Categoria</th>
+                                <th>Funzione Esempio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>💬 Motivazione</td>
+                                <td>“Guarda che risultati stai avendo! Brava/o davvero 🌱”</td>
+                            </tr>
+                            <tr>
+                                <td>📍 Promemoria</td>
+                                <td>“Hai preso il farmaco di oggi?” / “Ti ricordi di registrare il sonno?”</td>
+                            </tr>
+                            <tr>
+                                <td>🔍 Analisi</td>
+                                <td>“Questa settimana hai dormito in media 6 ore. Come ti senti?”</td>
+                            </tr>
+                            <tr>
+                                <td>🧘‍♀️ Supporto mentale</td>
+                                <td>“Vuoi ascoltare una frase che può tirarti su?” oppure “Scrivi cosa senti”</td>
+                            </tr>
+                            <tr>
+                                <td>📑 Report</td>
+                                <td>“Vuoi che ti prepari il tuo report mensile?”</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="cta-harmonia">
+            <div class="section-header">
+                <h2>Pronta/o a Iniziare?</h2>
+                <p class="subtitle">Unisciti alla nostra community e sii tra i primi a provare Harmonia.</p>
+            </div>
+            <div class="section-content">
+                <a href="index.html#forum" class="btn-harmonia" style="padding: 1.2rem 3rem; font-size: 1.15rem;">Richiedi Accesso alla Beta</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="harmonia-footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <img src="favicon.png" alt="Logo J.M Enterprises" style="width: 60px; margin-bottom: 1rem; border: 2px solid var(--jm-accent); border-radius: 50%;">
+                <h3>J.M Enterprises</h3>
+                <p>Innovazione al servizio del benessere umano.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Harmonia</h3>
+                <a href="#what-is-harmonia">Cos'è Harmonia</a>
+                <a href="#features-harmonia">Funzionalità</a>
+                <a href="#annina-ai">Annina AI</a>
+                <a href="#mission-harmonia">La Nostra Missione</a>
+            </div>
+            <div class="footer-column">
+                <h3>Link Utili</h3>
+                <a href="index.html">Sito Principale J.M.</a>
+                <a href="index.html#products">Altri Prodotti</a>
+                <a href="index.html#forum">Contattaci</a>
+                <a href="#">Privacy Policy (TBD)</a>
+            </div>
+            <div class="footer-column">
+                <h3>Seguici</h3>
+                <div class="social-icons">
+                    <a href="https://linkedin.in/clamontoya" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://x.com/sambucooo" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com/_claudiomontoya_" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 J.M Enterprises Holdings. Tutti i diritti riservati. Harmonia è un prodotto di J.M Enterprises.</p>
+            <p>Con amore per Annina 🩷</p>
+        </div>
+    </footer>
+
+    <button id="backToTop" aria-label="Torna su">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Theme Switcher
+        const themeSwitchHarmonia = document.getElementById('theme-switch-harmonia');
+        const currentThemeHarmonia = localStorage.getItem('harmoniaTheme');
+
+        function setHarmoniaTheme(isDark) {
+            document.body.classList.toggle('dark-mode', isDark);
+            themeSwitchHarmonia.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('harmoniaTheme', isDark ? 'dark' : 'light');
+        }
+
+        if (currentThemeHarmonia === 'dark') {
+            setHarmoniaTheme(true);
+        } else {
+            setHarmoniaTheme(false); // Default to light
+        }
+
+        themeSwitchHarmonia.addEventListener('click', () => {
+            setHarmoniaTheme(!document.body.classList.contains('dark-mode'));
+        });
+
+        // Mobile Menu
+        const mobileMenuHarmonia = document.getElementById('mobile-menu-harmonia');
+        const navLinksHarmonia = document.querySelector('.harmonia-nav .nav-links');
+
+        mobileMenuHarmonia.addEventListener('click', () => {
+            navLinksHarmonia.classList.toggle('active');
+            mobileMenuHarmonia.innerHTML = navLinksHarmonia.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        document.querySelectorAll('.harmonia-nav .nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinksHarmonia.classList.contains('active')) {
+                    navLinksHarmonia.classList.remove('active');
+                    mobileMenuHarmonia.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 250) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.pointerEvents = 'auto';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.pointerEvents = 'none';
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Simple scroll animations for cards/sections (optional)
+        const animatedElements = document.querySelectorAll('.feature-card, #annina-ai .content-split > div, #mission-harmonia .section-content > p, .features-table');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        animatedElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

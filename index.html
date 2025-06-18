@@ -26,27 +26,38 @@
     <!-- Structured Data JSON-LD -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "J.M Enterprises",
-      "url": "https://jmenterprises.it",
-      "logo": "https://jmenterprises.it/favicon.png",
-      "sameAs": [
-        "https://linkedin.com/in/clamontoya",
-        "https://x.com/sambucooo",
-        "https://instagram.com/_claudiomontoya_",
-        "https://github.com/clamontoya28"
-      ],
-      "contactPoint": [{
-        "@type": "ContactPoint",
-        "email": "info@jmenterprises.it",
-        "contactType": "customer support",
-        "areaServed": "IT"
-      }],
-      "founder": {
-        "@type": "Person",
-        "name": "Claudio Montoya"
-      }
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+            "@type": "Organization",
+            "name": "J.M Enterprises",
+            "url": "https://jmenterprises.it",
+            "logo": "https://jmenterprises.it/favicon.png",
+            "sameAs": [
+                "https://linkedin.com/in/clamontoya",
+                "https://x.com/sambucooo",
+                "https://instagram.com/_claudiomontoya_",
+                "https://github.com/clamontoya28"
+            ],
+            "contactPoint": [{
+                "@type": "ContactPoint",
+                "email": "info@jmenterprises.it",
+                "contactType": "customer support",
+                "areaServed": "IT"
+            }],
+            "founder": {
+                "@type": "Person",
+                "name": "Claudio Montoya"
+            }
+            },
+            {
+            "@type": "WebSite",
+            "name": "J.M Enterprises",
+            "url": "https://jmenterprises.it",
+            "description": "J.M Enterprises: startup AI italiana in soluzioni intelligenti per il benessere mentale, business e innovazione.",
+            "publisher": {"@type": "Organization", "name": "J.M Enterprises"}
+            }
+        ]
     }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -594,7 +605,7 @@
         .product-card {
             background: var(--glass);
             border-radius: var(--border-radius);
-            overflow: hidden;
+            /* overflow: hidden; -- Rimosso per permettere allo shine ::after e al box-shadow di essere visibili */
             position: relative;
             transition: var(--transition);
             border: 1px solid rgba(212, 175, 55, 0.1);
@@ -604,7 +615,8 @@
             opacity: 0;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 100%; /* Default height, can be overridden by mobile */
+            box-shadow: var(--card-shadow), 0 0 35px -5px rgba(var(--accent-rgb), 0.25); /* Ombra base + glow dorato */
         }
 
         .product-card.visible {
@@ -615,17 +627,20 @@
         .product-card:hover {
             transform: translateY(-15px);
             border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 45px 0px rgba(var(--accent-rgb), 0.35); /* Ombra più forte + glow più intenso */
         }
 
         .product-image {
-            height: 260px;
+            height: 220px; /* Ridotta da 260px */
             display: flex;
             justify-content: center;
             align-items: center;
             background: rgba(10, 10, 15, 0.3);
             position: relative;
-            overflow: hidden;
+            /* z-index: 2; -- Non più necessario senza ::after */
+            overflow: hidden; /* Mantenuto per contenere il ::before e l'immagine */
+            border-top-left-radius: var(--border-radius); /* Per mantenere angoli arrotondati dopo rimozione overflow da card */
+            border-top-right-radius: var(--border-radius);
         }
 
         .product-image::before {
@@ -644,6 +659,14 @@
             transform: rotate(45deg) translate(10%, 10%);
         }
 
+        .product-image img { /* Stile per l'immagine del prodotto */
+            position: relative; /* Per stacking context */
+            z-index: 1; /* Per essere sopra .product-image::before */
+            display: block; /* Previene spazi extra sotto l'immagine */
+            max-width: 90%; /* Massimo 90% della larghezza del contenitore .product-image */
+            max-height: 100%; /* Massimo 100% dell'altezza del contenitore .product-image */
+            object-fit: contain; /* Mantiene le proporzioni, adattandosi allo spazio */
+        }
         .product-image i {
             font-size: 6rem;
             color: var(--accent);
@@ -660,6 +683,8 @@
             padding: 2.5rem;
             flex: 1;
             display: flex;
+            position: relative; 
+            /* z-index: 2; -- Non più necessario senza ::after */
             flex-direction: column;
         }
 
@@ -675,6 +700,9 @@
             font-size: 1.1rem;
             line-height: 1.7;
             flex: 1;
+            overflow-y: auto; /* Allow paragraph to scroll if content is too long */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            padding-right: 5px; /* Space for scrollbar, adjust if needed */
         }
 
         .product-content .btn {
@@ -1069,11 +1097,34 @@
                 flex-basis: 80vw; /* Each card takes 80% of the viewport width */
                 max-width: none; /* Override any desktop max-width in pixels */
                 scroll-snap-align: center; /* Snap card to the center of the scroll container */
-                height: 100%; /* For .product-card to ensure uniform height */
-                /* transition: transform 0.3s ease-out; */ /* Optional: for subtle visual feedback on snap */
+                /* height: 100%; */ /* Removed from shared rule, will be set individually */
+            }
+            .products-grid .product-card {
+                height: auto; /* Allow content to define height */
+                max-height: 70vh; /* Ridotto da 75vh, per schede meno alte */
             }
             .team-grid .team-card {
                 height: auto; /* Team cards can have variable height based on content */
+            }
+
+            /* Aggiustamenti specifici per il contenuto delle schede prodotto su mobile */
+            .product-image {
+                height: 160px; /* Ridotta da 220px per dare più spazio al testo */
+            }
+            .product-content {
+                padding: 1.5rem; /* Ridotto da 2.5rem */
+            }
+            .product-content h3 {
+                font-size: 1.6rem; /* Ridotto da 2rem */
+                margin-bottom: 1rem; /* Ridotto da 1.5rem */
+            }
+            .product-content p {
+                font-size: 0.95rem; /* Ridotto da 1.1rem */
+                margin-bottom: 1.5rem; /* Ridotto da 2rem */
+            }
+            .product-content .btn {
+                padding: 0.8rem 1.5rem; /* Leggermente ridotto */
+                font-size: 0.9rem; /* Leggermente ridotto */
             }
 
             /* Stili per le frecce del carosello */
@@ -1440,7 +1491,7 @@
                 <div class="products-grid">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="harmonia.png" alt="Harmonia Logo" style="max-width:90%; max-height:220px; object-fit:contain;">
+                            <img src="harmonia.png" alt="Harmonia Logo">
                         </div>
                         <div class="product-content">
                             <h3>Harmonia</h3>
@@ -1448,12 +1499,12 @@
                                 Powered by AI, Harmonia listens,learns adn grows with you helping users track their moods,
                                 reflect trough journaling, and feel understood when it matters most.
                             </p>
-                            <a href="#" class="btn btn-secondary">Discover Harmonia</a>
+                            <a href="harmonia.html" class="btn btn-secondary" target="_blank">Discover Harmonia</a>
                         </div>
                     </div>
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="saint.png" alt="Saint & Co. Logo" style="max-width:90%; max-height:220px; object-fit:contain;">
+                            <img src="saint.png" alt="Saint & Co. Logo">
                         </div>
                         <div class="product-content">
                             <h3>Saint & Co.</h3>
@@ -1462,17 +1513,17 @@
                                 With customizable interactive dashboards, you can track invoices, website traffic, inventory, expenses, customers flows, and more.
                                 Powered by AI, Saint anticipates trends, detects inefficiencies, and offers actionable insights to optimize your operations and reduce waste.
                             </p>
-                            <a href="#" class="btn btn-secondary">Explore Saint & Co.</a>
+                            <a href="#forum" class="btn btn-secondary">Explore Saint & Co.</a>
                         </div>
                     </div>
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="aurax.png" alt="AuraX Logo" style="max-width:90%; max-height:220px; object-fit:contain;">
+                            <img src="aurax.png" alt="AuraX Logo">
                         </div>
                         <div class="product-content">
                             <h3>AuraX</h3>
-                            <p>AuraX is the world’s first AI-powered coach for cognitive and energetic performance, designed to help individuals unlock their peak focus, emotional balance, and mental clarity. Through real-time analysis and personalized guidance, AuraX empowers users to master their inner state and perform at their best every day.</p>
-                            <a href="#" class="btn btn-secondary">Discover Quantum</a>
+                            <p>AuraX is the world’s first AI-powered coach for cognitive and energetic performance, designed to help individuals unlock their peak focus, emotional balance, and mental clarity. Through real-time analysis and personalized guidance, AuraX empowers users to master their inner state and perform at their best every day. </p>
+                            <a href="#forum" class="btn btn-secondary">Discover Quantum</a>
                         </div>
                     </div>
                 </div>
@@ -1650,7 +1701,7 @@
                 </div>
                 <div class="footer-column">
                     <h3>Our Portfolio</h3>
-                    <a href="#">Harmonia | Building The Health of Tomorrow</a>
+                    <a href="harmonia.html">Harmonia | Building The Health of Tomorrow</a>
                     <a href="#">Saint & Co.</a>
                     <a href="#">AuraX</a>
                 </div>
@@ -2352,7 +2403,7 @@
                 return;
             }
 
-            function updateArrowsStateAndVisibility() {
+            function updateCarouselState() {
                 const isMobileLayout = getComputedStyle(grid).display === 'flex';
 
                 if (!isMobileLayout) {
@@ -2386,9 +2437,9 @@
                 grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
             });
 
-            grid.addEventListener('scroll', updateArrowsStateAndVisibility, { passive: true });
-            window.addEventListener('resize', updateArrowsStateAndVisibility);
-            updateArrowsStateAndVisibility(); // Initial check
+            grid.addEventListener('scroll', updateCarouselState, { passive: true });
+            window.addEventListener('resize', updateCarouselState);
+            updateCarouselState(); // Initial check
         }
 
         document.addEventListener('DOMContentLoaded', () => {
