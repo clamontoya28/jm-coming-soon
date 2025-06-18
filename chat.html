@@ -4,9 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beta Annina - Chat</title>
-  <link rel="icon" href="favicon.png" type="img/png">
+  <link rel="icon" href="annina.png" type="img/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Animazione 3 pallini (typing) */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      height: 32px;
+      padding: 0 12px;
+    }
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      margin: 0 3px;
+      border-radius: 50%;
+      background: #d4af37;
+      opacity: 0.7;
+      animation: typing-bounce 1s infinite both;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing-bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.7; }
+      40% { transform: translateY(-7px); opacity: 1; }
+    }
     body {
       min-height: 100vh;
       margin: 0;
@@ -178,11 +200,14 @@
       margin-left: auto;
     }
     .message-row.annina .message {
-      background: rgba(255,255,255,0.8);
+      background: linear-gradient(135deg, #fffbe6 0%, #fff 60%, #f9e7b3 100%);
       color: #23232b;
       border-radius: 18px 18px 18px 4px;
-      border: 1.5px solid #ececec;
+      border: 2px solid #d4af37;
       margin-right: auto;
+      box-shadow: 0 2px 16px #d4af3722;
+      position: relative;
+      overflow: hidden;
     }
     .chat-input {
       display: flex;
@@ -268,9 +293,12 @@
       border: 1.5px solid #d4af37;
     }
     body.dark-mode .message-row.annina .message {
-      background: rgba(30,30,40,0.85);
+      background: linear-gradient(135deg, #23232b 0%, #181a1b 60%, #d4af37 100%);
       color: #f5f5f7;
-      border: 1.5px solid #23232b;
+      border: 2px solid #d4af37;
+      box-shadow: 0 2px 16px #d4af3722;
+      position: relative;
+      overflow: hidden;
     }
     body.dark-mode .msg-avatar.annina {
       background: #23232b;
@@ -317,7 +345,7 @@
   <div class="chat-wrapper">
     <div class="chat-header">
       <div class="avatar">
-        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Annina" id="annina-avatar" style="width:100%;height:100%;object-fit:cover;" />
+        <img src="annina.png" alt="Annina" id="annina-avatar" style="width:100%;height:100%;object-fit:cover;" />
       </div>
       <div class="title-group">
         <div class="title">Annina AI❤️</div>
@@ -331,7 +359,7 @@
     <div class="chat-container" id="chat-container">
       <div class="message-row annina">
         <div class="msg-avatar annina">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Annina" id="annina-avatar-msg" />
+          <img src="annina.png" alt="Annina" id="annina-avatar-msg" />
         </div>
         <div class="message">Ciao! Sono Annina 🤖<br>Presto qui potrai chattare con la mia intelligenza artificiale.<br>Scrivi un messaggio per provare l'interfaccia!</div>
       </div>
@@ -346,8 +374,8 @@
   </div>
   <script>
     // Avatar di esempio per Annina e utente
-    const anninaAvatar = 'https://randomuser.me/api/portraits/women/44.jpg';
-    const userAvatar = 'https://randomuser.me/api/portraits/men/32.jpg';
+    const anninaAvatar = 'annina.png';
+    const userAvatar = 'user.png';
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const chatContainer = document.getElementById('chat-container');
@@ -365,17 +393,19 @@
       chatContainer.appendChild(userRow);
       chatInput.value = '';
       chatContainer.scrollTop = chatContainer.scrollHeight;
-      // Risposta placeholder Annina
+      // Mostra animazione typing Annina
+      const typingRow = document.createElement('div');
+      typingRow.className = 'message-row annina typing-row';
+      typingRow.innerHTML = `
+        <div class="msg-avatar annina"><img src="${anninaAvatar}" alt="Annina" /></div>
+        <div class="message"><div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>
+      `;
+      chatContainer.appendChild(typingRow);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      // Dopo un po', sostituisci con la risposta di Annina
       setTimeout(() => {
-        const botRow = document.createElement('div');
-        botRow.className = 'message-row annina';
-        botRow.innerHTML = `
-          <div class="msg-avatar annina"><img src="${anninaAvatar}" alt="Annina" /></div>
-          <div class="message">Funzionalità AI in arrivo!</div>
-        `;
-        chatContainer.appendChild(botRow);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }, 700);
+        typingRow.querySelector('.message').innerHTML = 'Funzionalità AI in arrivo!';
+      }, 900);
     });
     // Theme switch logic
     const themeSwitch = document.getElementById('theme-switch');
