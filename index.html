@@ -3,8 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>J.M Enterprises | Innovating Tomorrow</title>
+    <title>J.M Enterprises | Startup </title>
+    <meta name="description" content="J.M Enterprises: startup AI italiana leader in soluzioni intelligenti per il benessere mentale, business e innovazione. Scopri Annina, Harmonia e le nostre tecnologie d'avanguardia.">
+    <meta name="keywords" content="AI, startup, J.M Enterprises, Harmonia, intelligenza artificiale, chatbot, benessere mentale, Annina, innovazione, tecnologia, Italia, quantum computing, business analytics, Saint, AuraX">
+    <meta name="author" content="J.M Enterprises">
+    <link rel="canonical" href="https://jmenterprises.it">
+    <meta property="og:title" content="J.M Enterprises | AI, Innovazione e Benessere Mentale">
+    <meta property="og:description" content="Scopri Annina, Harmonia e le nostre soluzioni AI per il benessere mentale e l'innovazione. Startup italiana leader nel settore tech.">
+    <meta property="og:url" content="https://jmenterprises.it">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://jmenterprises.it/assets/harmonia.png">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="J.M Enterprises">
+    <meta name="robots" content="index, follow">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="J.M Enterprises | AI, Innovazione e Benessere Mentale">
+    <meta name="twitter:description" content="Scopri Annina, Harmonia e le nostre soluzioni AI per il benessere mentale e l'innovazione. Startup italiana leader nel settore tech.">
+    <meta name="twitter:image" content="https://jmenterprises.it/assets/harmonia.png">
+    <meta name="twitter:site" content="@sambucooo">
     <link rel="icon" href="favicon.png" type="image/png">
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "J.M Enterprises",
+      "url": "https://jmenterprises.it",
+      "logo": "https://jmenterprises.it/favicon.png",
+      "sameAs": [
+        "https://linkedin.com/in/clamontoya",
+        "https://x.com/sambucooo",
+        "https://instagram.com/_claudiomontoya_",
+        "https://github.com/clamontoya28"
+      ],
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "email": "info@jmenterprises.it",
+        "contactType": "customer support",
+        "areaServed": "IT"
+      }],
+      "founder": {
+        "@type": "Person",
+        "name": "Claudio Montoya"
+      }
+    }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -89,23 +133,29 @@
         }
 
         .logo {
+            display: block; /* Necessario per i link contenenti immagini */
             width: 60px;
             height: 60px;
-            background: var(--dark-gray);
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent);
             transition: var(--transition);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            border-radius: 50%; /* Manteniamo il raggio per l'effetto hover */
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Fa sì che l'immagine riempia lo spazio senza deformarsi */
+            display: block;
+            border-radius: 50%; /* Rende l'immagine perfettamente tonda */
+            border: 2px solid var(--accent); /* Manteniamo il bordo dorato */
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); /* Manteniamo l'ombra */
+            transition: var(--transition);
         }
 
         .logo:hover {
             transform: scale(1.08);
+        }
+
+        .logo:hover img{
             box-shadow: 0 0 25px var(--accent);
         }
 
@@ -984,7 +1034,9 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="logo">J.M</div>
+        <a href="" class="logo">
+            <img src="favicon.png" alt="Logo di J.M Enterprises">
+        </a>
         <div class="nav-links">
             <a href="#about">About</a>
             <a href="#products">Products</a>
@@ -1089,7 +1141,7 @@
                     </div>
                     <div class="product-content">
                         <h3>AuraX</h3>
-                        <p>The world's first accessible quantum computing platform, democratizing unprecedented computational power for researchers, developers, and Enterprisess solving humanity's greatest challenges.</p>
+                        <p>AuraX is the world’s first AI-powered coach for cognitive and energetic performance, designed to help individuals unlock their peak focus, emotional balance, and mental clarity. Through real-time analysis and personalized guidance, AuraX empowers users to master their inner state and perform at their best every day.</p>
                         <a href="#" class="btn btn-secondary">Discover Quantum</a>
                     </div>
                 </div>
@@ -1107,30 +1159,33 @@
             <div class="timeline">
                 <div class="timeline-container">
                     <div class="timeline-content">
-                        <div class="quarter">Q1 2024</div>
-                        <h3>Harmonia Enterprises Launch</h3>
-                        <p>Global release to Fortune 500 clients with advanced AI modules and Enterprises integration capabilities.</p>
+                        <div class="quarter">Q1 2025</div>
+                        <h3>Launch of Harmonia (Free Beta)</h3>
+                        <p>The first public release of Harmonia will be completely free for a limited time.
+                            The goal is to provide accessible emotional support while collecting user feedback to improve the platform.</p>
                     </div>
                 </div>
                 <div class="timeline-container">
                     <div class="timeline-content">
-                        <div class="quarter">Q2 2024</div>
-                        <h3>Quantum Security Milestone</h3>
-                        <p>Implementation of quantum-resistant encryption across all Saint security platforms.</p>
+                        <div class="quarter">Q2 2025</div>
+                        <h3>Premium Features Integration on Harmonia</h3>
+                        <p>Advanced features will be introduced,
+                            such as the ability to speak with Annina via AI voice calls and receive personalized audio messages.</p>
                     </div>
                 </div>
                 <div class="timeline-container">
                     <div class="timeline-content">
-                        <div class="quarter">Q3 2024</div>
-                        <h3>Aurax Quantum Expansion</h3>
-                        <p>Deployment of 256-qubit processors and developer ecosystem launch.</p>
+                        <div class="quarter">Q3 2025</div>
+                        <h3>Official Launch of Saint & Co.</h3>
+                        <p>Saint & Co. will be a professional platform for freelancers, entrepreneurs, and small businesses.
+                            It will launch with built-in premium features to support and grow their operations.</p>
                     </div>
                 </div>
                 <div class="timeline-container">
                     <div class="timeline-content">
-                        <div class="quarter">Q4 2024</div>
-                        <h3>Global Innovation Centers</h3>
-                        <p>Opening of R&D facilities in Silicon Valley, Zurich, and Singapore.</p>
+                        <div class="quarter">Q4 2025</div>
+                        <h3>AuraX Announcements</h3>
+                        <p>AuraX, our AI coach for cognitive and energetic performance, will be the focus of major updates and announcements.</p>
                     </div>
                 </div>
             </div>
@@ -1283,18 +1338,18 @@
                 product2_desc: 'A smart business analytics app designed for modern professionals: from restaurants and hotels, to freelancers and online stores. With customizable interactive dashboards, you can track invoices, website traffic, inventory, expenses, customers flows, and more. Powered by AI, Saint anticipates trends, detects inefficiencies, and offers actionable insights to optimize your operations and reduce waste.',
                 product2_btn: 'Explore Saint & Co.',
                 product3_title: 'AuraX',
-                product3_desc: "The world's first accessible quantum computing platform, democratizing unprecedented computational power for researchers, developers, and Enterprises solving humanity's greatest challenges.",
+                product3_desc: "AuraX is the world’s first AI-powered coach for cognitive and energetic performance, designed to help individuals unlock their peak focus, emotional balance, and mental clarity. Through real-time analysis and personalized guidance, AuraX empowers users to master their inner state and perform at their best every day.",
                 product3_btn: 'Discover Quantum',
                 roadmap_title: 'Strategic Roadmap',
                 roadmap_desc: 'Our journey to technological leadership',
-                roadmap_q1: 'Harmonia Enterprises Launch',
-                roadmap_q1_desc: 'Global release to Fortune 500 clients with advanced AI modules and Enterprises integration capabilities.',
-                roadmap_q2: 'Quantum Security Milestone',
-                roadmap_q2_desc: 'Implementation of quantum-resistant encryption across all Saint security platforms.',
-                roadmap_q3: 'Aurax Quantum Expansion',
-                roadmap_q3_desc: 'Deployment of 256-qubit processors and developer ecosystem launch.',
-                roadmap_q4: 'Global Innovation Centers',
-                roadmap_q4_desc: 'Opening of R&D facilities in Silicon Valley, Zurich, and Singapore.',
+                roadmap_q1: 'Launch of Harmonia (Free Beta)',
+                roadmap_q1_desc: 'The first public release of Harmonia will be completely free for a limited time. The goal is to provide accessible emotional support while collecting user feedback to improve the platform.',
+                roadmap_q2: 'Premium Features Integration on Harmonia',
+                roadmap_q2_desc: 'Advanced features will be introduced, such as the ability to speak with Annina via AI voice calls and receive personalized audio messages.',
+                roadmap_q3: 'Official Launch of Saint & Co.',
+                roadmap_q3_desc: 'Saint & Co. will be a professional platform for freelancers, entrepreneurs, and small businesses. It will launch with built-in premium features to support and grow their operations.',
+                roadmap_q4: 'AuraX Announcements',
+                roadmap_q4_desc: 'AuraX, our AI coach for cognitive and energetic performance, will be the focus of major updates and announcements.',
                 team_title: 'Visionary Leadership',
                 team_desc: 'The minds shaping our technological future',
                 team1_name: 'Claudio Montoya',
@@ -1317,7 +1372,7 @@
                 footer_careers: 'Careers',
                 footer_investors: 'Investor Relations',
                 footer_contact: 'Contact',
-                copyright: '&copy; 2025 J.M Enterprises Holdings. All rights reserved. | With love for Annina🩷.'
+                copyright: '&copy; 2025 J.M Enterprises Holdings. All rights reserved. | With love for Annina & Mom.'
             },
             it: {
                 nav_about: 'Chi siamo',
@@ -1346,18 +1401,18 @@
                 product2_desc: 'App di business analytics per professionisti moderni: da ristoranti e hotel a freelance e negozi online. Dashboard interattive e personalizzabili per monitorare fatture, traffico, inventario, spese, clienti e altro. Con AI, Saint anticipa trend, rileva inefficienze e offre insight per ottimizzare e ridurre sprechi.',
                 product2_btn: 'Scopri Saint & Co.',
                 product3_title: 'AuraX',
-                product3_desc: 'La prima piattaforma di quantum computing accessibile al mondo, democratizzando potenza computazionale senza precedenti per ricercatori, sviluppatori e aziende che affrontano le grandi sfide dell’umanità.',
+                product3_desc: 'AuraX è il primo coach al mondo basato su AI per la performance cognitiva ed energetica, progettato per aiutare le persone a sbloccare la massima concentrazione, l’equilibrio emotivo e la chiarezza mentale. Grazie ad analisi in tempo reale e guida personalizzata, AuraX permette di dominare il proprio stato interiore e dare il meglio ogni giorno.',
                 product3_btn: 'Scopri Quantum',
                 roadmap_title: 'Roadmap strategica',
                 roadmap_desc: 'Il nostro percorso verso la leadership tecnologica',
-                roadmap_q1: 'Lancio Harmonia Enterprises',
-                roadmap_q1_desc: 'Rilascio globale ai clienti Fortune 500 con moduli AI avanzati e integrazione per aziende.',
-                roadmap_q2: 'Traguardo Quantum Security',
-                roadmap_q2_desc: 'Implementazione della crittografia resistente al quantum su tutte le piattaforme Saint.',
-                roadmap_q3: 'Espansione Aurax Quantum',
-                roadmap_q3_desc: 'Distribuzione di processori a 256 qubit e lancio dell’ecosistema sviluppatori.',
-                roadmap_q4: 'Centri di innovazione globali',
-                roadmap_q4_desc: 'Apertura di centri R&D a Silicon Valley, Zurigo e Singapore.',
+                roadmap_q1: 'Lancio di Harmonia (Beta gratuita)',
+                roadmap_q1_desc: 'Il primo rilascio pubblico di Harmonia sarà completamente gratuito per un periodo di tempo limitato. L’obiettivo è offrire supporto emotivo accessibile a tutti, raccogliendo feedback per il miglioramento della piattaforma..',
+                roadmap_q2: 'Integrazione funzionalità Premium su Harmonia',
+                roadmap_q2_desc: 'Verranno introdotte nuove funzionalità avanzate, come la possibilità di parlare direttamente con Annina tramite chiamate vocali AI, e ricevere messaggi audio personalizzati.',
+                roadmap_q3: 'Lancio ufficiale di Saint & Co.',
+                roadmap_q3_desc: 'Saint & Co. sarà una piattaforma professionale per freelancers, imprenditori e piccole attività. Il lancio avverrà con già attive funzionalità premium dedicate alla gestione e al potenziamento del proprio business.',
+                roadmap_q4: 'Novità su AuraX',
+                roadmap_q4_desc: 'AuraX, il nostro AI coach per la performance cognitiva ed energetica, sarà protagonista di importanti annunci e rivelazioni.',
                 team_title: 'Leadership visionaria',
                 team_desc: 'Le menti che plasmano il nostro futuro tecnologico',
                 team1_name: 'Claudio Montoya',
@@ -1380,15 +1435,15 @@
                 footer_careers: 'Carriere',
                 footer_investors: 'Investor Relations',
                 footer_contact: 'Contatti',
-                copyright: '&copy; 2025 J.M Enterprises Holdings. Tutti i diritti riservati. | Con amore per Annina🩷.'
+                copyright: '&copy; 2025 J.M Enterprises Holdings. Tutti i diritti riservati. | Con amore per Annina & Mamma.'
             },
             fr: {
                 nav_about: 'À propos',
                 nav_products: 'Produits',
                 nav_roadmap: 'Feuille de route',
                 nav_team: 'Équipe',
-                hero_title: ",Où l’innovation rencontre l’excellence", 
-                hero_desc: 'J.M Enterprises ouvre la voie aux technologies de nouvelle génération qui red��finissent la santé mentale humaine.',
+                hero_title: "Où l’innovation rencontre l’excellence", 
+                hero_desc: 'J.M Enterprises ouvre la voie à une nouvelle génération de technologies qui transforment en profondeur la santé mentale humaine.',
                 hero_btn1: 'Découvrir les innovations',
                 hero_btn2: 'Beta Annina',
                 about_title: 'Notre vision',
@@ -1409,18 +1464,18 @@
                 product2_desc: 'Application d’analyse commerciale pour les professionnels modernes : des restaurants et hôtels aux indépendants et boutiques en ligne. Tableaux de bord interactifs et personnalisables pour suivre factures, trafic, stocks, dépenses, clients et plus. Avec l’IA, Saint anticipe les tendances, détecte les inefficacités et propose des insights pour optimiser et réduire le gaspillage.',
                 product2_btn: 'Découvrir Saint & Co.',
                 product3_title: 'AuraX',
-                product3_desc: 'La première plateforme d’informatique quantique accessible au monde, démocratisant une puissance de calcul sans précédent pour les chercheurs, développeurs et entreprises qui relèvent les plus grands défis de l’humanité.',
+                product3_desc: 'AuraX est le premier coach au monde alimenté par l’IA pour la performance cognitive et énergétique, conçu pour aider chacun à atteindre une concentration optimale, l’équilibre émotionnel et la clarté mentale. Grâce à une analyse en temps réel et des conseils personnalisés, AuraX permet de maîtriser son état intérieur et d’exceller chaque jour.',
                 product3_btn: 'Découvrir Quantum',
                 roadmap_title: 'Feuille de route stratégique',
                 roadmap_desc: 'Notre parcours vers le leadership technologique',
-                roadmap_q1: 'Lancement Harmonia Enterprises',
-                roadmap_q1_desc: 'Lancement mondial pour les clients Fortune 500 avec modules IA avancés et intégration entreprises.',
-                roadmap_q2: 'Étape Quantum Security',
-                roadmap_q2_desc: 'Mise en œuvre du chiffrement résistant au quantique sur toutes les plateformes Saint.',
-                roadmap_q3: 'Expansion Aurax Quantum',
-                roadmap_q3_desc: 'Déploiement de processeurs 256 qubits et lancement de l’écosystème développeurs.',
-                roadmap_q4: 'Centres d’innovation mondiaux',
-                roadmap_q4_desc: 'Ouverture de centres R&D à la Silicon Valley, Zurich et Singapour.',
+                roadmap_q1: 'Lancement d’Harmonia (bêta gratuite)',
+                roadmap_q1_desc: 'La première version publique d’Harmonia sera entièrement gratuite pendant une période limitée. L’objectif est d’offrir un soutien émotionnel accessible à tous, tout en recueillant des retours utilisateurs.',
+                roadmap_q2: 'Intégration des fonctionnalités Premium sur Harmonia',
+                roadmap_q2_desc: 'Des fonctionnalités avancées seront ajoutées, telles que la possibilité d’appeler Annina via l’IA vocale, et de recevoir des messages audio personnalisés.',
+                roadmap_q3: 'Lancement officiel de Saint & Co.',
+                roadmap_q3_desc: 'Saint & Co. sera une plateforme professionnelle pour les freelances, entrepreneurs et petites entreprises. Le lancement se fera directement avec des fonctionnalités premium.',
+                roadmap_q4: 'Annonces autour d’AuraX',
+                roadmap_q4_desc: 'AuraX, notre coach IA pour la performance cognitive et énergétique, fera l’objet de grandes annonces.',
                 team_title: 'Leadership visionnaire',
                 team_desc: 'Les esprits qui façonnent notre avenir technologique',
                 team1_name: 'Claudio Montoya',
@@ -1443,7 +1498,7 @@
                 footer_careers: 'Carrières',
                 footer_investors: 'Relations investisseurs',
                 footer_contact: 'Contact',
-                copyright: '&copy; 2025 J.M Enterprises Holdings. Tous droits réservés. | Avec amour pour Annina🩷.'
+                copyright: '&copy; 2025 J.M Enterprises Holdings. Tous droits réservés. | Avec amour pour Annina & Mère.'
             },
             es: {
                 nav_about: 'Sobre nosotros',
@@ -1472,18 +1527,18 @@
                 product2_desc: 'App de análisis empresarial para profesionales modernos: desde restaurantes y hoteles hasta freelancers y tiendas online. Paneles interactivos y personalizables para monitorizar facturas, tráfico, inventario, gastos, clientes y más. Con IA, Saint anticipa tendencias, detecta ineficiencias y ofrece insights para optimizar y reducir desperdicios.',
                 product2_btn: 'Explora Saint & Co.',
                 product3_title: 'AuraX',
-                product3_desc: 'La primera plataforma de computación cuántica accesible del mundo, democratizando un poder computacional sin precedentes para investigadores, desarrolladores y empresas que resuelven los mayores desafíos de la humanidad.',
+                product3_desc: 'AuraX es el primer coach del mundo impulsado por IA para el rendimiento cognitivo y energético, diseñado para ayudar a las personas a alcanzar su máxima concentración, equilibrio emocional y claridad mental. Con análisis en tiempo real y orientación personalizada, AuraX permite dominar el estado interior y rendir al máximo cada día.',
                 product3_btn: 'Descubre Quantum',
                 roadmap_title: 'Hoja de ruta estratégica',
                 roadmap_desc: 'Nuestro camino hacia el liderazgo tecnológico',
-                roadmap_q1: 'Lanzamiento Harmonia Enterprises',
-                roadmap_q1_desc: 'Lanzamiento global para clientes Fortune 500 con módulos avanzados de IA e integración empresarial.',
-                roadmap_q2: 'Hito Quantum Security',
-                roadmap_q2_desc: 'Implementación de cifrado resistente a la computación cuántica en todas las plataformas Saint.',
-                roadmap_q3: 'Expansión Aurax Quantum',
-                roadmap_q3_desc: 'Despliegue de procesadores de 256 qubits y lanzamiento del ecosistema de desarrolladores.',
-                roadmap_q4: 'Centros globales de innovación',
-                roadmap_q4_desc: 'Apertura de centros de I+D en Silicon Valley, Zúrich y Singapur.',
+                roadmap_q1: 'Lanzamiento de Harmonia (beta gratuita)',
+                roadmap_q1_desc: 'La primera versión pública de Harmonia será totalmente gratuita por un período limitado. El objetivo es ofrecer apoyo emocional accesible y recoger feedback para futuras mejoras.',
+                roadmap_q2: 'Integración de funciones Premium en Harmonia',
+                roadmap_q2_desc: 'Se lanzarán funciones avanzadas, como llamadas de voz con Annina (IA) y la recepción de mensajes de audio personalizados.',
+                roadmap_q3: 'Lanzamiento oficial de Saint & Co.',
+                roadmap_q3_desc: 'Saint & Co. será una plataforma profesional para freelancers, emprendedores y pequeños negocios. Se lanzará con funciones premium activas desde el inicio.',
+                roadmap_q4: 'Novedades sobre AuraX',
+                roadmap_q4_desc: 'AuraX, nuestro coach de IA para el rendimiento cognitivo y energético, será protagonista de anuncios clave y actualizaciones importantes.',
                 team_title: 'Liderazgo visionario',
                 team_desc: 'Las mentes que dan forma a nuestro futuro tecnológico',
                 team1_name: 'Claudio Montoya',
@@ -1506,7 +1561,7 @@
                 footer_careers: 'Carreras',
                 footer_investors: 'Relaciones con inversores',
                 footer_contact: 'Contacto',
-                copyright: '&copy; 2025 J.M Enterprises Holdings. Todos los derechos reservados. | Con amor para Annina🩷.'
+                copyright: '&copy; 2025 J.M Enterprises Holdings. Todos los derechos reservados. | Con amor para Annina & Mamà.'
             }
         };
         function setLanguage(lang) {
