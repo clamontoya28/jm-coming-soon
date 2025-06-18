@@ -9,7 +9,7 @@
     <meta name="author" content="J.M Enterprises">
     <link rel="icon" href="annina.png" type="image/png"> <!-- Assumendo che favicon.png sia nella root -->
     <link rel="canonical" href="https://jmenterprises.it/harmonia.html">
-
+    
     <meta property="og:title" content="Harmonia | Il Tuo Compagno per il Benessere Mentale">
     <meta property="og:description" content="Harmonia è un'app empatica per tracciare dati fisici ed emotivi, offrendo supporto tramite Annina AI.">
     <meta property="og:url" content="https://jmenterprises.it/harmonia.html">
@@ -24,8 +24,8 @@
         :root {
             --harmonia-bg-light: #FDFCFB;
             --harmonia-bg-dark: #272A3D; /* Leggermente più chiaro di #2C2F3E per meno contrasto con testo */
-            --harmonia-text-light: #4A4A4A;
-            --harmonia-text-dark: #E0E0E5; /* Leggermente più chiaro */
+            --harmonia-text-light: #333333; /* Scurito per miglior contrasto su sfondi chiari */
+            --harmonia-text-dark: #E8E8EE; /* Schiarito per miglior contrasto su sfondi scuri */
             --harmonia-primary: #82C0CC;
             --harmonia-secondary: #F5A9B8;
             --harmonia-accent: #F9D5A7;
@@ -35,6 +35,8 @@
             --harmonia-border-dark: rgba(130, 192, 204, 0.4);
             --harmonia-shadow-light: rgba(0, 0, 0, 0.08);
             --harmonia-shadow-dark: rgba(0, 0, 0, 0.25);
+            --harmonia-primary-rgb: 130, 192, 204; 
+            --harmonia-accent-rgb: 249, 213, 167;
 
             --jm-accent: #d4af37; /* Per coerenza con logo/brand J.M. */
             --jm-black: #0a0a0f;
@@ -191,12 +193,19 @@
         .hero-harmonia-content .app-icon i { /* Se usi FontAwesome */
             font-size: 3rem; color: white;
         }
-        .hero-harmonia-content h1 {
+        .hero-harmonia-content h1#harmonia-hero-title { /* Aggiunto ID */
             font-size: 3.8rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
             color: var(--harmonia-text-light);
             line-height: 1.2;
+            min-height: 1.2em; /* Per evitare sfarfallio durante la scrittura */
+        }
+        .typing-cursor {
+            color: var(--harmonia-primary);
+            animation: blink 0.7s infinite;
+            font-weight: bold;
+            display: inline-block; /* Necessario per l'animazione */
         }
         .hero-harmonia-content p.subtitle {
             font-size: 1.4rem;
@@ -267,13 +276,77 @@
             margin: 0 auto;
         }
 
-        /* What is Harmonia Section */
-        #what-is-harmonia p {
+        /* What is Harmonia Section - Modificato per layout a 2 colonne */
+        #what-is-harmonia .section-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+        #what-is-harmonia .text-column p {
             font-size: 1.15rem;
             line-height: 1.8;
+        }
+
+        .harmonia-chat-demo {
+            border: 1px solid var(--harmonia-border-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            background-color: var(--harmonia-card-bg-light);
+            box-shadow: 0 5px 15px var(--harmonia-shadow-light);
+        }
+        .harmonia-chat-demo h3 {
+            font-size: 1.4rem; /* Leggermente più piccolo per adattarsi al box */
+            color: var(--harmonia-primary);
+            margin-bottom: 1rem;
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
+        }
+        .chat-display {
+            height: 220px;
+            overflow-y: auto;
+            border: 1px solid var(--harmonia-border-light);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            background-color: var(--harmonia-bg-light);
+        }
+        .chat-input-area {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center; /* Allinea verticalmente input e bottone */
+        }
+        .chat-input-area input[type="text"] {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--harmonia-border-light);
+            border-radius: 20px;
+            font-size: 0.95rem;
+            outline: none;
+            background-color: white;
+            color: #333; /* Colore testo input specifico */
+        }
+        .chat-input-area input[type="text"]:focus {
+            border-color: var(--harmonia-primary);
+            box-shadow: 0 0 0 2px rgba(var(--harmonia-primary-rgb), 0.2);
+        }
+        .chat-input-area button {
+            width: 44px; 
+            height: 44px;
+            padding: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%; 
+            border: none;
+            background-color: var(--harmonia-primary); 
+            color: white; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: background-color 0.2s;
+            flex-shrink: 0; /* Impedisce al bottone di restringersi */
+        }
+        .chat-input-area button:hover {
+            background-color: var(--harmonia-secondary);
         }
 
         /* Features Section (Struttura Modulare) */
@@ -477,6 +550,10 @@
         #backToTop:hover { background: var(--harmonia-secondary); }
 
         /* Dark Mode Styles */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
         body.dark-mode {
             background-color: var(--harmonia-bg-dark);
             color: var(--harmonia-text-dark);
@@ -497,6 +574,11 @@
         }
         body.dark-mode .hero-harmonia-content h1, body.dark-mode .hero-harmonia-content p.subtitle {
             color: var(--harmonia-text-dark);
+        }
+        body.dark-mode .harmonia-chat-demo {
+            border-color: var(--harmonia-border-dark);
+            background-color: var(--harmonia-card-bg-dark);
+            box-shadow: 0 5px 15px var(--harmonia-shadow-dark);
         }
         body.dark-mode .section-header h2, body.dark-mode .section-header p.subtitle {
             color: var(--harmonia-text-dark);
@@ -522,6 +604,33 @@
         body.dark-mode #backToTop {
             box-shadow: 0 4px 15px rgba(130, 192, 204, 0.2);
         }
+        body.dark-mode .chat-display {
+            border-color: var(--harmonia-border-dark);
+            background-color: var(--harmonia-bg-dark);
+        }
+        body.dark-mode .chat-input-area input[type="text"] {
+            background-color: rgba(224, 224, 229, 0.1); /* Usando RGB di --harmonia-text-dark */
+            border-color: var(--harmonia-border-dark);
+            color: var(--harmonia-text-dark); /* Colore testo input in dark mode */
+        }
+        body.dark-mode .chat-input-area input[type="text"]:focus {
+            border-color: var(--harmonia-primary);
+            box-shadow: 0 0 0 2px rgba(var(--harmonia-primary-rgb), 0.3);
+        }
+        .chat-message {
+            padding: 0.5rem 0.8rem; border-radius: 8px; margin-bottom: 0.5rem;
+            font-size: 0.9rem; line-height: 1.4; max-width: 80%; word-wrap: break-word;
+        }
+        .user-message {
+            background-color: rgba(var(--harmonia-primary-rgb), 0.2); color: #333; /* Testo scuro per messaggi utente su sfondo chiaro */
+            margin-left: auto; text-align: left;
+        }
+        .annina-message {
+            background-color: rgba(var(--harmonia-accent-rgb), 0.25); color: #333; /* Testo scuro per messaggi Annina su sfondo chiaro */
+            margin-right: auto; text-align: left;
+        }
+        body.dark-mode .user-message { background-color: rgba(var(--harmonia-primary-rgb), 0.3); color: var(--harmonia-text-dark); }
+        body.dark-mode .annina-message { background-color: rgba(var(--harmonia-accent-rgb), 0.35); color: var(--harmonia-text-dark); }
 
         /* Responsive */
         @media (max-width: 992px) {
@@ -530,6 +639,9 @@
             .section-header h2 { font-size: 2.4rem; }
             #annina-ai .content-split { flex-direction: column; }
             #annina-ai .content-split .image-content { margin-top: 2rem; flex: 0 0 auto; max-width: 300px;}
+            #what-is-harmonia .section-content-grid {
+                grid-template-columns: 1fr; /* Colonne impilate */
+            }
         }
         @media (max-width: 768px) {
             body {
@@ -552,6 +664,9 @@
             .hero-harmonia-content .app-icon { width: 80px; height: 80px; }
             .hero-harmonia-content .app-icon i { font-size: 2.5rem; }
             .section-header h2 { font-size: 2rem; }
+        }
+        @media (max-width: 768px) { /* Già presente, aggiungo solo la regola per il chat-column */
+            #what-is-harmonia .chat-column { margin-top: 2rem; }
         }
     </style>
 </head>
@@ -585,7 +700,7 @@
                     <!-- Potresti mettere un'immagine del logo di Harmonia qui -->
                     <i class="fas fa-spa"></i> <!-- Icona generica per ora -->
                 </div>
-                <h1>Harmonia: Ascolto, Comprensione, Benessere.</h1>
+                <h1 id="harmonia-hero-title"></h1>
                 <p class="subtitle">La tua guida empatica per la salute personale, supportata dall'intelligenza emotiva di Annina.</p>
                 <a href="index.html#forum" class="btn-harmonia">Unisciti alla Beta</a>
             </div>
@@ -595,8 +710,22 @@
             <div class="section-header">
                 <h2>Cos'è Harmonia?</h2>
             </div>
-            <div class="section-content">
-                <p>Harmonia è un'app di monitoraggio della salute personale, progettata per essere empatica, accessibile e intelligente. L’obiettivo è fornire uno strumento intuitivo per tracciare dati fisici ed emotivi quotidiani, offrendo supporto e suggerimenti tramite un’IA chiamata Annina, che si comporta come un compagno di viaggio affettuoso e presente.</p>
+            <div class="section-content section-content-grid">
+                <div class="text-column">
+                    <p>Harmonia è un'app di monitoraggio della salute personale, progettata per essere empatica, accessibile e intelligente. L’obiettivo è fornire uno strumento intuitivo per tracciare dati fisici ed emotivi quotidiani, offrendo supporto e suggerimenti tramite un’IA chiamata Annina, che si comporta come un compagno di viaggio affettuoso e presente.</p>
+                </div>
+                <div class="chat-column">
+                    <div class="harmonia-chat-demo">
+                        <h3>Prova a chattare con Annina</h3>
+                        <div class="chat-display" id="harmoniaChatDisplay">
+                            <!-- I messaggi appariranno qui -->
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="harmoniaChatInput" placeholder="Scrivi un messaggio...">
+                            <button id="harmoniaChatSendBtn"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -853,6 +982,70 @@
             el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
             observer.observe(el);
         });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animazione di scrittura per il titolo Harmonia
+        const heroTitle = document.getElementById('harmonia-hero-title');
+        if (heroTitle) {
+            const originalText = "Harmonia: Ascolto, Comprensione, Benessere.";
+            let i = 0;
+            heroTitle.innerHTML = ''; // Pulisci il contenuto iniziale
+            const cursorSpan = document.createElement('span');
+            cursorSpan.className = 'typing-cursor';
+            cursorSpan.textContent = '▍'; // Carattere cursore
+            heroTitle.appendChild(cursorSpan);
+
+            function typeWriter() {
+                if (i < originalText.length) {
+                    heroTitle.insertBefore(document.createTextNode(originalText.charAt(i)), cursorSpan);
+                    i++;
+                    setTimeout(typeWriter, 90); // Velocità di scrittura
+                } else {
+                    // Pausa prima di ricominciare l'animazione
+                    setTimeout(() => {
+                        heroTitle.innerHTML = ''; // Cancella il testo scritto
+                        heroTitle.appendChild(cursorSpan); // Riappendi il cursore per mantenerlo visibile
+                        i = 0; // Resetta l'indice per ricominciare
+                        typeWriter(); // Richiama la funzione per ricominciare a scrivere
+                    }, 2000); // Pausa di 2 secondi prima di ricominciare
+                }
+            }
+            typeWriter();
+        }
+
+        // Logica per la chat demo di Harmonia
+        const chatDisplay = document.getElementById('harmoniaChatDisplay');
+        const chatInput = document.getElementById('harmoniaChatInput');
+        const sendBtn = document.getElementById('harmoniaChatSendBtn');
+
+        function addChatMessage(text, sender) {
+            if (!chatDisplay) return;
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', sender === 'user' ? 'user-message' : 'annina-message');
+            messageDiv.textContent = text;
+            chatDisplay.appendChild(messageDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        function handleHarmoniaUserMessage() {
+            if (!chatInput || !sendBtn) return;
+            const userText = chatInput.value.trim();
+            if (userText) {
+                addChatMessage(`Tu: ${userText}`, 'user');
+                chatInput.value = '';
+                setTimeout(() => {
+                    let anninaResponse = "Ciao! Questa è solo una piccola demo. La vera Annina arriverà presto! 🥰";
+                    if (userText.toLowerCase().includes("come stai")) anninaResponse = "Io sto bene, grazie! Spero anche tu stia passando una buona giornata.";
+                    else if (userText.toLowerCase().includes("harmonia")) anninaResponse = "Harmonia è pensata per darti uno spazio di ascolto e comprensione. ✨";
+                    addChatMessage(`Annina: ${anninaResponse}`, 'annina');
+                }, 700);
+            }
+        }
+        if (sendBtn) sendBtn.addEventListener('click', handleHarmoniaUserMessage);
+        if (chatInput) chatInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') handleHarmoniaUserMessage(); });
+        addChatMessage("Annina: Ciao! Scrivimi qualcosa per provare. 😊", 'annina');
+    });
     </script>
 </body>
 </html>
