@@ -62,6 +62,10 @@
             --text: #e0e0e8;
             --text-secondary: #a1a1aa;
             --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --success-green-rgb: 37, 211, 102; /* RGB per --success-green */
+            --success-green: #25d366; /* Verde per successo */
+            --text-secondary-rgb: 161, 161, 170; /* RGB per text-secondary */
+            --accent-rgb: 212, 175, 55; /* RGB per trasparenza */
             --border-radius: 12px;
             --section-spacing: 10rem;
             --glass: rgba(18, 18, 24, 0.6);
@@ -100,13 +104,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 5%;
+            padding: 1rem 5%; /* Ridotto padding verticale */
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             z-index: 2000;
-            background: rgba(10, 10, 15, 0.92);
+            background: rgba(10, 10, 15, 0.85); /* Aumentata trasparenza base */
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
@@ -435,6 +439,140 @@
         .about-image.visible {
             transform: translateY(0);
             opacity: 1;
+        }
+
+        /* Forum Section Styles */
+        #forum {
+            background: var(--dark-gray); /* Sfondo leggermente diverso per distinguerla */
+        }
+        .forum-wrapper {
+            max-width: 600px; /* Leggermente più largo del feedback form */
+            margin: 0 auto;
+            background: var(--glass);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(var(--accent-rgb), 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .forum-wrapper form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+        .forum-wrapper label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            display: block;
+        }
+        .forum-wrapper input[type="text"],
+        .forum-wrapper input[type="email"],
+        .forum-wrapper input[type="tel"],
+        .forum-wrapper select {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(var(--accent-rgb), 0.3);
+            background-color: rgba(var(--black-rgb, 10, 10, 15), 0.5); /* Usa variabile RGB se definita o fallback */
+            color: var(--text);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .forum-wrapper input[type="text"]:focus,
+        .forum-wrapper input[type="email"]:focus,
+        .forum-wrapper input[type="tel"]:focus,
+        .forum-wrapper select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.2);
+        }
+        .forum-wrapper .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        .forum-wrapper input[type="checkbox"] {
+            width: 1.2em;
+            height: 1.2em;
+            accent-color: var(--accent);
+        }
+        .forum-wrapper .btn { /* Stile bottone già definito, ma per specificità */
+            margin-top: 1rem;
+        }
+        .forum-success-message {
+            /* Rimosso padding, gestito da .thankyou-page-forum */
+            text-align: center;
+            border-radius: var(--border-radius);
+            /* background-color: rgba(var(--success-green-rgb), 0.1); */
+            /* border: 1px solid var(--success-green); */
+            display: none; /* Nascosto di default */
+        }
+        /* Stili per la pagina di ringraziamento del forum, ispirati a feedback.html */
+        .thankyou-page-forum {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px; /* Altezza minima per contenere l'animazione */
+            padding: 2rem 1rem;
+            animation: forumFadeIn 0.7s cubic-bezier(.4,0,.2,1);
+        }
+        .thankyou-anim-forum {
+            margin-bottom: 1.5rem;
+        }
+        .checkmark-forum {
+            width: 80px; /* Leggermente più grande */
+            height: 80px;
+            display: block;
+            stroke: var(--success-green);
+            stroke-width: 3.5; /* Leggermente più spesso */
+            stroke-miterlimit: 10;
+            box-shadow: 0 4px 15px rgba(var(--success-green-rgb), 0.3);
+            border-radius: 50%;
+            background: var(--medium-gray); /* Sfondo per dark mode */
+            margin: 0 auto;
+        }
+        .checkmark-circle-forum {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 3.5;
+            stroke-miterlimit: 10;
+            stroke: var(--success-green);
+            fill: none;
+            animation: forumStrokeCircle 0.6s cubic-bezier(.65,.05,.36,1) forwards;
+        }
+        .checkmark-check-forum {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: forumStrokeCheck 0.4s 0.5s cubic-bezier(.65,.05,.36,1) forwards;
+        }
+        .thankyou-title-forum {
+            font-size: 2rem; /* Più grande */
+            font-weight: 700;
+            color: var(--success-green);
+            margin-bottom: 1rem;
+            text-align: center;
+            animation: forumFadeIn 0.8s 0.2s both;
+        }
+        .thankyou-msg-forum {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            animation: forumFadeIn 0.8s 0.4s both;
+            line-height: 1.6;
+        }
+
+        @keyframes forumStrokeCircle { 100% { stroke-dashoffset: 0; } }
+        @keyframes forumStrokeCheck { 100% { stroke-dashoffset: 0; } }
+        @keyframes forumFadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Rimuovo il background-image */
@@ -888,7 +1026,104 @@
                 width: 100%;
                 text-align: center;
             }
+
+            /* Wrapper per carosello per posizionare le frecce */
+            .carousel-container {
+                position: relative;
+            }
+
+            /* Horizontal Scrolling for Products & Team on Mobile (Tablet and smaller) */
+            .products-grid, .team-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory; /* Snap to items */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+                /* Hide scrollbar */
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;     /* Firefox */
+                padding-bottom: 1.5rem;    /* Space below for shadows or aesthetics */
+                
+                /* Ensure the scroll container can extend to viewport edges if section has padding */
+                /* These margins compensate the section's 5% padding on each side */
+                margin-left: -5%; 
+                margin-right: -5%;
+                /* This makes the scroll container effectively 100vw wide relative to the section */
+                width: calc(100% + 10%); 
+
+                /* Padding for centering the 80vw card: (100vw - 80vw) / 2 = 10vw on each side */
+                padding-left: 10vw;
+                padding-right: 10vw;
+                
+                gap: 2.5rem; /* Space between cards. User scrolls over this gap. */
+                scroll-snap-stop: always; /* Ensures a more defined stop on each card */
+                grid-template-columns: none; /* Remove grid layout */
+            }
+            .products-grid::-webkit-scrollbar, .team-grid::-webkit-scrollbar {
+                display: none; /* Safari and Chrome */
+            }
+
+            .products-grid .product-card, 
+            .team-grid .team-card {
+                flex-shrink: 0; /* Prevent shrinking */
+                flex-grow: 0;   /* Prevent growing */
+                flex-basis: 80vw; /* Each card takes 80% of the viewport width */
+                max-width: none; /* Override any desktop max-width in pixels */
+                scroll-snap-align: center; /* Snap card to the center of the scroll container */
+                height: 100%; /* For .product-card to ensure uniform height */
+                /* transition: transform 0.3s ease-out; */ /* Optional: for subtle visual feedback on snap */
+            }
+            .team-grid .team-card {
+                height: auto; /* Team cards can have variable height based on content */
+            }
+
+            /* Stili per le frecce del carosello */
+            .carousel-arrow {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(var(--accent-rgb), 0.25);
+                color: var(--white);
+                border: 1px solid rgba(var(--accent-rgb), 0.5);
+                border-radius: 50%;
+                width: 44px;
+                height: 44px;
+                font-size: 1.5rem;
+                font-weight: bold;
+                cursor: pointer;
+                z-index: 5;
+                display: none; /* Nascoste di default, mostrate con JS se il layout è flex */
+                transition: background 0.2s, opacity 0.2s;
+                line-height: 1; /* Per centrare meglio il testo/icona */
+            }
+            .carousel-arrow:hover {
+                background: rgba(var(--accent-rgb), 0.45);
+            }
+            .carousel-arrow:disabled {
+                background: rgba(var(--text-secondary-rgb), 0.15);
+                color: var(--text-secondary);
+                border-color: rgba(var(--text-secondary-rgb), 0.3);
+                cursor: not-allowed;
+                opacity: 0.7;
+            }
+            .carousel-arrow.prev-arrow { left: 2vw; }
+            .carousel-arrow.next-arrow { right: 2vw; }
             
+            .forum-wrapper {
+                padding: 2rem 1.5rem;
+            }
+            .forum-wrapper form {
+                gap: 1.5rem;
+            }
+            .forum-wrapper input[type="text"],
+            .forum-wrapper input[type="email"],
+            .forum-wrapper input[type="tel"],
+            .forum-wrapper select {
+                padding: 0.9rem 1rem;
+            }
+            .forum-wrapper .checkbox-label {
+                font-size: 0.9rem;
+            }
+
             .about-image {
                 height: 400px;
             }
@@ -957,19 +1192,19 @@
     }
     
     .navbar-transparent {
-        background: rgba(10, 10, 15, 0.75) !important;
+        background: rgba(10, 10, 15, 0.65) !important; /* Aumentata trasparenza */
         transition: background 0.4s;
     }
     .navbar-solid {
-        background: rgba(10, 10, 15, 0.92) !important;
+        background: rgba(10, 10, 15, 0.85) !important; /* Aumentata trasparenza */
         transition: background 0.4s;
     }
     body.light-mode .navbar-solid {
-        background: rgba(255,255,255,0.92) !important;
+        background: rgba(255,255,255,0.85) !important; /* Aumentata trasparenza per light mode */
         border-bottom: 1px solid #e6c567;
     }
     body.light-mode .navbar-transparent {
-        background: rgba(255,255,255,0.75) !important;
+        background: rgba(255,255,255,0.65) !important; /* Aumentata trasparenza per light mode */
         border-bottom: 1px solid #e6c567;
     }
     @media (max-width: 600px) {
@@ -991,34 +1226,66 @@
         align-items: center;
         z-index: 3001;
     }
-    .lang-switcher img {
+    #current-lang-flag { /* Stile specifico per la bandiera visibile */
+        width: 28px; /* Uniformato */
+        height: 21px; /* Uniformato */
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1.5px solid var(--accent);
         transition: box-shadow 0.2s;
     }
-    .lang-switcher img:hover {
+    #current-lang-flag:hover {
         box-shadow: 0 0 0 2px var(--accent);
     }
     .lang-dropdown {
-        background: rgba(10,10,15,0.98);
-        border-radius: 8px;
-        box-shadow: 0 4px 16px #0008;
         position: absolute;
         right: 0;
-        margin-top: 8px;
-        min-width: 120px;
-        display: none;
+        top: calc(100% + 10px); /* Posizionato sotto la bandiera corrente */
+        background: var(--medium-gray);
+        border-radius: var(--border-radius);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(var(--accent-rgb), 0.15);
+        padding: 0.75rem;
+        min-width: 180px;
         flex-direction: column;
         align-items: flex-start;
-        padding: 8px 0;
+        z-index: 3000;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: opacity 0.25s ease-out, transform 0.25s ease-out, visibility 0.25s ease-out;
+        display: flex; /* Mantenuto flex per layout interno */
     }
-    .lang-dropdown .lang-flag {
-        margin: 4px 12px;
+    .lang-dropdown.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .lang-flag-item {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 0.6rem 0.8rem;
         cursor: pointer;
-        border-radius: 4px;
-        border: 1.5px solid transparent;
-        transition: border 0.2s;
+        border-radius: 8px;
+        transition: background-color 0.2s ease-in-out;
+        gap: 0.8rem;
     }
-    .lang-dropdown .lang-flag:hover {
-        border: 1.5px solid var(--accent);
+    .lang-flag-item img {
+        width: 28px;
+        height: 21px;
+        border-radius: 3px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    .lang-flag-item .lang-name {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        transition: color 0.2s ease-in-out;
+    }
+    .lang-flag-item:hover {
+        background-color: rgba(var(--accent-rgb), 0.1);
+    }
+    .lang-flag-item:hover .lang-name {
+        color: var(--accent);
     }
     @media (max-width: 768px) {
         .lang-switcher {
@@ -1026,8 +1293,57 @@
         }
         .lang-dropdown {
             right: auto;
-            left: 0;
+            left: 0; /* Allinea a sinistra su mobile */
         }
+
+        @media (max-width: 480px) {
+            .lang-dropdown { /* Aggiunto selettore .lang-dropdown */
+                min-width: 160px; /* Leggermente più stretto su mobile se necessario */
+            }
+            /* Optional: Adjust card size for very small screens if 80vw is too large, and adjust container padding accordingly */
+            /* .products-grid .product-card, .team-grid .team-card { flex-basis: 85vw; } */
+            /* .products-grid, .team-grid { padding-left: 7.5vw; padding-right: 7.5vw; gap: 2rem; } */
+        }
+    }
+    /* Light Mode for Language Switcher */
+    body.light-mode .lang-dropdown {
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.08);
+        border: 1px solid #e0e0e0;
+    }
+    body.light-mode .lang-flag-item .lang-name {
+        color: #555;
+    }
+    body.light-mode .lang-flag-item:hover {
+        background-color: rgba(var(--accent-rgb), 0.08);
+    }
+    body.light-mode .lang-flag-item img {
+        border: 1px solid #ddd;
+    
+    }
+    /* Light mode for Forum */
+    body.light-mode .forum-wrapper {
+        background: #ffffff;
+        border-color: #e0e0e0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    body.light-mode .forum-wrapper input, body.light-mode .forum-wrapper select {
+        background-color: #f8f9fa;
+        border-color: #ced4da;
+        color: #333;
+    }
+    body.light-mode .forum-wrapper .checkbox-label, body.light-mode .forum-wrapper label {
+        color: #555;
+    }
+    body.light-mode .checkmark-forum {
+        background: #fff;
+        box-shadow: 0 4px 15px rgba(var(--success-green-rgb), 0.2);
+    }
+    body.light-mode .thankyou-title-forum {
+        color: var(--success-green);
+    }
+    body.light-mode .thankyou-msg-forum {
+        color: #444;
     }
     </style>
 </head>
@@ -1042,17 +1358,30 @@
             <a href="#products">Products</a>
             <a href="#roadmap">Roadmap</a>
             <a href="#team">Team</a>
+            <a href="#forum">Forum</a>
         </div>
         <div class="theme-switch" title="Switch theme" style="margin-left: 1.5rem; cursor:pointer; font-size:1.7rem; color: var(--accent);">
             <i class="fas fa-moon"></i>
         </div>
         <div class="lang-switcher" title="Change language">
-            <img id="current-lang-flag" src="https://flagcdn.com/24x18/gb.png" alt="Current language" style="width:32px; height:24px; cursor:pointer; border-radius:4px; border:1.5px solid var(--accent);">
-            <div class="lang-dropdown" style="display:none; position:absolute; right:0; margin-top:8px; background:rgba(10,10,15,0.98); border-radius:8px; box-shadow:0 4px 16px #0008; z-index:3000; padding:8px 0; min-width:120px;">
-                <img class="lang-flag" data-lang="en" src="https://flagcdn.com/24x18/gb.png" alt="English" style="width:32px; height:24px; margin:4px 12px; cursor:pointer; border-radius:4px;">
-                <img class="lang-flag" data-lang="it" src="https://flagcdn.com/24x18/it.png" alt="Italiano" style="width:32px; height:24px; margin:4px 12px; cursor:pointer; border-radius:4px;">
-                <img class="lang-flag" data-lang="fr" src="https://flagcdn.com/24x18/fr.png" alt="Français" style="width:32px; height:24px; margin:4px 12px; cursor:pointer; border-radius:4px;">
-                <img class="lang-flag" data-lang="es" src="https://flagcdn.com/24x18/es.png" alt="Español" style="width:32px; height:24px; margin:4px 12px; cursor:pointer; border-radius:4px;">
+            <img id="current-lang-flag" src="https://flagcdn.com/24x18/gb.png" alt="Current language">
+            <div class="lang-dropdown">
+                <div class="lang-flag-item" data-lang="en">
+                    <img src="https://flagcdn.com/24x18/gb.png" alt="English flag">
+                    <span class="lang-name">English</span>
+                </div>
+                <div class="lang-flag-item" data-lang="it">
+                    <img src="https://flagcdn.com/24x18/it.png" alt="Italiano flag">
+                    <span class="lang-name">Italiano</span>
+                </div>
+                <div class="lang-flag-item" data-lang="fr">
+                    <img src="https://flagcdn.com/24x18/fr.png" alt="Français flag">
+                    <span class="lang-name">Français</span>
+                </div>
+                <div class="lang-flag-item" data-lang="es">
+                    <img src="https://flagcdn.com/24x18/es.png" alt="Español flag">
+                    <span class="lang-name">Español</span>
+                </div>
             </div>
         </div>
         <div class="mobile-menu">
@@ -1107,47 +1436,104 @@
             <p>Revolutionary technologies designed to transform industries</p>
         </div>
         <div class="section-content">
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="harmonia.png" alt="Harmonia Logo" style="max-width:90%; max-height:220px; object-fit:contain;">
+            <div class="carousel-container">
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="harmonia.png" alt="Harmonia Logo" style="max-width:90%; max-height:220px; object-fit:contain;">
+                        </div>
+                        <div class="product-content">
+                            <h3>Harmonia</h3>
+                            <p>An intelligent companion app designed to support mental well-being and emotional health.
+                                Powered by AI, Harmonia listens,learns adn grows with you helping users track their moods,
+                                reflect trough journaling, and feel understood when it matters most.
+                            </p>
+                            <a href="#" class="btn btn-secondary">Discover Harmonia</a>
+                        </div>
                     </div>
-                    <div class="product-content">
-                        <h3>Harmonia</h3>
-                        <p>An intelligent companion app designed to support mental well-being and emotional health.
-                            Powered by AI, Harmonia listens,learns adn grows with you helping users track their moods,
-                            reflect trough journaling, and feel understood when it matters most.
-                        </p>
-                        <a href="#" class="btn btn-secondary">Discover Harmonia</a>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="saint.png" alt="Saint & Co. Logo" style="max-width:90%; max-height:220px; object-fit:contain;">
+                        </div>
+                        <div class="product-content">
+                            <h3>Saint & Co.</h3>
+                            <p>A smart business analytics app designed for modern professionals:
+                                from restaurants and hotels, to freelancers and online stores.
+                                With customizable interactive dashboards, you can track invoices, website traffic, inventory, expenses, customers flows, and more.
+                                Powered by AI, Saint anticipates trends, detects inefficiencies, and offers actionable insights to optimize your operations and reduce waste.
+                            </p>
+                            <a href="#" class="btn btn-secondary">Explore Saint & Co.</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="aurax.png" alt="AuraX Logo" style="max-width:90%; max-height:220px; object-fit:contain;">
+                        </div>
+                        <div class="product-content">
+                            <h3>AuraX</h3>
+                            <p>AuraX is the world’s first AI-powered coach for cognitive and energetic performance, designed to help individuals unlock their peak focus, emotional balance, and mental clarity. Through real-time analysis and personalized guidance, AuraX empowers users to master their inner state and perform at their best every day.</p>
+                            <a href="#" class="btn btn-secondary">Discover Quantum</a>
+                        </div>
                     </div>
                 </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="saint.png" alt="Saint & Co. Logo" style="max-width:90%; max-height:220px; object-fit:contain;">
+                <button class="carousel-arrow prev-arrow product-prev-arrow" aria-label="Previous product"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-arrow next-arrow product-next-arrow" aria-label="Next product"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forum/Contact Section -->
+    <section id="forum">
+        <div class="section-header">
+            <h2 id="forum-main-title">Join Our Community</h2>
+            <p id="forum-main-desc">Stay updated, share your interest, or get in touch with us.</p>
+        </div>
+        <div class="section-content">
+            <div class="forum-wrapper">
+                <form id="contact-forum" autocomplete="off">
+                    <div>
+                        <label for="forum-name" id="label-forum-name">Name</label>
+                        <input type="text" id="forum-name" name="forum_name" required placeholder="Your name">
                     </div>
-                    <div class="product-content">
-                        <h3>Saint & Co.</h3>
-                        <p>A smart business analytics app designed for modern professionals:
-                            from restaurants and hotels, to freelancers and online stores.
-                            With customizable interactive dashboards, you can track invoices, website traffic, inventory, expenses, customers flows, and more.
-                            Powered by AI, Saint anticipates trends, detects inefficiencies, and offers actionable insights to optimize your operations and reduce waste.
-                        </p>
-                        <a href="#" class="btn btn-secondary">Explore Saint & Co.</a>
+                    <div>
+                        <label for="forum-email" id="label-forum-email">Email</label>
+                        <input type="email" id="forum-email" name="forum_email" required placeholder="Your email">
                     </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="aurax.png" alt="AuraX Logo" style="max-width:90%; max-height:220px; object-fit:contain;">
+                    <div>
+                        <label for="forum-phone" id="label-forum-phone">Phone (Optional)</label>
+                        <input type="tel" id="forum-phone" name="forum_phone" placeholder="Your phone number">
                     </div>
-                    <div class="product-content">
-                        <h3>AuraX</h3>
-                        <p>AuraX is the world’s first AI-powered coach for cognitive and energetic performance, designed to help individuals unlock their peak focus, emotional balance, and mental clarity. Through real-time analysis and personalized guidance, AuraX empowers users to master their inner state and perform at their best every day.</p>
-                        <a href="#" class="btn btn-secondary">Discover Quantum</a>
+                    <div>
+                        <label for="forum-interest" id="label-forum-interest">I'm interested in</label>
+                        <select id="forum-interest" name="forum_interest" required>
+                            <option value="" id="forum-select-option">Select...</option>
+                            <option value="newsletter" id="forum-interest-newsletter">Newsletter</option>
+                            <option value="wishlist" id="forum-interest-wishlist">Product Waitlist</option>
+                            <option value="contact" id="forum-interest-contact">General Contact</option>
+                            <option value="all" id="forum-interest-all">All of the above</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="forum-consent" id="label-forum-consent-container" class="checkbox-label">
+                            <input type="checkbox" id="forum-consent" name="forum_consent" required>
+                            <span id="label-forum-consent-text">I confirm I want to subscribe to the newsletter and waitlist.</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="forum-submit-btn">Submit</button>
+                </form>
+                <div class="forum-success-message" id="forum-success-message">
+                    <div class="thankyou-page-forum">
+                        <div class="thankyou-anim-forum">
+                            <svg class="checkmark-forum" viewBox="0 0 52 52"><circle class="checkmark-circle-forum" cx="26" cy="26" r="25" fill="none"/><path class="checkmark-check-forum" fill="none" d="M14 27l7 7 16-16"/></svg>
+                        </div>
+                        <div class="thankyou-title-forum" id="forum-thankyou-title-text"></div>
+                        <div class="thankyou-msg-forum" id="forum-thankyou-msg-text"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
     
     <!-- Roadmap Section -->
     <section id="roadmap" class="roadmap">
@@ -1199,47 +1585,51 @@
             <p>The minds shaping our technological future</p>
         </div>
         <div class="section-content">
-            <div class="team-grid">
-                <div class="team-card">
-                    <div class="team-image">
-                        <i class="fas fa-user"></i>
+            <div class="carousel-container">
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="team-content">
+                            <h3>Claudio Montoya</h3>
+                            <div class="position">Founder & CEO</div>
+                            <p>Also leading product innovation & engineering.</p>
+                        </div>
                     </div>
-                    <div class="team-content">
-                        <h3>Claudio Montoya</h3>
-                        <div class="position">Founder & CEO</div>
-                        <p>Also leading product innovation & engineering.</p>
+                    <div class="team-card">
+                        <div class="team-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="team-content">
+                            <h3>N/A</h3>
+                            <div class="position">CTO</div>
+                            <p>N/A</p>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="team-content">
+                            <h3>N/A</h3>
+                            <div class="position">CIO</div>
+                            <p>N/A</p>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="team-content">
+                            <h3>N/A</h3>
+                            <div class="position">Quantum Research Lead</div>
+                            <p>N/A</p>
+                        </div>
                     </div>
                 </div>
-                <div class="team-card">
-                    <div class="team-image">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="team-content">
-                        <h3>N/A</h3>
-                        <div class="position">CTO</div>
-                        <p>N/A</p>
-                    </div>
-                </div>
-                <div class="team-card">
-                    <div class="team-image">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="team-content">
-                        <h3>N/A</h3>
-                        <div class="position">CIO</div>
-                        <p>N/A</p>
-                    </div>
-                </div>
-                <div class="team-card">
-                    <div class="team-image">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="team-content">
-                        <h3>N/A</h3>
-                        <div class="position">Quantum Research Lead</div>
-                        <p>N/A</p>
-                    </div>
-                </div>
+                <button class="carousel-arrow prev-arrow team-prev-arrow" aria-label="Previous member"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-arrow next-arrow team-next-arrow" aria-label="Next member"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
     </section>
@@ -1365,14 +1755,36 @@
                 team4_pos: 'Quantum Research Lead',
                 team4_desc: 'N/A',
                 footer_company: 'J.M Enterprises',
-                footer_desc: 'Pioneering the future through revolutionary technologies that transform industries and empower human potential.',
+                footer_desc: 'Pioneering the future through revolutionary technologies that transform industries and empower human potential.', // Mantengo uguale
                 footer_portfolio: 'Our Portfolio',
                 footer_about: 'About Us',
                 footer_leadership: 'Leadership',
                 footer_careers: 'Careers',
                 footer_investors: 'Investor Relations',
                 footer_contact: 'Contact',
-                copyright: '&copy; 2025 J.M Enterprises Holdings. All rights reserved. | With love for Annina & Mom.'
+                copyright: '&copy; 2025 J.M Enterprises Holdings. All rights reserved. | With love for Annina & Mom.',
+                // Forum translations
+                nav_forum: 'Forum',
+                forum_main_title: 'Join Our Community',
+                forum_main_desc: 'Stay updated, share your interest, or get in touch with us.',
+                label_forum_name: 'Name',
+                forum_name_ph: 'Your name',
+                label_forum_email: 'Email',
+                forum_email_ph: 'Your email',
+                label_forum_phone: 'Phone (Optional)',
+                forum_phone_ph: 'Your phone number',
+                label_forum_interest: "I'm interested in",
+                forum_select_option: 'Select...',
+                forum_interest_newsletter: 'Newsletter',
+                forum_interest_wishlist: 'Product Waitlist',
+                forum_interest_contact: 'General Contact',
+                forum_interest_all: 'All of the above',
+                label_forum_consent_text: 'I confirm I want to subscribe to the newsletter and waitlist.',
+                forum_submit_btn: 'Submit',
+                forum_thank_you_title: 'Request Sent!',
+                forum_thank_you_message: "Thank you {name}! Your request has been successfully submitted.",
+                error_consent_required: 'You must agree to subscribe to the newsletter and waitlist.',
+                sending: 'Sending...'
             },
             it: {
                 nav_about: 'Chi siamo',
@@ -1435,7 +1847,29 @@
                 footer_careers: 'Carriere',
                 footer_investors: 'Investor Relations',
                 footer_contact: 'Contatti',
-                copyright: '&copy; 2025 J.M Enterprises Holdings. Tutti i diritti riservati. | Con amore per Annina & Mamma.'
+                copyright: '&copy; 2025 J.M Enterprises Holdings. Tutti i diritti riservati. | Con amore per Annina & Mamma.',
+                // Forum translations
+                nav_forum: 'Forum',
+                forum_main_title: 'Unisciti alla Community',
+                forum_main_desc: 'Rimani aggiornato, esprimi il tuo interesse o contattaci.',
+                label_forum_name: 'Nome',
+                forum_name_ph: 'Il tuo nome',
+                label_forum_email: 'Email',
+                forum_email_ph: 'La tua email',
+                label_forum_phone: 'Telefono (Opzionale)',
+                forum_phone_ph: 'Il tuo numero di telefono',
+                label_forum_interest: 'Sono interessato/a a',
+                forum_select_option: 'Seleziona...',
+                forum_interest_newsletter: 'Newsletter',
+                forum_interest_wishlist: "Lista d'attesa Prodotti",
+                forum_interest_contact: 'Contatto generico',
+                forum_interest_all: 'Tutte le precedenti',
+                label_forum_consent_text: "Confermo di volermi iscrivere alla newsletter e alla lista d'attesa.",
+                forum_submit_btn: 'Invia',
+                forum_thank_you_title: 'Richiesta Inviata!',
+                forum_thank_you_message: "Grazie {name}! La tua richiesta è stata inviata con successo.",
+                error_consent_required: "Devi accettare per iscriverti alla newsletter e alla lista d'attesa.",
+                sending: 'Invio in corso...'
             },
             fr: {
                 nav_about: 'À propos',
@@ -1498,7 +1932,29 @@
                 footer_careers: 'Carrières',
                 footer_investors: 'Relations investisseurs',
                 footer_contact: 'Contact',
-                copyright: '&copy; 2025 J.M Enterprises Holdings. Tous droits réservés. | Avec amour pour Annina & Mère.'
+                copyright: '&copy; 2025 J.M Enterprises Holdings. Tous droits réservés. | Avec amour pour Annina & Mère.',
+                // Forum translations
+                nav_forum: 'Forum',
+                forum_main_title: 'Rejoignez notre communauté',
+                forum_main_desc: 'Restez informé, partagez votre intérêt ou contactez-nous.',
+                label_forum_name: 'Nom',
+                forum_name_ph: 'Votre nom',
+                label_forum_email: 'Email',
+                forum_email_ph: 'Votre email',
+                label_forum_phone: 'Téléphone (Optionnel)',
+                forum_phone_ph: 'Votre numéro de téléphone',
+                label_forum_interest: 'Je suis intéressé(e) par',
+                forum_select_option: 'Sélectionner...',
+                forum_interest_newsletter: 'Newsletter',
+                forum_interest_wishlist: "Liste d'attente Produits",
+                forum_interest_contact: 'Contact général',
+                forum_interest_all: 'Tout ce qui précède',
+                label_forum_consent_text: "Je confirme vouloir m'inscrire à la newsletter et à la liste d'attente.",
+                forum_submit_btn: 'Envoyer',
+                forum_thank_you_title: 'Demande envoyée !',
+                forum_thank_you_message: "Merci {name} ! Votre demande a été envoyée avec succès.",
+                error_consent_required: "Vous devez accepter pour vous inscrire à la newsletter et à la liste d'attente.",
+                sending: 'Envoi en cours...'
             },
             es: {
                 nav_about: 'Sobre nosotros',
@@ -1561,7 +2017,29 @@
                 footer_careers: 'Carreras',
                 footer_investors: 'Relaciones con inversores',
                 footer_contact: 'Contacto',
-                copyright: '&copy; 2025 J.M Enterprises Holdings. Todos los derechos reservados. | Con amor para Annina & Mamà.'
+                copyright: '&copy; 2025 J.M Enterprises Holdings. Todos los derechos reservados. | Con amor para Annina & Mamà.',
+                // Forum translations
+                nav_forum: 'Foro',
+                forum_main_title: 'Únete a nuestra comunidad',
+                forum_main_desc: 'Mantente actualizado, comparte tu interés o ponte en contacto con nosotros.',
+                label_forum_name: 'Nombre',
+                forum_name_ph: 'Tu nombre',
+                label_forum_email: 'Email',
+                forum_email_ph: 'Tu email',
+                label_forum_phone: 'Teléfono (Opcional)',
+                forum_phone_ph: 'Tu número de teléfono',
+                label_forum_interest: 'Estoy interesado/a en',
+                forum_select_option: 'Seleccionar...',
+                forum_interest_newsletter: 'Boletín informativo',
+                forum_interest_wishlist: 'Lista de espera de Productos',
+                forum_interest_contact: 'Contacto general',
+                forum_interest_all: 'Todo lo anterior',
+                label_forum_consent_text: 'Confirmo que quiero suscribirme al boletín y a la lista de espera.',
+                forum_submit_btn: 'Enviar',
+                forum_thank_you_title: '¡Solicitud Enviada!',
+                forum_thank_you_message: "¡Gracias {name}! Tu solicitud ha sido enviada con éxito.",
+                error_consent_required: 'Debes aceptar para suscribirte al boletín y a la lista de espera.',
+                sending: 'Enviando...'
             }
         };
         function setLanguage(lang) {
@@ -1573,6 +2051,7 @@
             navLinks[1].textContent = translations[lang].nav_products;
             navLinks[2].textContent = translations[lang].nav_roadmap;
             navLinks[3].textContent = translations[lang].nav_team;
+            if (navLinks[4]) navLinks[4].textContent = translations[lang].nav_forum;
             // Hero
             document.querySelector('.hero h1').textContent = translations[lang].hero_title;
             document.querySelector('.hero p').textContent = translations[lang].hero_desc;
@@ -1679,6 +2158,26 @@
             footerColumns[3].querySelector('h3').textContent = translations[lang].footer_contact;
             // Copyright
             document.querySelector('.copyright p').innerHTML = translations[lang].copyright;
+            // Forum Section
+            const forumMainTitle = document.getElementById('forum-main-title');
+            if (forumMainTitle) forumMainTitle.textContent = translations[lang].forum_main_title;
+            const forumMainDesc = document.getElementById('forum-main-desc');
+            if (forumMainDesc) forumMainDesc.textContent = translations[lang].forum_main_desc;
+            
+            document.getElementById('label-forum-name').textContent = translations[lang].label_forum_name;
+            document.getElementById('forum-name').placeholder = translations[lang].forum_name_ph;
+            document.getElementById('label-forum-email').textContent = translations[lang].label_forum_email;
+            document.getElementById('forum-email').placeholder = translations[lang].forum_email_ph;
+            document.getElementById('label-forum-phone').textContent = translations[lang].label_forum_phone;
+            document.getElementById('forum-phone').placeholder = translations[lang].forum_phone_ph;
+            document.getElementById('label-forum-interest').textContent = translations[lang].label_forum_interest;
+            document.getElementById('forum-select-option').textContent = translations[lang].forum_select_option;
+            document.getElementById('forum-interest-newsletter').textContent = translations[lang].forum_interest_newsletter;
+            document.getElementById('forum-interest-wishlist').textContent = translations[lang].forum_interest_wishlist;
+            document.getElementById('forum-interest-contact').textContent = translations[lang].forum_interest_contact;
+            document.getElementById('forum-interest-all').textContent = translations[lang].forum_interest_all;
+            document.getElementById('label-forum-consent-text').textContent = translations[lang].label_forum_consent_text;
+            document.getElementById('forum-submit-btn').textContent = translations[lang].forum_submit_btn;
         }
         // Dropdown logic
         const langSwitcher = document.querySelector('.lang-switcher');
@@ -1686,17 +2185,21 @@
         const currentFlag = document.getElementById('current-lang-flag');
         currentFlag.addEventListener('click', (e) => {
             e.stopPropagation();
-            langDropdown.style.display = langDropdown.style.display === 'flex' ? 'none' : 'flex';
+            langDropdown.classList.toggle('active');
         });
-        langDropdown.querySelectorAll('.lang-flag').forEach(flag => {
-            flag.addEventListener('click', (e) => {
-                const lang = flag.getAttribute('data-lang');
+
+        langDropdown.querySelectorAll('.lang-flag-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const lang = item.getAttribute('data-lang');
                 setLanguage(lang);
-                langDropdown.style.display = 'none';
+                langDropdown.classList.remove('active');
             });
         });
+
         document.addEventListener('click', (e) => {
-            if(langDropdown.style.display === 'flex') langDropdown.style.display = 'none';
+            if (langDropdown.classList.contains('active') && !langSwitcher.contains(e.target)) {
+                langDropdown.classList.remove('active');
+            }
         });
         // On load, set language
         let userLang = localStorage.getItem('siteLang') || (navigator.language || navigator.userLanguage).slice(0,2);
@@ -1784,12 +2287,121 @@
             });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        // EmailJS Init (User ID from feedback.html)
+        emailjs.init('LNSdjwcw1c8GB1a8c');
+
+        const contactForum = document.getElementById('contact-forum');
+        if (contactForum) {
+            contactForum.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const consentCheckbox = document.getElementById('forum-consent');
+                const currentLang = localStorage.getItem('siteLang') || 'en'; // Get current language for alerts
+
+                if (!consentCheckbox.checked) {
+                    alert(translations[currentLang].error_consent_required || 'You must agree to subscribe to the newsletter and waitlist.');
+                    return;
+                }
+
+                const forumNameInput = document.getElementById('forum-name');
+                const forumName = forumNameInput.value;
+                
+                const params = {
+                    name: forumName, // Simile a feedback.html
+                    email: document.getElementById('forum-email').value, // Simile a feedback.html
+                    phone: document.getElementById('forum-phone').value || 'N/A', // Parametro specifico per questo forum
+                    interest_type: document.getElementById('forum-interest').value, // Rinomina per chiarezza, simile a 'type' in feedback
+                    consent_given: consentCheckbox.checked, // Rinomina per chiarezza
+                };
+
+                const submitButton = document.getElementById('forum-submit-btn');
+                const originalButtonText = submitButton.textContent;
+                submitButton.disabled = true;
+                submitButton.textContent = translations[currentLang].sending || 'Sending...';
+
+                // !!! SOSTITUISCI 'YOUR_ACTUAL_NEW_FORUM_TEMPLATE_ID' CON L'ID DEL TUO NUOVO TEMPLATE SPECIFICO PER QUESTO FORUM !!!
+                emailjs.send('service_va7c6jv', 'template_fj0csco', params)
+                    .then(function(response) {
+                        contactForum.style.display = 'none';
+                        const successDiv = document.getElementById('forum-success-message');
+                        const thankYouTitle = document.getElementById('forum-thankyou-title-text');
+                        const thankYouMessage = document.getElementById('forum-thankyou-msg-text');
+                        const thankYouMsg = (translations[currentLang].forum_thank_you_message || "Thank you {name}! Your request has been successfully submitted.").replace('{name}', forumName);
+                        thankYouTitle.textContent = translations[currentLang].forum_thank_you_title || "Request Sent!";
+                        thankYouMessage.textContent = thankYouMsg;
+                        successDiv.style.display = 'block';
+                        successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, function(error) {
+                        alert((translations[currentLang].forum_error_send || 'Error sending: ') + JSON.stringify(error));
+                        submitButton.disabled = false;
+                        submitButton.textContent = originalButtonText;
+                    });
+            });
+        }
+    </script>
+    <script>
+        // Carousel Arrow Controls
+        function setupCarouselControls(gridSelector, prevBtnSelector, nextBtnSelector) {
+            const grid = document.querySelector(gridSelector);
+            const prevBtn = document.querySelector(prevBtnSelector);
+            const nextBtn = document.querySelector(nextBtnSelector);
+
+            if (!grid || !prevBtn || !nextBtn) {
+                // console.warn('Carousel elements not found for:', gridSelector);
+                return;
+            }
+
+            function updateArrowsStateAndVisibility() {
+                const isMobileLayout = getComputedStyle(grid).display === 'flex';
+
+                if (!isMobileLayout) {
+                    prevBtn.style.display = 'none';
+                    nextBtn.style.display = 'none';
+                    return;
+                }
+                
+                prevBtn.style.display = 'block'; // Ensure buttons are visible if in flex layout
+                nextBtn.style.display = 'block';
+
+                const scrollLeft = grid.scrollLeft;
+                const scrollWidth = grid.scrollWidth;
+                const clientWidth = grid.clientWidth;
+                
+                prevBtn.disabled = scrollLeft <= 1; // Use a small threshold for start
+                nextBtn.disabled = scrollLeft + clientWidth >= scrollWidth - 1; // Use a small threshold for end
+            }
+
+            prevBtn.addEventListener('click', () => {
+                const card = grid.querySelector(':scope > div'); // Get a card element
+                if (!card) return;
+                const scrollAmount = card.offsetWidth + parseFloat(getComputedStyle(grid).gap);
+                grid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const card = grid.querySelector(':scope > div');
+                if (!card) return;
+                const scrollAmount = card.offsetWidth + parseFloat(getComputedStyle(grid).gap);
+                grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+
+            grid.addEventListener('scroll', updateArrowsStateAndVisibility, { passive: true });
+            window.addEventListener('resize', updateArrowsStateAndVisibility);
+            updateArrowsStateAndVisibility(); // Initial check
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupCarouselControls('#products .products-grid', '.product-prev-arrow', '.product-next-arrow');
+            setupCarouselControls('#team .team-grid', '.team-prev-arrow', '.team-next-arrow');
+        });
+    </script>
     <script>
     // Back to Top Button functionality
     document.addEventListener('DOMContentLoaded', function() {
       const backToTop = document.getElementById('backToTop');
       function toggleBackToTop() {
-        if (window.scrollY > 200) {
+        if (window.scrollY > 300) { // Mostra il pulsante un po' più in basso
           backToTop.style.opacity = '1';
           backToTop.style.pointerEvents = 'auto';
         } else {
@@ -1799,32 +2411,27 @@
       }
       window.addEventListener('scroll', toggleBackToTop);
       toggleBackToTop();
+
       backToTop.addEventListener('click', () => {
         backToTop.classList.add('clicked');
-        setTimeout(() => backToTop.classList.remove('clicked'), 700);
-        // Effetto dissolvenza su scroll up
-        document.body.style.transition = 'opacity 0.7s';
-        document.body.style.opacity = '0.2';
-        setTimeout(() => {
-          // Scroll con effetto "ease-out" più lento
-          const c = document.documentElement.scrollTop || document.body.scrollTop;
-          if (c > 0) {
-            const scrollStep = () => {
-              const pos = document.documentElement.scrollTop || document.body.scrollTop;
-              if (pos > 0) {
-                window.scrollBy(0, -Math.max(10, Math.floor(pos / 12)));
-                requestAnimationFrame(scrollStep);
-              }
-            };
-            scrollStep();
+        setTimeout(() => backToTop.classList.remove('clicked'), 700); // Animazione del pulsante
+
+        // Scroll verso l'alto più veloce
+        const initialScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        if (initialScroll > 0) {
+          const scrollStep = () => {
+            const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            if (currentScroll > 0) {
+              // Aumenta la velocità di scroll:
+              // Math.max(valore_minimo_pixel_per_frame, currentScroll / fattore_di_velocità)
+              // Un fattore_di_velocità più piccolo rende lo scroll più rapido.
+              // Un valore_minimo_pixel_per_frame più alto assicura una velocità minima.
+              window.scrollBy(0, -Math.max(40, Math.floor(currentScroll / 5)));
+              requestAnimationFrame(scrollStep);
+            }
           }
-          setTimeout(() => {
-            document.body.style.opacity = '1';
-          }, 350);
-        }, 120);
-        setTimeout(() => {
-          document.body.style.transition = '';
-        }, 1000);
+          scrollStep();
+        }
       });
     });
 
@@ -1918,8 +2525,11 @@
             background: #f5f5f7;
             color: #222;
         }
+        body.light-mode #forum { /* Aggiunto per cambiare lo sfondo della sezione forum in light mode */
+            background: #f0f2f5; /* Un grigio chiaro, o usa var(--white) se preferisci lo stesso sfondo del body */
+        }
         body.light-mode nav {
-            background: rgba(255,255,255,0.92);
+            background: rgba(255,255,255,0.85); /* Aumentata trasparenza base per light mode */
             border-bottom: 1px solid #e6c567;
         }
         body.light-mode .logo {
@@ -1939,6 +2549,10 @@
         body.light-mode .theme-switch {
             color: #d4af37;
         }
+        body.light-mode .theme-switch .fa-sun {
+            display: inline; /* Assicura che l'icona sole sia visibile in light mode */
+        }
+         body.light-mode .theme-switch .fa-moon { display: none; }
         body.light-mode .mobile-menu {
             color: #d4af37;
         }
