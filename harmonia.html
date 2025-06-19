@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harmonia | Il Tuo Compagno per il Benessere Mentale</title>
+    <title>Harmonia | Benessere Mentale</title>
     <meta name="description" content="Scopri Harmonia, l'app empatica e intelligente per il monitoraggio della salute personale e il benessere emotivo, con il supporto di Annina AI.">
     <meta name="keywords" content="Harmonia, Annina AI, benessere mentale, salute emotiva, mood tracker, diario vocale, intelligenza artificiale, supporto emotivo, J.M Enterprises">
     <meta name="author" content="J.M Enterprises">
@@ -933,6 +933,35 @@
         body.dark-mode .user-message { background-color: rgba(var(--harmonia-primary-rgb), 0.3); color: var(--harmonia-text-dark); }
         body.dark-mode .annina-message { background-color: rgba(var(--harmonia-accent-rgb), 0.35); color: var(--harmonia-text-dark); }
 
+        .beta-stats-ticker-container {
+            width: 100%;
+            background-color: rgba(var(--harmonia-primary-rgb), 0.07); /* Very subtle background */
+            color: var(--harmonia-primary);
+            padding: 0.6rem 0;
+            overflow: hidden; /* Crucial for marquee effect */
+            border-top: 1px solid var(--harmonia-border-light);
+            border-bottom: 1px solid var(--harmonia-border-light);
+            box-sizing: border-box;
+            margin-top: 0; /* Positioned directly after hero */
+        }
+        .beta-stats-ticker-track {
+            display: flex; /* Aligns items in a row */
+            width: fit-content; /* Ensures the track is as wide as its content */
+            animation: scrollLeftToRight 8s linear infinite; /* Animazione ancora più veloce (da 12s a 8s) */
+            opacity: 0.75; /* Requested transparency */
+            font-weight: 500;
+            font-style: italic; /* Corsivo solo per il ticker */
+            font-size: 0.95rem; /* Slightly smaller, typical for tickers */
+        }
+        .beta-stats-ticker-track .ticker-item {
+            white-space: nowrap; /* Prevents text from wrapping within an item */
+            padding: 0 2.5rem; /* Spacing between the repeated text blocks */
+        }
+        @keyframes scrollLeftToRight {
+            0% { transform: translateX(-50%); } /* Starts with the second item at the beginning of the viewport */
+            100% { transform: translateX(0); }    /* Ends with the first item at the beginning of the viewport, creating LTR scroll */
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .hero-harmonia-content h1 { font-size: 3rem; }
@@ -965,6 +994,11 @@
             .timeline-container-harmonia:nth-child(3) { animation-delay: 0.4s; }
             .timeline-container-harmonia:nth-child(4) { animation-delay: 1.2s; }
 
+        }
+
+        body.dark-mode .beta-stats-ticker-container {
+            border-top-color: var(--harmonia-border-dark);
+            border-bottom-color: var(--harmonia-border-dark);
         }
         @media (max-width: 768px) {
             body {
@@ -1107,9 +1141,16 @@
                 </div>
                 <h1 id="harmonia-hero-title"></h1>
                 <p class="subtitle">La tua guida empatica per la salute personale, supportata dall'intelligenza emotiva di Annina.</p>
-                <a href="index.html#forum" class="btn-harmonia">Unisciti alla Beta</a>
+                <a href="harmonia-beta-signup.html" class="btn-harmonia" target="_blank">Unisciti alla Beta</a>
             </div>
         </section>
+
+        <div class="beta-stats-ticker-container">
+            <div class="beta-stats-ticker-track">
+                <span class="ticker-item">N° Utenti Registrati alla Beta: 1234</span>
+                <span class="ticker-item">N° Utenti Registrati alla Beta: 1234</span>
+            </div>
+        </div>
 
         <section id="what-is-harmonia">
             <div class="section-header">
@@ -1387,7 +1428,7 @@
                 <p class="subtitle">Unisciti alla nostra community e sii tra i primi a provare Harmonia.</p>
             </div>
             <div class="section-content">
-                <a href="index.html#forum" class="btn-harmonia" style="padding: 1.2rem 3rem; font-size: 1.15rem;">Richiedi Accesso alla Beta</a>
+                <a href="harmonia-beta-signup.html" class="btn-harmonia" style="padding: 1.2rem 3rem; font-size: 1.15rem;" target="_blank">Richiedi Accesso alla Beta</a>
             </div>
         </section>
     </main>
@@ -1691,5 +1732,7 @@
     }); // Chiusura del listener DOMContentLoaded
     </script>
 </body>
+</html>
+
 </html>
 
