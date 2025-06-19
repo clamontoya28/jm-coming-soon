@@ -1095,6 +1095,7 @@
                 flex-shrink: 0; /* Prevent shrinking */
                 flex-grow: 0;   /* Prevent growing */
                 flex-basis: 80vw; /* Each card takes 80% of the viewport width */
+                min-width: 0; /* Cruciale per sovrascrivere min-width globali e permettere corretto flex-basis */
                 max-width: none; /* Override any desktop max-width in pixels */
                 scroll-snap-align: center; /* Snap card to the center of the scroll container */
                 /* height: 100%; */ /* Removed from shared rule, will be set individually */
@@ -1711,6 +1712,7 @@
                     <a href="#">Leadership</a>
                     <a href="#">Careers</a>
                     <a href="#">Investor Relations</a>
+                    <a href="gdpr.html" target="_blank">GDPR-Privacy Policy</a>
                 </div>
                 <div class="footer-column">
                     <h3>Contact</h3>
