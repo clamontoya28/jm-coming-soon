@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>J.M Enterprises | Startup </title>
-    <meta name="description" content="J.M Enterprises: startup AI italiana leader in soluzioni intelligenti per il benessere mentale, business e innovazione. Scopri Annina, Harmonia e le nostre tecnologie d'avanguardia.">
+    <meta name="description" content="J.M Enterprises: startup AI italiana in soluzioni intelligenti per il benessere mentale, business e innovazione. Scopri Annina, Harmonia e le nostre tecnologie d'avanguardia.">
     <meta name="keywords" content="AI, startup, J.M Enterprises, Harmonia, intelligenza artificiale, chatbot, benessere mentale, Annina, innovazione, tecnologia, Italia, quantum computing, business analytics, Saint, AuraX">
     <meta name="author" content="J.M Enterprises">
     <link rel="canonical" href="https://jmenterprises.it">
     <meta property="og:title" content="J.M Enterprises | AI, Innovazione e Benessere Mentale">
-    <meta property="og:description" content="Scopri Annina, Harmonia e le nostre soluzioni AI per il benessere mentale e l'innovazione. Startup italiana leader nel settore tech.">
+    <meta property="og:description" content="Scopri Annina, Harmonia e le nostre soluzioni AI per il benessere mentale e l'innovazione. Startup italiana nel settore tech.">
     <meta property="og:url" content="https://jmenterprises.it">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://jmenterprises.it/assets/harmonia.png">
@@ -82,6 +82,15 @@
             --glass: rgba(18, 18, 24, 0.6);
             --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
+        :root {
+            /* ... existing variables ... */
+            --accent-light-rgb: 230, 197, 103; /* Lighter gold */
+            /* Aura colors for dark mode (default) */
+            --aura-color1-rgb: var(--accent-rgb); /* 212, 175, 55 */
+            --aura-color2-rgb: var(--accent-light-rgb); /* 230, 197, 103 */
+            --aura-opacity1: 0.1;
+            --aura-opacity2: 0.07;
+        }
 
         * {
             margin: 0;
@@ -97,6 +106,43 @@
             font-weight: 400;
             line-height: 1.7;
         }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind all content */
+            pointer-events: none;
+            background: radial-gradient(ellipse at 20% 20%, rgba(var(--aura-color1-rgb), var(--aura-opacity1)), transparent 60%), /* Moved 1st ellipse */
+                        radial-gradient(ellipse at 80% 80%, rgba(var(--aura-color2-rgb), var(--aura-opacity2)), transparent 60%), /* Moved 2nd ellipse */
+                        radial-gradient(ellipse at 50% 50%, rgba(var(--aura-color1-rgb), var(--aura-opacity2)), transparent 70%); /* Added 3rd ellipse */
+            background-size: 280% 280%, 220% 220%, 180% 180%; /* Varied sizes */
+            animation: fluidAura1 40s linear infinite alternate, /* Changed animation names */
+                       fluidAura2 50s linear infinite alternate,
+                       fluidAura3 60s ease-in-out infinite alternate;
+            opacity: 0.75;
+            transition: opacity 0.5s ease-in-out;
+        }
+        body.aura-disabled::before {
+            animation-play-state: paused; /* Mette in pausa l'animazione invece di rimuoverla */
+            opacity: 0; /* L'opacità transiterà dolcemente a 0 grazie alla transizione definita in body::before */
+        }
+
+        @keyframes fluidAura1 {
+            0% { background-position: 20% 20%, 80% 80%, 50% 50%; }
+            100% { background-position: 80% 80%, 20% 20%, 60% 60%; } /* Adjusted movement */
+        }
+        @keyframes fluidAura2 {
+            0% { background-position: 50% 50%, 20% 20%, 80% 80%; } /* Reordered for different movement */
+            100% { background-position: 10% 10%, 70% 70%, 30% 30%; }
+        }
+        @keyframes fluidAura3 {
+            0% { background-position: 30% 70%, 60% 20%, 10% 90%; } /* Different starting points */
+            100% { background-position: 90% 10%, 40% 80%, 70% 30%; }
+        }
+
 
         h1, h2, h3, h4, h5 {
             font-family: 'Playfair Display', serif;
@@ -333,12 +379,14 @@
             border: 2px solid rgba(212, 175, 55, 0.3);
             color: var(--accent);
             background: transparent;
+            box-shadow: 0 0 20px 2px rgba(var(--accent-rgb), 0.35); /* Aura effect - Intensified */
         }
 
         .btn-secondary:hover {
             border-color: var(--accent);
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(var(--accent-rgb), 0.1); /* Consistent use of var(--accent-rgb) */
             transform: translateY(-5px);
+            box-shadow: 0 0 35px 5px rgba(var(--accent-rgb), 0.50); /* Enhanced aura effect - Intensified */
         }
 
         .scroll-down {
@@ -1415,6 +1463,10 @@
         <div class="theme-switch" title="Switch theme" style="margin-left: 1.5rem; cursor:pointer; font-size:1.7rem; color: var(--accent);">
             <i class="fas fa-moon"></i>
         </div>
+        <button class="aura-toggle" id="aura-toggle" title="Toggle Aura Animation" style="margin-left: 1rem; cursor:pointer; font-size:1.7rem; color: var(--accent); background: none; border: none; padding: 0;">
+            <i class="fas fa-wand-magic-sparkles"></i> <!-- Icona per aura attiva -->
+            <!-- <i class="fas fa-eye-slash"></i> --> <!-- Icona per aura disattiva, verrà gestita da JS -->
+        </button>
         <div class="lang-switcher" title="Change language">
             <img id="current-lang-flag" src="https://flagcdn.com/24x18/gb.png" alt="Current language">
             <div class="lang-dropdown">
@@ -2676,6 +2728,13 @@
         }
         body.light-mode .copyright {
             color: #888;
+        }
+        body.light-mode {
+            /* Override aura colors for light mode */
+            --aura-color1-rgb: 212, 175, 55; /* Gold */
+            --aura-color2-rgb: 220, 220, 240; /* Pale Lavender Blue */
+            --aura-opacity1: 0.12;
+            --aura-opacity2: 0.1;
         }
     </style>
 </body>
