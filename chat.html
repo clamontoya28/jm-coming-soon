@@ -29,6 +29,16 @@
       0%, 80%, 100% { transform: translateY(0); opacity: 0.7; }
       40% { transform: translateY(-7px); opacity: 1; }
     }
+    /* Animazione Shake per input vuoto */
+    @keyframes shake {
+      10%, 90% { transform: translateX(-1px); }
+      20%, 80% { transform: translateX(2px); }
+      30%, 50%, 70% { transform: translateX(-3px); }
+      40%, 60% { transform: translateX(3px); }
+    }
+    .chat-input--shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
     html {
       height: 100%; /* Assicura che html occupi l'intera altezza */
     }
@@ -56,15 +66,15 @@
       z-index: 1;
       max-width: 480px;
       margin: 40px auto 0 auto;
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.92); /* Leggermente meno trasparente per far risaltare l'aura */
       border-radius: 24px;
-      box-shadow: 0 8px 40px 0 #0002;
       display: flex;
       flex-direction: column;
       height: 80vh;
       min-height: 480px;
       overflow: hidden;
-      transition: background 0.4s;
+      transition: background 0.4s, box-shadow 0.4s;
+      box-shadow: 0 4px 20px -10px rgba(0,0,0,0.1), 0 0 25px 3px rgba(212, 175, 55, 0.35); /* Aura esterna leggermente ridotta */
     }
     .chat-header {
       background: transparent;
@@ -73,6 +83,7 @@
       align-items: center;
       gap: 1rem;
       border-bottom: 1px solid #ececec;
+      box-shadow: 0 0 20px 0px rgba(212, 175, 55, 0.30); /* Aura per l'intero header */
       position: relative;
     }
     .chat-header .avatar {
@@ -85,8 +96,8 @@
       justify-content: center;
       font-size: 1.7rem;
       color: #d4af37;
-      font-weight: bold;
-      box-shadow: 0 2px 8px #d4af3733;
+      font-weight: bold;      
+      box-shadow: 0 0 20px 3px rgba(212, 175, 55, 0.50); /* Aura avatar header intensificata */
       overflow: hidden;
     }
     .chat-header .title-group {
@@ -114,23 +125,44 @@
     body.dark-mode .chat-header .subtitle-beta {
       color: #e6c567;
     }
-    .theme-switch {
+    .chat-header-controls {
       position: absolute;
       right: 1.2rem;
       top: 50%;
       transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem; /* Spazio tra i pulsanti di controllo */
+      z-index: 2;
+    }
+    .theme-switch {
       font-size: 1.6rem;
       color: #d4af37;
       cursor: pointer;
       background: none;
       border: none;
       outline: none;
-      z-index: 2;
       transition: color 0.3s;
     }
     .theme-switch:hover {
       color: #a1a1aa;
     }
+    .sound-toggle {
+      font-size: 1.6rem;
+      color: #d4af37;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      padding: 0; /* Rimuove padding di default dei button */
+      transition: color 0.3s;
+    }
+    .sound-toggle:hover {
+      color: #a1a1aa;
+    }
+    .sound-toggle .fa-volume-mute { display: none; }
+    .sound-toggle.sound-muted .fa-volume-up { display: none; }
+    .sound-toggle.sound-muted .fa-volume-mute { display: inline; }
     .chat-container {
       flex: 1;
       display: flex;
@@ -173,6 +205,7 @@
     }
     .msg-avatar.annina {
       background: #fffbe6;
+      box-shadow: 0 0 20px 4px rgba(212, 175, 55, 0.60); /* Aura avatar messaggi Annina molto intensificata */
     }
     .msg-avatar.user {
       background: #e6e9f0;
@@ -207,7 +240,7 @@
       border-radius: 18px 18px 18px 4px;
       border: 2px solid #d4af37;
       margin-right: auto;
-      box-shadow: 0 2px 16px #d4af3722;
+      box-shadow: 0 0 30px 8px rgba(212, 175, 55, 0.60); /* Aura messaggi Annina molto intensificata */
       position: relative;
       overflow: hidden;
     }
@@ -215,11 +248,17 @@
       display: flex;
       align-items: center;
       padding: 1.1rem 1.2rem;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.95); /* Leggermente più opaco */
       border-top: 1px solid #ececec;
+      box-shadow: 0 -5px 25px -5px rgba(212, 175, 55, 0.35); /* Aura base light mode */
       gap: 0.7rem;
-      transition: background 0.4s;
+      transition: background 0.4s, box-shadow 0.3s ease-out; /* Aggiunta transizione per box-shadow */
     }
+
+    .chat-input.chat-input--active-aura {
+      box-shadow: 0 -6px 35px -4px rgba(212, 175, 55, 0.55); /* Aura intensa light mode */
+    }
+
     .chat-input input {
       flex: 1;
       padding: 0.9rem 1.2rem;
@@ -255,6 +294,11 @@
       transition: background 0.2s, color 0.4s;
       text-decoration: none;
     }
+    .chat-input button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: linear-gradient(135deg, #d4af37cc, #e6c567cc); /* Leggermente sbiadito */
+    }
     .chat-input button:hover, .chat-input a.feedback-btn:hover {
       background: linear-gradient(135deg, #e6c567, #d4af37);
       color: #23232b;
@@ -271,8 +315,11 @@
       opacity: 0.18;
     }
     body.dark-mode .chat-wrapper {
-      background: rgba(26,26,36,0.93);
-      box-shadow: 0 8px 40px 0 #0008;
+      background: rgba(26,26,36,0.97); /* Leggermente meno trasparente per far risaltare l'aura */
+      box-shadow: 0 4px 20px -10px rgba(0,0,0,0.25), 0 0 30px 5px rgba(212, 175, 55, 0.45); /* Aura esterna leggermente ridotta per dark mode */
+    }
+    body.dark-mode .chat-header {
+      box-shadow: 0 0 25px 2px rgba(212, 175, 55, 0.40); /* Aura per l'intero header in dark mode */
     }
     body.dark-mode .chat-header .title {
       color: #f5f5f7;
@@ -280,6 +327,7 @@
     body.dark-mode .chat-header .avatar {
       background: #23232b;
       color: #d4af37;
+      box-shadow: 0 0 25px 4px rgba(212, 175, 55, 0.60); /* Aura avatar header dark mode intensificata */
     }
     body.dark-mode .chat-container {
       background: transparent;
@@ -298,20 +346,27 @@
       background: linear-gradient(135deg, #23232b 0%, #181a1b 60%, #d4af37 100%);
       color: #f5f5f7;
       border: 2px solid #d4af37;
-      box-shadow: 0 2px 16px #d4af3722;
+      box-shadow: 0 0 40px 10px rgba(212, 175, 55, 0.75); /* Aura messaggi Annina dark mode molto intensificata */
       position: relative;
       overflow: hidden;
     }
     body.dark-mode .msg-avatar.annina {
       background: #23232b;
+      box-shadow: 0 0 25px 5px rgba(212, 175, 55, 0.70); /* Aura avatar messaggi Annina dark mode molto intensificata */
     }
     body.dark-mode .msg-avatar.user {
       background: #181a1b;
     }
     body.dark-mode .chat-input {
-      background: rgba(26,26,36,0.98);
+      background: rgba(26,26,36,0.99); /* Quasi opaco */
       border-top: 1px solid #23232b;
+      box-shadow: 0 -5px 30px -5px rgba(212, 175, 55, 0.45); /* Aura base dark mode */
     }
+
+    body.dark-mode .chat-input.chat-input--active-aura {
+      box-shadow: 0 -7px 40px -3px rgba(212, 175, 55, 0.65); /* Aura intensa dark mode */
+    }
+
     body.dark-mode .chat-input input {
       background: #23232b;
       color: #f5f5f7;
@@ -329,10 +384,18 @@
       background: linear-gradient(135deg, #181a1b, #23232b);
       color: #e6c567;
     }
+    body.dark-mode .chat-input button:disabled {
+      opacity: 0.5;
+      background: linear-gradient(135deg, #23232bcc, #181a1bcc); /* Sbiadito per dark mode */
+      border-color: #d4af3799;
+    }
     .theme-switch .fa-sun { display: none; }
     body.dark-mode .theme-switch .fa-moon { display: none; }
     body.dark-mode .theme-switch .fa-sun { display: inline; }
     @media (max-width: 600px) {
+      .chat-header-controls {
+        right: 0.7rem;
+      }
       .chat-wrapper {
         max-width: 100vw;
         height: 100%; /* Occupa l'intera altezza del body */
@@ -343,8 +406,7 @@
       .chat-header { padding: 0.8rem 0.7rem; }
       .chat-container { padding: 1rem 0.3rem 0.7rem 0.3rem; }
       .chat-input { padding: 0.7rem; }
-      .message { font-size: 0.98rem; }
-      .theme-switch { right: 0.7rem; }
+      .message { font-size: 0.98rem; }      
     }
   </style>
 </head>
@@ -359,10 +421,16 @@
         <div class="title">Annina AI❤️</div>
         <div class="subtitle-beta">Beta Pubblica</div>
       </div>
-      <button class="theme-switch" id="theme-switch" title="Switch theme">
-        <i class="fas fa-moon"></i>
-        <i class="fas fa-sun"></i>
-      </button>
+      <div class="chat-header-controls">
+        <button class="sound-toggle" id="sound-toggle" title="Attiva/Disattiva suono">
+          <i class="fas fa-volume-up"></i>
+          <i class="fas fa-volume-mute"></i>
+        </button>
+        <button class="theme-switch" id="theme-switch" title="Cambia tema">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+        </button>
+      </div>
     </div>
     <div class="chat-container" id="chat-container">
       <div class="message-row annina">
@@ -387,10 +455,34 @@
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const chatContainer = document.getElementById('chat-container');
+    const sendButton = chatForm.querySelector('button[type="submit"]');
+    // Prepara l'audio per la notifica
+    const notificationSound = new Audio('notification.mp3'); // Assicurati che 'notification.mp3' sia nel percorso corretto
+
+    // Per il lampeggio del titolo
+    let originalTitle = document.title;
+    const newMessagesTitle = "💬 Nuovo Messaggio!";
+    let blinkIntervalId = null;
+    let isBlinking = false;
+
+    // Per il suono di notifica
+    const soundToggleBtn = document.getElementById('sound-toggle');
+    const volumeUpIcon = soundToggleBtn.querySelector('.fa-volume-up');
+    const volumeMuteIcon = soundToggleBtn.querySelector('.fa-volume-mute');
+    let soundEnabled = true; 
+
     chatForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const text = chatInput.value.trim();
-      if (!text) return;
+      if (!text) {
+        // Applica l'effetto shake al form se il testo è vuoto
+        chatForm.classList.add('chat-input--shake');
+        // Rimuovi la classe dopo l'animazione per permettere di riattivarla
+        setTimeout(() => {
+          chatForm.classList.remove('chat-input--shake');
+        }, 500); // Durata dell'animazione shake
+        return;
+      }
       // Messaggio utente
       const userRow = document.createElement('div');
       userRow.className = 'message-row user';
@@ -413,7 +505,20 @@
       // Dopo un po', sostituisci con la risposta di Annina
       setTimeout(() => {
         typingRow.querySelector('.message').innerHTML = 'Funzionalità AI in arrivo!';
+        console.log('Tentativo di riproduzione suono. Sound enabled:', soundEnabled); // Log per debug
+        // Riproduci il suono di notifica solo se abilitato
+        if (soundEnabled) {
+          notificationSound.play().catch(error => {
+            // La riproduzione automatica potrebbe essere bloccata dal browser
+            // se non c'è stata interazione utente recente.
+            console.warn("Impossibile riprodurre il suono di notifica:", error);
+          });
+        }
+        if (document.hidden) {
+          startTitleBlink();
+        }
       }, 900);
+      updateChatInputState(); // Aggiorna stato pulsante e aura dopo invio
     });
     // Theme switch logic
     const themeSwitch = document.getElementById('theme-switch');
@@ -427,6 +532,77 @@
     // On load, set theme
     const savedTheme = localStorage.getItem('anninaTheme');
     if(savedTheme === 'dark') setTheme(true);
+
+    // Logica per il toggle del suono
+    function setSoundPreference(enabled) {
+      soundEnabled = enabled;
+      localStorage.setItem('anninaSoundEnabled', enabled);
+      if (enabled) {
+        soundToggleBtn.classList.remove('sound-muted');
+        soundToggleBtn.title = "Disattiva suono";
+      } else {
+        soundToggleBtn.classList.add('sound-muted');
+        soundToggleBtn.title = "Attiva suono";
+      }
+    }
+    soundToggleBtn.addEventListener('click', () => {
+      setSoundPreference(!soundEnabled);
+    });
+    // On load, set sound preference
+    const savedSoundPreference = localStorage.getItem('anninaSoundEnabled');
+    // Imposta su true di default se non c'è una preferenza salvata o se è 'true'
+    setSoundPreference(savedSoundPreference === null ? true : savedSoundPreference === 'true');
+
+    // Logica per l'aura dell'input di chat
+    // const chatForm è già definito sopra (è l'elemento con classe .chat-input)
+    // const chatInput è già definito sopra (è l'elemento #chat-input)
+    // const sendButton è definito sopra
+    if (chatInput && chatForm && sendButton) {
+      function updateChatInputState() {
+        const hasFocus = document.activeElement === chatInput;
+        const hasText = chatInput.value.trim().length > 0; // Usa trim() per controllare il testo effettivo
+
+        // Aggiorna aura: attiva quando l'input ha il focus
+        if (hasFocus) { // L'aura si attiva solo quando l'input ha il focus
+          chatForm.classList.add('chat-input--active-aura');
+        } else {
+          chatForm.classList.remove('chat-input--active-aura');
+        }
+
+        // Abilita/Disabilita pulsante di invio
+        sendButton.disabled = !hasText;
+      }
+      chatInput.addEventListener('focus', updateChatInputState);
+      chatInput.addEventListener('blur', updateChatInputState);
+      chatInput.addEventListener('input', updateChatInputState);
+      updateChatInputState(); // Chiamata iniziale per impostare lo stato corretto del pulsante e dell'aura
+    }
+
+    // Funzioni per il lampeggio del titolo
+    function startTitleBlink() {
+      if (isBlinking) return; // Già lampeggiante
+      isBlinking = true;
+      let isOriginal = true;
+      blinkIntervalId = setInterval(() => {
+        document.title = isOriginal ? newMessagesTitle : originalTitle;
+        isOriginal = !isOriginal;
+      }, 1000); // Lampeggia ogni secondo
+    }
+
+    function stopTitleBlink() {
+      if (!isBlinking) return;
+      clearInterval(blinkIntervalId);
+      document.title = originalTitle;
+      isBlinking = false;
+      blinkIntervalId = null;
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) { // La tab è diventata visibile
+        stopTitleBlink();
+      }
+    }); // <-- Correzione: Aggiunta parentesi e punto e virgola mancanti
     </script>
 </body>
 </html>
+
