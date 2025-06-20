@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>Harmonia | Benessere Mentale</title>
     <meta name="description" content="Scopri Harmonia, l'app empatica e intelligente per il monitoraggio della salute personale e il benessere emotivo, con il supporto di Annina AI.">
     <meta name="keywords" content="Harmonia, Annina AI, benessere mentale, salute emotiva, mood tracker, diario vocale, intelligenza artificiale, supporto emotivo, J.M Enterprises">
@@ -23,6 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <style>
         :root {
+            --accent: #d4af37;
             --harmonia-bg-light: #FDFCFB;
             --harmonia-bg-dark: #272A3D; /* Leggermente più chiaro di #2C2F3E per meno contrasto con testo */
             --harmonia-text-light: #333333; /* Scurito per miglior contrasto su sfondi chiari */
@@ -52,6 +53,9 @@
             100% { background-position: 100% 100%; }
         }
 
+        html {
+            -webkit-tap-highlight-color: rgba(130,192,204,0.18);
+        }
         * {
             margin: 0;
             padding: 0;
@@ -143,6 +147,9 @@
             position: relative;
             padding: 0.4rem 0;
             transition: var(--transition);
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
         .harmonia-nav .nav-links a::after {
             content: '';
@@ -165,6 +172,9 @@
             color: var(--harmonia-primary);
             cursor: pointer;
             background: none; border: none; padding: 0.5rem;
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
         .harmonia-nav .mobile-menu {
             display: none;
@@ -213,6 +223,8 @@
         }
         .hero-harmonia-content .app-icon img { /* Se usi un'immagine per l'icona */
             width: 60%; height: 60%; object-fit: contain;
+            aspect-ratio: 1/1;
+            loading: lazy;
         }
         .hero-harmonia-content .app-icon i { /* Se usi FontAwesome */
             font-size: 3rem; color: white;
@@ -252,6 +264,9 @@
             background-color: var(--harmonia-primary);
             color: white;
             box-shadow: 0 8px 20px rgba(130, 192, 204, 0.3);
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
         .btn-harmonia:hover {
             background-color: transparent;
@@ -403,6 +418,9 @@
             width: 70px;
             height: 70px;
             line-height: 40px; /* Per centrare l'icona */
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
         .feature-card h3 {
             font-size: 1.5rem;
@@ -544,6 +562,8 @@
             max-width: 100%;
             border-radius: var(--border-radius);
             box-shadow: 0 10px 30px var(--harmonia-shadow-light);
+            aspect-ratio: 1/1;
+            loading: lazy;
         }
         #annina-ai ul {
             list-style: none;
@@ -693,6 +713,9 @@
             background-color: var(--harmonia-primary);
             color: white;
             margin-top: auto; 
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
         .btn-harmonia-pricing:hover {
             background-color: transparent;
@@ -813,6 +836,9 @@
             font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
             cursor: pointer; z-index: 3000; opacity: 0; pointer-events: none;
             transition: opacity 0.4s, background-color 0.4s;
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
         #backToTop:hover { background: var(--harmonia-secondary); }
 
@@ -1130,6 +1156,192 @@
             /* Staggering animazione float per mobile, se mantenuta */
             .timeline-container-harmonia:nth-child(1) { animation-delay: 0.1s; }
             .timeline-container-harmonia:nth-child(2) { animation-delay: 0.9s; }
+        }
+
+        /* Daily Quote Section */
+        #daily-quote-annina {
+            background-color: rgba(var(--harmonia-accent-rgb), 0.08); /* Sfondo leggero e piacevole */
+            padding: var(--section-spacing) 5%;
+        }
+
+        #daily-quote-annina .section-header h2::after {
+            background: var(--harmonia-secondary); /* Un tocco di colore diverso per l'header */
+        }
+
+        .daily-quote-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2.5rem;
+            background-color: var(--harmonia-card-bg-light);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px var(--harmonia-shadow-light);
+            border: 1px solid var(--harmonia-border-light);
+            text-align: center;
+            position: relative; /* Necessario per il contenitore dei cuori fluttuanti */
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+
+        .quote-text {
+            font-size: 1.6rem; /* Testo della frase ben leggibile */
+            font-style: italic;
+            color: var(--harmonia-text-light);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            min-height: 4em; /* Aumentato leggermente per l'effetto macchina da scrivere */
+            position: relative; /* Per il cursore della macchina da scrivere */
+        }
+
+        .typing-cursor-quote {
+            display: inline-block;
+            background-color: var(--harmonia-secondary);
+            width: 2px;
+            height: 1.5rem; /* Altezza del cursore */
+            animation: blink 0.8s infinite;
+            vertical-align: text-bottom; /* Allinea con il testo */
+        }
+
+        .quote-reaction .like-button {
+            background: none;
+            border: none;
+            color: var(--harmonia-secondary); /* Colore del cuore */
+            font-size: 2.5rem; /* Icona cuore più grande */
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s, transform 0.3s;
+            outline: none;
+        }
+        .daily-quote-wrapper:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 15px 35px var(--harmonia-shadow-light);
+        }
+        .quote-reaction .like-button.liked {
+             color: var(--harmonia-secondary); /* Mantiene lo stesso colore per il cuore pieno */
+        }
+
+        .quote-reaction .like-count {
+            font-size: 1.2rem; /* Dimensione del contatore */
+            color: var(--harmonia-text-light); /* Colore del testo */
+            margin-left: 0.5rem; /* Spazio tra cuore e contatore */
+            vertical-align: middle; /* Allinea verticalmente con il cuore */
+            transition: color 0.3s;
+        }
+        .quote-reaction .like-button:hover {
+            transform: scale(1.15);
+        }
+
+        .floating-hearts-container {
+            position: absolute;
+            bottom: 70px; /* Posizionato sopra il pulsante */
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            width: 100px;
+            height: 100px;
+            z-index: 10;
+        }
+        .floating-heart {
+            position: absolute;
+            left: 50%; /* Centrato orizzontalmente nel container */
+            bottom: 0;
+            /* width: 22px;
+            height: 22px; */
+            opacity: 1;
+            /* animation: floatUpAndFade 1.7s ease-out forwards; */ /* Animazione gestita da JS */
+            color: var(--harmonia-secondary);
+            font-size: 22px;
+        }
+
+        @keyframes floatUpAndFade {
+            0% {
+                transform: translate(-50%, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -180px) scale(0.3); /* Sale ancora più in alto e rimpicciolisce di più */
+                opacity: 0;
+            }
+        }
+        /* Animazione pulsazione per il bottone like */
+        .like-button.pulsing {
+            animation: pulseHeart 0.5s ease-out;
+        }
+        @keyframes pulseHeart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+
+
+        /* Dark Mode per Daily Quote */
+        body.dark-mode #daily-quote-annina {
+            background-color: rgba(var(--harmonia-accent-rgb), 0.04);
+        }
+        body.dark-mode .daily-quote-wrapper {
+            background-color: var(--harmonia-card-bg-dark);
+            border-color: var(--harmonia-border-dark);
+            box-shadow: 0 10px 30px var(--harmonia-shadow-dark);
+        }
+        body.dark-mode .daily-quote-wrapper:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 18px 40px var(--harmonia-shadow-dark);
+        }
+        body.dark-mode .quote-text {
+            color: var(--harmonia-text-dark);
+        }
+        .social-share-buttons {
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .social-share-buttons span {
+            font-size: 1.1rem;
+            color: var(--harmonia-text-light);
+            font-weight: 500;
+        }
+        .social-share-buttons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.6rem; /* Aumentata la dimensione delle icone */
+            text-decoration: none;
+            color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .social-share-buttons a.share-x {
+            background-color: #000;
+        }
+        .social-share-buttons a.share-linkedin {
+            background-color: #0A66C2;
+        }
+        .social-share-buttons a.share-instagram {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+        }
+        .social-share-buttons a:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .social-share-buttons span {
+            color: var(--harmonia-text-dark);
+        }
+        body.dark-mode .social-share-buttons a.share-x { background-color: #fff; color: #000; }
+
+        body.dark-mode .quote-reaction .like-button {
+            color: var(--harmonia-secondary); /* Manteniamo il colore del cuore o adattiamolo se necessario */
+        }
+        body.dark-mode .quote-reaction .like-count {
+            color: var(--harmonia-text-dark);
+        }
+
+        @media (max-width: 768px) {
+            .quote-text { font-size: 1.3rem; }
+            .quote-reaction .like-button { font-size: 2.2rem; }
             .timeline-container-harmonia:nth-child(3) { animation-delay: 0.5s; }
             .timeline-container-harmonia:nth-child(4) { animation-delay: 1.3s; }
         }
@@ -1142,7 +1354,7 @@
 
     <nav class="harmonia-nav">
         <a href="index.html" class="logo">
-            <img src="favicon.png" alt="Logo J.M Enterprises">
+            <img src="annina.png" alt="Logo Annina AI">
         </a>
         <div class="nav-links">
             <a href="index.html">Home</a>
@@ -1153,13 +1365,33 @@
             <a href="#pricing-harmonia">Prezzi</a>
             <a href="index.html#forum">Contatti</a>
         </div>
-        <div style="display: flex; align-items: center; gap: 1rem;">
-            <button class="theme-switch" id="theme-switch-harmonia" title="Cambia tema">
-                <i class="fas fa-moon"></i>
-            </button>
-            <div class="mobile-menu" id="mobile-menu-harmonia">
-                <i class="fas fa-bars"></i>
-            </div>
+        <div class="lang-switcher" title="Cambia lingua">
+    <img id="current-lang-flag" src="https://flagcdn.com/24x18/it.png" alt="Lingua attuale">
+    <div class="lang-dropdown">
+        <div class="lang-flag-item" data-lang="it">
+            <img src="https://flagcdn.com/24x18/it.png" alt="Italiano flag">
+            <span class="lang-name">Italiano</span>
+        </div>
+        <div class="lang-flag-item" data-lang="en">
+            <img src="https://flagcdn.com/24x18/gb.png" alt="English flag">
+            <span class="lang-name">English</span>
+        </div>
+        <div class="lang-flag-item" data-lang="fr">
+            <img src="https://flagcdn.com/24x18/fr.png" alt="Français flag">
+            <span class="lang-name">Français</span>
+        </div>
+        <div class="lang-flag-item" data-lang="es">
+            <img src="https://flagcdn.com/24x18/es.png" alt="Español flag">
+            <span class="lang-name">Español</span>
+        </div>
+    </div>
+</div>
+<button class="theme-switch" id="theme-switch-harmonia" title="Cambia tema">
+    <i class="fas fa-moon"></i>
+</button>
+<div class="mobile-menu" id="mobile-menu-harmonia">
+    <i class="fas fa-bars"></i>
+</div>
         </div>
     </nav>
 
@@ -1248,6 +1480,32 @@
                         <h3>Promemoria Dolci</h3>
                         <p>Gentili notifiche per idratazione, pause rigeneranti e momenti di journaling.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Frase del Giorno di Annina Section -->
+        <section id="daily-quote-annina">
+            <div class="section-header">
+                <h2>Frase del Giorno di Annina</h2>
+                <p class="subtitle">Un piccolo pensiero per illuminare la tua giornata.</p>
+            </div>
+            <div class="section-content">
+                <div class="daily-quote-wrapper">
+                    <p class="quote-text" id="anninaDailyQuoteText">Caricamento frase...</p>
+                    <div class="quote-reaction">
+                        <button id="likeQuoteButton" class="like-button" aria-label="Mi piace questa frase" aria-pressed="false">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <span id="anninaDailyQuoteLikesCount" class="like-count">0</span>
+                    </div>
+                    <div class="social-share-buttons">
+                        <span>Condividi:</span>
+                        <a href="#" id="shareX" class="share-x" title="Condividi su X"><i class="fab fa-twitter"></i></a> <!-- Modificato da fa-x-twitter a fa-twitter per compatibilità con Font Awesome Free -->
+                        <a href="#" id="shareLinkedin" class="share-linkedin" title="Condividi su LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" id="shareInstagram" class="share-instagram" title="Copia per Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <div id="floatingHeartsContainer" class="floating-hearts-container"></div>
                 </div>
             </div>
         </section>
@@ -1467,7 +1725,9 @@
     <footer class="harmonia-footer">
         <div class="footer-content">
             <div class="footer-column">
-                <img src="favicon.png" alt="Logo J.M Enterprises" style="width: 60px; margin-bottom: 1rem; border: 2px solid var(--jm-accent); border-radius: 50%;">
+                <a href="index.html">
+                    <img src="annina.png" alt="Logo J.M Enterprises" style="width: 60px; margin-bottom: 1rem; border: 2px solid var(--jm-accent); border-radius: 50%;">
+                </a>
                 <h3>J.M Enterprises</h3>
                 <p>Innovazione al servizio del benessere umano.</p>
             </div>
@@ -1506,6 +1766,50 @@
     </button>
 
     <script>
+        // Social Share for Daily Quote
+        document.addEventListener('DOMContentLoaded', function() {
+            const quoteTextElem = document.getElementById('anninaDailyQuoteText');
+            const shareX = document.getElementById('shareX');
+            const shareLinkedin = document.getElementById('shareLinkedin');
+            const shareInstagram = document.getElementById('shareInstagram');
+
+            function getQuote() {
+                return quoteTextElem ? quoteTextElem.innerText.trim() : '';
+            }
+
+            if (shareX) {
+                shareX.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const quote = getQuote();
+                    const url = encodeURIComponent(window.location.href);
+                    const text = encodeURIComponent(quote + ' #HarmoniaApp');
+                    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+                });
+            }
+            if (shareLinkedin) {
+                shareLinkedin.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const quote = getQuote();
+                    const url = encodeURIComponent(window.location.href);
+                    const text = encodeURIComponent(quote);
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&summary=${text}`, '_blank');
+                });
+            }
+            if (shareInstagram) {
+                shareInstagram.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const quote = getQuote();
+                    navigator.clipboard.writeText(quote).then(function() {
+                        shareInstagram.title = 'Frase copiata! Incolla su Instagram Stories.';
+                        shareInstagram.style.color = 'var(--harmonia-secondary)';
+                        setTimeout(() => {
+                            shareInstagram.title = 'Copia per Instagram';
+                            shareInstagram.style.color = '';
+                        }, 2000);
+                    });
+                });
+            }
+        });
         // Theme Switcher
         const themeSwitchHarmonia = document.getElementById('theme-switch-harmonia');
         const currentThemeHarmonia = localStorage.getItem('harmoniaTheme');
@@ -1528,6 +1832,33 @@
             setHarmoniaTheme(!document.body.classList.contains('dark-mode'));
         });
 
+        // Language Switcher interattivo (inserito in fondo per garantire funzionamento)
+        (function() {
+            const langSwitcher = document.querySelector('.lang-switcher');
+            if (!langSwitcher) return;
+            const langDropdown = langSwitcher.querySelector('.lang-dropdown');
+            const currentLangFlag = document.getElementById('current-lang-flag');
+            if (!langDropdown || !currentLangFlag) return;
+            currentLangFlag.addEventListener('click', function(e) {
+                e.stopPropagation();
+                langDropdown.classList.toggle('active');
+            });
+            document.addEventListener('click', function(e) {
+                if (!langSwitcher.contains(e.target)) {
+                    langDropdown.classList.remove('active');
+                }
+            });
+            langDropdown.querySelectorAll('.lang-flag-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    const flag = this.querySelector('img').src;
+                    currentLangFlag.src = flag;
+                    langDropdown.classList.remove('active');
+                    // Qui puoi aggiungere la logica per cambiare lingua (testi dinamici)
+                });
+            });
+        })();
+
         // Mobile Menu
         const mobileMenuHarmonia = document.getElementById('mobile-menu-harmonia');
         const navLinksHarmonia = document.querySelector('.harmonia-nav .nav-links');
@@ -1535,6 +1866,9 @@
         mobileMenuHarmonia.addEventListener('click', () => {
             navLinksHarmonia.classList.toggle('active');
             mobileMenuHarmonia.innerHTML = navLinksHarmonia.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            if (navLinksHarmonia.classList.contains('active')) {
+                navLinksHarmonia.querySelector('a').focus();
+            }
         });
         
         document.querySelectorAll('.harmonia-nav .nav-links a').forEach(link => {
@@ -1542,14 +1876,24 @@
                 if (navLinksHarmonia.classList.contains('active')) {
                     navLinksHarmonia.classList.remove('active');
                     mobileMenuHarmonia.innerHTML = '<i class="fas fa-bars"></i>';
+                    mobileMenuHarmonia.focus();
                 }
             });
+        });
+        // Migliora focus visibile su tab
+        document.body.addEventListener('keyup', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('user-is-tabbing');
+            }
+        });
+        document.body.addEventListener('mousedown', function() {
+            document.body.classList.remove('user-is-tabbing');
         });
 
         // Back to Top Button
         const backToTopBtn = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 250) {
+            if (window.scrollY > window.innerHeight * 0.5) {
                 backToTopBtn.style.opacity = '1';
                 backToTopBtn.style.pointerEvents = 'auto';
             } else {
@@ -1624,6 +1968,176 @@
                 }
             });
         });
+
+        // === Daily Quote Feature ===
+        document.addEventListener('DOMContentLoaded', function() {
+            const quotes = [
+                "Ogni giorno è una nuova opportunità per splendere. ✨",
+                "La gentilezza è un linguaggio che il sordo può udire e il cieco può vedere. ❤️",
+                "Anche il viaggio più lungo inizia con un singolo passo. 🚶‍♀️",
+                "Sii il cambiamento che desideri vedere nel mondo. 🌍",
+                "La felicità non è una destinazione, ma un modo di viaggiare. 😊",
+                "Non smettere mai di sognare, i sogni sono il nutrimento dell'anima. 🌙",
+                "Un sorriso è la curva più bella sul corpo di una persona. 😄",
+                "Ricorda di respirare, sei esattamente dove devi essere. 🌬️",
+                "La gratitudine trasforma ciò che abbiamo in abbastanza. 🙏",
+                "Piccoli gesti di cura verso te stesso fanno una grande differenza. 🌸",
+                "Ascolta il tuo cuore, conosce la strada. 🧭",
+                "La resilienza è la capacità di sbocciare anche dopo la tempesta. 🌷"
+            ];
+
+            const quoteTextElement = document.getElementById('anninaDailyQuoteText');
+            const likeButton = document.getElementById('likeQuoteButton');
+            const heartsContainer = document.getElementById('floatingHeartsContainer');
+            const likesCountElement = document.getElementById('anninaDailyQuoteLikesCount');
+
+            if (!quoteTextElement || !likeButton || !heartsContainer) {
+                // console.warn('Elementi per la Frase del Giorno non trovati.');
+                return;
+            }
+
+            function typewriterEffect(element, text, speed = 60, callback) {
+                element.innerHTML = ''; // Pulisce il contenuto precedente
+                let i = 0;
+                const cursorSpan = document.createElement('span');
+                cursorSpan.className = 'typing-cursor-quote';
+                // cursorSpan.textContent = '▍'; // Carattere cursore, ora gestito da CSS
+                
+                const textNode = document.createTextNode('');
+                element.appendChild(textNode);
+                element.appendChild(cursorSpan);
+
+                function type() {
+                    if (i < text.length) {
+                        textNode.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        // Rimuovi il cursore alla fine
+                        if(cursorSpan.parentNode) {
+                            cursorSpan.parentNode.removeChild(cursorSpan);
+                        }
+                        if (callback) callback();
+                    }
+                }
+                type();
+            }
+
+            let currentQuoteIndex = -1; // Per tenere traccia della frase corrente
+
+            function resetLikeStateForNewQuote() {
+                localStorage.removeItem(`anninaQuoteLiked_${new Date().toDateString()}`);
+            }
+
+            function getDayOfYear() {
+                const now = new Date();
+                const start = new Date(now.getFullYear(), 0, 0);
+                const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+                const oneDay = 1000 * 60 * 60 * 24;
+                return Math.floor(diff / oneDay);
+            }
+
+            function displayDailyQuote() {
+                // Determina l'indice della frase per oggi
+                const todayDateString = new Date().toDateString();
+                const lastQuoteDate = localStorage.getItem('anninaQuoteDate');
+                let newQuoteIndex;
+
+                if (lastQuoteDate === todayDateString && localStorage.getItem('anninaQuoteIndex') !== null) {
+                    // Se è ancora lo stesso giorno e l'indice è salvato, usalo
+                    newQuoteIndex = parseInt(localStorage.getItem('anninaQuoteIndex'), 10);
+                } else {
+                    // Nuovo giorno o nessun indice salvato, calcola l'indice e resetta
+                    const dayIndex = getDayOfYear() - 1; // 0-indexed
+                    newQuoteIndex = dayIndex % quotes.length;
+                    localStorage.setItem('anninaQuoteDate', todayDateString);
+                    localStorage.setItem('anninaQuoteIndex', newQuoteIndex.toString());
+                    // Resetta lo stato "liked" e il contatore per la nuova frase del giorno
+                    resetLikeStateForNewQuote(); // Resetta solo il like dell'utente
+                    localStorage.setItem(`anninaQuoteTotalLikes_${todayDateString}`, '0'); // Inizializza il contatore a 0
+                }
+
+                currentQuoteIndex = newQuoteIndex; // Aggiorna l'indice della frase corrente
+                const quoteToDisplay = quotes[currentQuoteIndex] || "Torna domani per una nuova frase!";
+                
+                typewriterEffect(quoteTextElement, quoteToDisplay, 60, updateLikeButtonState);
+            }
+
+            function updateLikeButtonState() {
+                const todayDateString = new Date().toDateString();
+                const isLiked = localStorage.getItem(`anninaQuoteLiked_${todayDateString}`) === 'true';
+                const totalLikes = parseInt(localStorage.getItem(`anninaQuoteTotalLikes_${todayDateString}`) || '0', 10);
+
+                if (isLiked) {
+                    likeButton.classList.add('liked');
+                    likeButton.innerHTML = '<i class="fas fa-heart"></i>'; // Cuore pieno
+                    likeButton.setAttribute('aria-label', 'Non mi piace più questa frase');
+                    likeButton.setAttribute('aria-pressed', 'true');
+                } else {
+                    // Assicurati che l'icona sia quella vuota se non è "liked"
+                    likeButton.classList.remove('liked');
+                    likeButton.innerHTML = '<i class="far fa-heart"></i>'; // Cuore vuoto
+                    likeButton.setAttribute('aria-label', 'Mi piace questa frase');
+                    likeButton.setAttribute('aria-pressed', 'false');
+                }
+                // Aggiorna il testo del contatore
+                likesCountElement.textContent = totalLikes;
+            }
+
+            function createFloatingHeart() {
+                const heart = document.createElement('i');
+                heart.className = 'fas fa-heart floating-heart'; // Usa 'fas' per cuore pieno
+                
+                // Posizione iniziale e variazioni
+                const randomXOffset = (Math.random() - 0.5) * 60; // Variazione orizzontale più ampia
+                const randomYOffset = (Math.random() - 0.5) * 25; // Variazione verticale iniziale
+                const randomScale = Math.random() * 0.5 + 0.7; // Scala tra 0.7 e 1.2
+                const animationDuration = 1.5 + Math.random() * 1.0; // Durata tra 1.5s e 2.5s
+                const finalYTranslation = -180 - Math.random() * 50; // Sale tra -180px e -230px
+                const finalScale = 0.2 + Math.random() * 0.3; // Scala finale tra 0.2 e 0.5
+
+                heart.style.transform = `translate(${randomXOffset}px, ${randomYOffset}px) scale(${randomScale})`;
+                heart.style.opacity = '1';
+                
+                heartsContainer.appendChild(heart);
+
+                // Animazione custom con JS per più controllo
+                heart.animate([
+                    { transform: `translate(${randomXOffset}px, ${randomYOffset}px) scale(${randomScale})`, opacity: 1 },
+                    { transform: `translate(${randomXOffset * 0.5}px, ${finalYTranslation / 2}px) scale(${randomScale * 0.8})`, opacity: 0.8 }, // Punto intermedio
+                    { transform: `translate(${randomXOffset * 0.2}px, ${finalYTranslation}px) scale(${finalScale})`, opacity: 0 }
+                ], {
+                    duration: animationDuration * 1000, // in ms
+                    easing: 'ease-out',
+                    fill: 'forwards'
+                }).onfinish = () => heart.remove();
+            }
+
+            likeButton.addEventListener('click', () => {
+                const todayDateString = new Date().toDateString();
+                let isLiked = localStorage.getItem(`anninaQuoteLiked_${todayDateString}`) === 'true';
+                let totalLikes = parseInt(localStorage.getItem(`anninaQuoteTotalLikes_${todayDateString}`) || '0', 10);
+
+                likeButton.classList.add('pulsing'); // Aggiungi animazione pulsazione
+                setTimeout(() => likeButton.classList.remove('pulsing'), 500);
+
+                if (isLiked) {
+                    localStorage.removeItem(`anninaQuoteLiked_${todayDateString}`);
+                    totalLikes = Math.max(0, totalLikes - 1); // Decrementa, ma non sotto zero
+                } else {
+                    localStorage.setItem(`anninaQuoteLiked_${todayDateString}`, 'true'); 
+                    totalLikes += 1; // Incrementa il contatore totale
+                    for (let i = 0; i < 7 + Math.floor(Math.random() * 6); i++) { // Da 7 a 12 cuori
+                        setTimeout(createFloatingHeart, i * 90); // Creazione scaglionata
+                    }
+                }
+                localStorage.setItem(`anninaQuoteTotalLikes_${todayDateString}`, totalLikes.toString());
+                updateLikeButtonState(); // Aggiorna l'icona e il contatore visibile
+            });
+
+            displayDailyQuote();
+        });
+
     </script>
     <script>
     // Script per la chat demo di Harmonia (mantenuto separato per chiarezza)
@@ -1713,6 +2227,27 @@
             }
             typeWriter();
         }
+        const langSwitcher = document.querySelector('.lang-switcher');
+        const langDropdown = langSwitcher.querySelector('.lang-dropdown');
+        const currentLangFlag = document.getElementById('current-lang-flag');
+        currentLangFlag.addEventListener('click', function(e) {
+            e.stopPropagation();
+            langDropdown.classList.toggle('active');
+        });
+        document.addEventListener('click', function(e) {
+            if (!langSwitcher.contains(e.target)) {
+                langDropdown.classList.remove('active');
+            }
+        });
+        langDropdown.querySelectorAll('.lang-flag-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                const flag = this.querySelector('img').src;
+                currentLangFlag.src = flag;
+                langDropdown.classList.remove('active');
+                // Qui puoi aggiungere la logica per cambiare lingua (testi dinamici)
+            });
+        });
 
         // Logica per la chat demo di Harmonia
         const chatDisplay = document.getElementById('harmoniaChatDisplay');
@@ -1768,4 +2303,3 @@
 </html>
 
 </html>
-
