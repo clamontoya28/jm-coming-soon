@@ -38,6 +38,7 @@
             --harmonia-shadow-dark: rgba(0, 0, 0, 0.25);
             --harmonia-primary-rgb: 130, 192, 204; 
             --harmonia-accent-rgb: 249, 213, 167;
+            --harmonia-secondary-rgb: 245, 169, 184; /* Aggiunta variabile mancante per l'aura */
 
             --jm-accent: #d4af37; /* Per coerenza con logo/brand J.M. */
             --jm-black: #0a0a0f;
@@ -45,6 +46,10 @@
             --border-radius: 12px;
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             --section-spacing: 8rem;
+        }
+        @keyframes fluidAura {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
 
         * {
@@ -54,18 +59,36 @@
         }
 
         body {
-            background-color: var(--harmonia-bg-light);
+            /* background-color: var(--harmonia-bg-light); -- Spostato su HTML */
+            background-color: transparent; /* Body ora trasparente per mostrare l'aura ::before */
             color: var(--harmonia-text-light);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             font-weight: 400;
             line-height: 1.7;
-            transition: background-color 0.4s, color 0.4s;
+            /* transition: background-color 0.4s, color 0.4s; -- Transizione sfondo spostata su HTML */
+            transition: color 0.4s;
         }
 
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Assicura che sia dietro il contenuto */
+            background: radial-gradient(ellipse at 20% 30%, rgba(var(--harmonia-primary-rgb), 0.65), transparent 70%), /* Forma ellittica */
+                        radial-gradient(ellipse at 80% 70%, rgba(var(--harmonia-accent-rgb), 0.5), transparent 70%); /* Forma ellittica */
+            background-size: 250% 250%; /* Aumentato per onde più grandi */
+            animation: fluidAura 25s linear infinite alternate; /* Animazione più veloce */
+            pointer-events: none; /* Non interferisce con i click */
+        }
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 80px; /* Altezza navbar approx */
+            background-color: var(--harmonia-bg-light); /* Colore di sfondo base ora su HTML */
+            transition: background-color 0.4s; /* Transizione per il dark mode */
         }
 
         h1, h2, h3, h4, h5 {
@@ -799,8 +822,11 @@
             50% { opacity: 0; }
         }
         body.dark-mode {
-            background-color: var(--harmonia-bg-dark);
+            /* background-color: var(--harmonia-bg-dark); -- Spostato su HTML */
             color: var(--harmonia-text-dark);
+        }
+        html.dark-mode-active { /* Classe per lo sfondo dell'html in dark mode */
+            background-color: var(--harmonia-bg-dark);
         }
         body.dark-mode nav.harmonia-nav {
             background: rgba(39, 42, 61, 0.85);
@@ -810,6 +836,11 @@
         body.dark-mode .harmonia-nav .nav-links a:hover { color: var(--harmonia-primary); }
         body.dark-mode .hero-harmonia {
              background: linear-gradient(135deg, var(--harmonia-bg-dark) 0%, var(--harmonia-primary) 300%);
+        }
+        body.dark-mode::before {
+             background: radial-gradient(ellipse at 20% 30%, rgba(var(--harmonia-primary-rgb), 0.3), transparent 70%), /* Forma ellittica per dark mode */
+                         radial-gradient(ellipse at 80% 70%, rgba(var(--harmonia-secondary-rgb), 0.25), transparent 70%); /* Forma ellittica per dark mode */
+            background-size: 250% 250%; /* Aumentato per onde più grandi (consistenza con light mode) */
         }
         body.dark-mode .hero-harmonia::before {
             background: radial-gradient(ellipse at 70% 30%, rgba(130, 192, 204, 0.1) 0%, transparent 60%),
@@ -1481,6 +1512,7 @@
 
         function setHarmoniaTheme(isDark) {
             document.body.classList.toggle('dark-mode', isDark);
+            document.documentElement.classList.toggle('dark-mode-active', isDark); // Applica classe a HTML
             themeSwitchHarmonia.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
             localStorage.setItem('harmoniaTheme', isDark ? 'dark' : 'light');
         }
@@ -1489,6 +1521,7 @@
             setHarmoniaTheme(true);
         } else {
             setHarmoniaTheme(false); // Default to light
+            // document.documentElement.classList.remove('dark-mode-active'); // Gestito da setHarmoniaTheme(false)
         }
 
         themeSwitchHarmonia.addEventListener('click', () => {
