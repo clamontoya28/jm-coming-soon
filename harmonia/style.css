@@ -1,0 +1,1419 @@
+:root {
+    --accent: #d4af37;
+    --harmonia-bg-light: #FDFCFB;
+    --harmonia-bg-dark: #272A3D; /* Leggermente più chiaro di #2C2F3E per meno contrasto con testo */
+    --harmonia-text-light: #333333; /* Scurito per miglior contrasto su sfondi chiari */
+    --harmonia-text-dark: #E8E8EE; /* Schiarito per miglior contrasto su sfondi scuri */
+    --harmonia-primary: #82C0CC;
+    --harmonia-secondary: #F5A9B8;
+    --harmonia-accent: #F9D5A7;
+    --harmonia-card-bg-light: rgba(255, 255, 255, 0.9);
+    --harmonia-card-bg-dark: rgba(45, 48, 65, 0.85); /* Sfondo card più scuro */
+    --harmonia-border-light: rgba(130, 192, 204, 0.6); /* Opacità aumentata per maggior visibilità */
+    --harmonia-border-dark: rgba(130, 192, 204, 0.4);
+    --harmonia-shadow-light: rgba(0, 0, 0, 0.08);
+    --harmonia-shadow-dark: rgba(0, 0, 0, 0.25);
+    --harmonia-primary-rgb: 130, 192, 204; 
+    --harmonia-accent-rgb: 249, 213, 167;
+    --harmonia-secondary-rgb: 245, 169, 184; /* Aggiunta variabile mancante per l'aura */
+
+    --jm-accent: #d4af37; /* Per coerenza con logo/brand J.M. */
+    --jm-black: #0a0a0f;
+
+    --border-radius: 12px;
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --section-spacing: 8rem;
+}
+@keyframes fluidAura {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+html {
+    -webkit-tap-highlight-color: rgba(130,192,204,0.18);
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* background-color: var(--harmonia-bg-light); -- Spostato su HTML */
+    background-color: transparent; /* Body ora trasparente per mostrare l'aura ::before */
+    color: var(--harmonia-text-light);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    font-weight: 400;
+    line-height: 1.7;
+    /* transition: background-color 0.4s, color 0.4s; -- Transizione sfondo spostata su HTML */
+    transition: color 0.4s;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Assicura che sia dietro il contenuto */
+    background: radial-gradient(ellipse at 20% 30%, rgba(var(--harmonia-primary-rgb), 0.65), transparent 70%), /* Forma ellittica */
+                radial-gradient(ellipse at 80% 70%, rgba(var(--harmonia-accent-rgb), 0.5), transparent 70%); /* Forma ellittica */
+    background-size: 250% 250%; /* Aumentato per onde più grandi */
+    animation: fluidAura 25s linear infinite alternate; /* Animazione più veloce */
+    pointer-events: none; /* Non interferisce con i click */
+}
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Altezza navbar approx */
+    background-color: var(--harmonia-bg-light); /* Colore di sfondo base ora su HTML */
+    transition: background-color 0.4s; /* Transizione per il dark mode */
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+/* Navbar (adattata da index.html) */
+nav.harmonia-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 5%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 2000;
+    background: rgba(253, 252, 251, 0.85); /* --harmonia-bg-light con trasparenza */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--harmonia-border-light);
+    transition: var(--transition);
+}
+
+.harmonia-nav .logo img {
+    width: 50px; /* Leggermente più piccolo */
+    height: 50px;
+    object-fit: cover;
+    display: block;
+    border-radius: 50%;
+    border: 2px solid var(--jm-accent); /* Colore JM per il logo */
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    transition: var(--transition);
+}
+.harmonia-nav .logo:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.3);
+}
+
+.harmonia-nav .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+.harmonia-nav .nav-links a {
+    color: var(--harmonia-text-light);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    position: relative;
+    padding: 0.4rem 0;
+    transition: var(--transition);
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+}
+.harmonia-nav .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--harmonia-primary);
+    transition: var(--transition);
+}
+.harmonia-nav .nav-links a:hover {
+    color: var(--harmonia-primary);
+}
+.harmonia-nav .nav-links a:hover::after {
+    width: 100%;
+}
+.harmonia-nav .theme-switch {
+    font-size: 1.5rem;
+    color: var(--harmonia-primary);
+    cursor: pointer;
+    background: none; border: none; padding: 0.5rem;
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+}
+.harmonia-nav .mobile-menu {
+    display: none;
+    font-size: 1.7rem;
+    color: var(--harmonia-primary);
+    cursor: pointer;
+}
+
+/* Hero Section Harmonia */
+.hero-harmonia {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 5% 4rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--harmonia-bg-light) 0%, var(--harmonia-accent) 200%);
+}
+.hero-harmonia::before { /* Soft radial gradient */
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(ellipse at 70% 30%, rgba(130, 192, 204, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 30% 70%, rgba(245, 169, 184, 0.1) 0%, transparent 50%);
+    z-index: 0;
+    opacity: 0.7;
+}
+.hero-harmonia-content {
+    max-width: 800px;
+    z-index: 1;
+    position: relative;
+}
+.hero-harmonia-content .app-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
+    border-radius: 20%;
+    background: linear-gradient(135deg, var(--harmonia-primary), var(--harmonia-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(130, 192, 204, 0.3);
+}
+.hero-harmonia-content .app-icon img { /* Se usi un'immagine per l'icona */
+    width: 60%; height: 60%; object-fit: contain;
+    aspect-ratio: 1/1;
+    loading: lazy;
+}
+.hero-harmonia-content .app-icon i { /* Se usi FontAwesome */
+    font-size: 3rem; color: white;
+}
+.hero-harmonia-content h1#harmonia-hero-title { /* Aggiunto ID */
+    font-size: 3.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--harmonia-text-light);
+    line-height: 1.2;
+    min-height: 1.2em; /* Per evitare sfarfallio durante la scrittura */
+}
+.typing-cursor {
+    color: var(--harmonia-primary);
+    animation: blink 0.7s infinite;
+    font-weight: bold;
+    display: inline-block; /* Necessario per l'animazione */
+}
+.hero-harmonia-content p.subtitle {
+    font-size: 1.4rem;
+    font-weight: 400;
+    max-width: 650px;
+    margin: 0 auto 2.5rem;
+    color: var(--harmonia-text-light);
+    opacity: 0.8;
+}
+.btn-harmonia {
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-block;
+    border: 2px solid var(--harmonia-primary);
+    background-color: var(--harmonia-primary);
+    color: white;
+    box-shadow: 0 8px 20px rgba(130, 192, 204, 0.3);
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+}
+.btn-harmonia:hover {
+    background-color: transparent;
+    color: var(--harmonia-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(130, 192, 204, 0.4);
+}
+
+/* Sezioni Generali */
+section {
+    padding: var(--section-spacing) 5%;
+    position: relative;
+}
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+.section-header h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--harmonia-text-light);
+    position: relative;
+    display: inline-block;
+}
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 3px;
+    background: var(--harmonia-primary);
+    border-radius: 3px;
+}
+.section-header p.subtitle {
+    font-size: 1.2rem;
+    color: var(--harmonia-text-light);
+    opacity: 0.7;
+    max-width: 700px;
+    margin: 1.5rem auto 0;
+}
+.section-content {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* What is Harmonia Section - Modificato per layout a 2 colonne */
+#what-is-harmonia .section-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: flex-start;
+}
+#what-is-harmonia .text-column p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+}
+
+.harmonia-chat-demo {
+    border: 1px solid var(--harmonia-border-light);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    background-color: var(--harmonia-card-bg-light);
+    box-shadow: 0 5px 15px var(--harmonia-shadow-light);
+}
+.harmonia-chat-demo h3 {
+    font-size: 1.4rem; /* Leggermente più piccolo per adattarsi al box */
+    color: var(--harmonia-primary);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.chat-display {
+    height: 220px;
+    overflow-y: auto;
+    border: 1px solid var(--harmonia-border-light);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    background-color: var(--harmonia-bg-light);
+}
+.chat-input-area {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center; /* Allinea verticalmente input e bottone */
+}
+.chat-input-area input[type="text"] {
+    flex-grow: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--harmonia-border-light);
+    border-radius: 20px;
+    font-size: 0.95rem;
+    outline: none;
+    background-color: white;
+    color: #333; /* Colore testo input specifico */
+}
+.chat-input-area input[type="text"]:focus {
+    border-color: var(--harmonia-primary);
+    box-shadow: 0 0 0 2px rgba(var(--harmonia-primary-rgb), 0.2);
+}
+.chat-input-area button {
+    width: 44px; 
+    height: 44px;
+    padding: 0; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-radius: 50%; 
+    border: none;
+    background-color: var(--harmonia-primary); 
+    color: white; 
+    font-size: 1rem; 
+    cursor: pointer; 
+    transition: background-color 0.2s;
+    flex-shrink: 0; /* Impedisce al bottone di restringersi */
+}
+.chat-input-area button:hover {
+    background-color: var(--harmonia-secondary);
+}
+
+/* Features Section (Struttura Modulare) */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+.feature-card {
+    background-color: var(--harmonia-card-bg-light);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: 0 10px 30px var(--harmonia-shadow-light);
+    border: 1px solid var(--harmonia-border-light);
+    transition: var(--transition);
+    text-align: center;
+}
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px var(--harmonia-shadow-light);
+}
+.feature-card .icon {
+    font-size: 2.5rem;
+    color: var(--harmonia-primary);
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    padding: 1rem;
+    background-color: rgba(130, 192, 204, 0.1);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    line-height: 40px; /* Per centrare l'icona */
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+}
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+    color: var(--harmonia-text-light);
+}
+.feature-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+/* Animazione fluttuante per i container della timeline */
+@keyframes floatAnimation {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-7px); }
+}
+
+/* Harmonia Roadmap Section */
+#harmonia-roadmap {
+    background-color: var(--harmonia-bg-light); /* Leggermente diverso per stacco, o usa lo stesso del body */
+}
+.timeline-harmonia {
+    position: relative;
+    max-width: 900px; /* Leggermente più stretto per design pulito */
+    margin: 0 auto;
+}
+.timeline-harmonia::after { /* La linea centrale della timeline */
+    content: '';
+    position: absolute;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--harmonia-primary), var(--harmonia-accent));
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(var(--harmonia-primary-rgb), 0.3);
+}
+.timeline-container-harmonia {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    margin-bottom: 3.5rem; /* Spazio tra i quarter */
+    animation: floatAnimation 4s ease-in-out infinite;
+}
+.timeline-container-harmonia:nth-child(odd) {
+    left: 0;
+}
+.timeline-container-harmonia:nth-child(even) {
+    left: 50%;
+}
+/* Cerchio sulla linea della timeline */
+.timeline-container-harmonia::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: -10px;
+    background-color: var(--harmonia-bg-light);
+    border: 4px solid var(--harmonia-primary);
+    top: 20px; /* Allineato con l'inizio del contenuto */
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 0 0 8px rgba(var(--harmonia-primary-rgb), 0.2);
+}
+.timeline-container-harmonia:nth-child(even)::after {
+    left: -10px;
+}
+.timeline-content-harmonia {
+    padding: 1.8rem 2rem;
+    background: var(--harmonia-card-bg-light);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 25px var(--harmonia-shadow-light);
+    border: 1px solid var(--harmonia-border-light);
+    position: relative;
+    transition: var(--transition);
+    cursor: pointer; /* Indica che è cliccabile */
+}
+.timeline-content-harmonia:hover {
+    transform: translateY(-8px) scale(1.02); /* Manteniamo ingrandimento e sollevamento attuali */
+    /* "Illuminazione" attraverso un box-shadow che simula un bagliore + ombra di profondità */
+    box-shadow: 0 0 15px 3px rgba(var(--harmonia-primary-rgb), 0.3), /* Bagliore con colore primario */
+                0 6px 20px rgba(0, 0, 0, 0.12); /* Ombra di profondità leggermente più marcata */
+    border-color: var(--harmonia-primary);
+}
+.timeline-content-harmonia .quarter-badge {
+    display: inline-block;
+    background: var(--harmonia-primary);
+    color: white;
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+.timeline-content-harmonia h3 {
+    color: var(--harmonia-primary);
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+}
+.timeline-content-harmonia p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+/* Stili per l'anteprima dell'immagine nella timeline */
+.timeline-image-preview {
+    display: none; /* Nascosto di default */
+    margin-top: 1.5rem;
+    text-align: center;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.55s ease-in-out, opacity 0.55s ease-in-out, margin-top 0.55s ease-in-out;
+    opacity: 0;
+}
+.timeline-image-preview.visible {
+    display: block;
+    max-height: 250px; /* Altezza massima per l'immagine, puoi aggiustarla */
+    opacity: 1;
+}
+.timeline-image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 18px var(--harmonia-shadow-light);
+    border: 1px solid var(--harmonia-border-light);
+}
+
+/* Annina AI Section */
+#annina-ai .content-split {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+}
+#annina-ai .content-split .text-content { flex: 1; }
+#annina-ai .content-split .image-content { flex: 0 0 300px; text-align: center; }
+#annina-ai .content-split .image-content img {
+    max-width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px var(--harmonia-shadow-light);
+    aspect-ratio: 1/1;
+    loading: lazy;
+}
+#annina-ai ul {
+    list-style: none;
+    padding-left: 0;
+}
+#annina-ai ul li {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    padding-left: 1.8rem;
+    position: relative;
+}
+#annina-ai ul li::before {
+    content: '\f004'; /* Cuore FontAwesome */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: var(--harmonia-secondary);
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
+/* Mission Section */
+#mission-harmonia {
+    background-color: var(--harmonia-accent); /* Sfondo diverso per enfasi */
+    color: #4A4A4A; /* Testo scuro su sfondo chiaro */
+}
+#mission-harmonia .section-header h2, #mission-harmonia .section-header p.subtitle {
+    color: #4A4A4A;
+}
+#mission-harmonia .section-header h2::after {
+    background: #4A4A4A;
+}
+#mission-harmonia p {
+    font-size: 1.15rem;
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+}
+#mission-harmonia strong { color: var(--harmonia-primary); }
+
+/* Pricing Section */
+.pricing-grid {
+    display: flex; /* Cambiato da grid a flex */
+    flex-wrap: nowrap; /* Aggiunto per mantenere le card su una singola riga */
+    gap: 2rem; /* Mantenuto */
+    /* overflow-x: auto; Rimosso per farle stare tutte visibili se il contenitore è abbastanza largo */
+    justify-content: center; /* Centra le card se c'è spazio extra o se sono meno di quelle che riempirebbero la riga */
+}
+/* Specifica per la sezione prezzi per allargare il contenitore principale su desktop */
+#pricing-harmonia .section-content {
+    max-width: 1320px; /* Abbastanza per 4 card da ~300px + 3 gap da 2rem (32px*3=96px) => 1200+96 = 1296px. Diamo un po' di margine. */
+}
+
+.pricing-card {
+    background-color: var(--harmonia-card-bg-light);
+    border-radius: var(--border-radius);
+    padding: 2.5rem 2rem;
+    box-shadow: 0 10px 30px var(--harmonia-shadow-light);
+    border: 1px solid var(--harmonia-border-light);
+    transition: var(--transition);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Per il badge */
+    flex: 1; /* Permette alle card di crescere per riempire lo spazio */
+    min-width: 300px; /* Larghezza minima per le card, "un po' più grandi" */
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px var(--harmonia-shadow-light);
+}
+
+.pricing-card.recommended {
+    border-width: 2px; /* Bordo più spesso per il raccomandato */
+    border-color: var(--harmonia-primary);
+    box-shadow: 0 10px 40px rgba(var(--harmonia-primary-rgb), 0.3);
+}
+
+.recommended-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--harmonia-primary);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(var(--harmonia-primary-rgb), 0.3);
+}
+
+.pricing-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--harmonia-primary);
+}
+
+.price-tag {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--harmonia-text-light);
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+.price-tag span {
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.7;
+    font-family: 'Inter', sans-serif;
+}
+
+.pricing-card .features-list { /* Specificità per evitare conflitti */
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 2rem;
+    text-align: left;
+    flex-grow: 1; 
+}
+.pricing-card .features-list li {
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: flex-start; 
+}
+.pricing-card .features-list li i {
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+    width: 20px; 
+    text-align: center;
+    flex-shrink: 0; /* Impedisce all'icona di restringersi */
+    margin-top: 2px; /* Allineamento verticale fine */
+}
+.pricing-card .features-list li .fa-check { color: var(--harmonia-primary); }
+.pricing-card .features-list li .fa-times { color: var(--harmonia-secondary); opacity: 0.7; }
+
+.btn-harmonia-pricing {
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-block;
+    border: 2px solid var(--harmonia-primary);
+    background-color: var(--harmonia-primary);
+    color: white;
+    margin-top: auto; 
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+}
+.btn-harmonia-pricing:hover {
+    background-color: transparent;
+    color: var(--harmonia-primary);
+}
+.pricing-card.recommended .btn-harmonia-pricing {
+    background-color: var(--harmonia-primary); /* Mantiene lo stile primario per il raccomandato */
+    border-color: var(--harmonia-primary);
+    color: white;
+}
+.pricing-card.recommended .btn-harmonia-pricing:hover {
+    background-color: var(--harmonia-accent); 
+    border-color: var(--harmonia-accent);
+    color: var(--harmonia-text-light);
+}
+
+
+/* More Annina Features (Table) */
+.features-table-wrapper {
+    overflow-x: auto; /* Per responsività tabella */
+}
+.features-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    box-shadow: 0 8px 25px var(--harmonia-shadow-light);
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Per angoli arrotondati */
+}
+.features-table th, .features-table td {
+    padding: 1.2rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--harmonia-border-light);
+}
+.features-table th {
+    background-color: rgba(130, 192, 204, 0.1);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--harmonia-primary);
+}
+.features-table td {
+    font-size: 1.05rem;
+}
+.features-table tr:last-child td {
+    border-bottom: none;
+}
+.features-table td:first-child {
+    font-weight: 600;
+    color: var(--harmonia-secondary);
+}
+
+/* CTA Section */
+#cta-harmonia {
+    text-align: center;
+}
+
+/* Footer (adattato da index.html) */
+footer.harmonia-footer {
+    background: var(--harmonia-bg-dark); /* Sfondo scuro per contrasto */
+    color: var(--harmonia-text-dark);
+    padding: 6rem 5% 3rem;
+    border-top: 1px solid var(--harmonia-border-dark);
+}
+.harmonia-footer .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 0 auto 3rem;
+}
+.harmonia-footer .footer-column h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--harmonia-primary);
+}
+.harmonia-footer .footer-column p, .harmonia-footer .footer-column a {
+    color: var(--harmonia-text-dark);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+    display: block;
+    text-decoration: none;
+    transition: var(--transition);
+    font-size: 1rem;
+}
+.harmonia-footer .footer-column a:hover {
+    color: var(--harmonia-accent);
+    opacity: 1;
+    transform: translateX(3px);
+}
+.harmonia-footer .social-icons { display: flex; gap: 1rem; margin-top: 1.2rem; }
+.harmonia-footer .social-icons a {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(130, 192, 204, 0.15);
+    display: flex; justify-content: center; align-items: center;
+    color: var(--harmonia-primary); font-size: 1.1rem;
+}
+.harmonia-footer .social-icons a:hover {
+    background: var(--harmonia-primary); color: var(--harmonia-bg-dark);
+    transform: translateY(-3px);
+}
+.harmonia-footer .copyright {
+    text-align: center;
+    padding-top: 3rem;
+    border-top: 1px solid var(--harmonia-border-dark);
+    color: var(--harmonia-text-dark);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Back to Top Button */
+#backToTop {
+    position: fixed; bottom: 25px; right: 25px;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--harmonia-primary); color: white;
+    border: none; box-shadow: 0 4px 15px rgba(130, 192, 204, 0.4);
+    font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 3000; opacity: 0; pointer-events: none;
+    transition: opacity 0.4s, background-color 0.4s;
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+}
+#backToTop:hover { background: var(--harmonia-secondary); }
+
+/* Dark Mode Styles */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+body.dark-mode {
+    /* background-color: var(--harmonia-bg-dark); -- Spostato su HTML */
+    color: var(--harmonia-text-dark);
+}
+html.dark-mode-active { /* Classe per lo sfondo dell'html in dark mode */
+    background-color: var(--harmonia-bg-dark);
+}
+body.dark-mode nav.harmonia-nav {
+    background: rgba(39, 42, 61, 0.85);
+    border-bottom: 1px solid var(--harmonia-border-dark);
+}
+body.dark-mode .harmonia-nav .nav-links a { color: var(--harmonia-text-dark); }
+body.dark-mode .harmonia-nav .nav-links a:hover { color: var(--harmonia-primary); }
+body.dark-mode .hero-harmonia {
+     background: linear-gradient(135deg, var(--harmonia-bg-dark) 0%, var(--harmonia-primary) 300%);
+}
+body.dark-mode::before {
+     background: radial-gradient(ellipse at 20% 30%, rgba(var(--harmonia-primary-rgb), 0.3), transparent 70%), /* Forma ellittica per dark mode */
+                 radial-gradient(ellipse at 80% 70%, rgba(var(--harmonia-secondary-rgb), 0.25), transparent 70%); /* Forma ellittica per dark mode */
+    background-size: 250% 250%; /* Aumentato per onde più grandi (consistenza con light mode) */
+}
+body.dark-mode .hero-harmonia::before {
+    background: radial-gradient(ellipse at 70% 30%, rgba(130, 192, 204, 0.1) 0%, transparent 60%),
+                radial-gradient(ellipse at 30% 70%, rgba(245, 169, 184, 0.05) 0%, transparent 50%);
+    opacity: 0.5;
+}
+body.dark-mode .hero-harmonia-content h1, body.dark-mode .hero-harmonia-content p.subtitle {
+    color: var(--harmonia-text-dark);
+}
+body.dark-mode .harmonia-chat-demo {
+    border-color: var(--harmonia-border-dark);
+    background-color: var(--harmonia-card-bg-dark);
+    box-shadow: 0 5px 15px var(--harmonia-shadow-dark);
+}
+body.dark-mode .section-header h2, body.dark-mode .section-header p.subtitle {
+    color: var(--harmonia-text-dark);
+}
+body.dark-mode .feature-card {
+    background-color: var(--harmonia-card-bg-dark);
+    box-shadow: 0 10px 30px var(--harmonia-shadow-dark);
+    border: 1px solid var(--harmonia-border-dark);
+}
+body.dark-mode .feature-card h3 { color: var(--harmonia-text-dark); }
+body.dark-mode #annina-ai .content-split .image-content img {
+    box-shadow: 0 10px 30px var(--harmonia-shadow-dark);
+}
+/* Dark Mode per Harmonia Roadmap */
+body.dark-mode #harmonia-roadmap {
+    background-color: var(--harmonia-bg-dark);
+}
+body.dark-mode .timeline-harmonia::after {
+    box-shadow: 0 0 10px rgba(var(--harmonia-primary-rgb), 0.2);
+}
+body.dark-mode .timeline-container-harmonia::after {
+    background-color: var(--harmonia-bg-dark);
+    border-color: var(--harmonia-primary);
+}
+body.dark-mode .timeline-content-harmonia {
+    background: var(--harmonia-card-bg-dark);
+    box-shadow: 0 8px 25px var(--harmonia-shadow-dark);
+    border: 1px solid var(--harmonia-border-dark);
+}
+/* Effetto hover specifico per dark mode per la timeline */
+body.dark-mode .timeline-content-harmonia:hover {
+    transform: translateY(-8px) scale(1.02); /* Stesso transform */
+    box-shadow: 0 0 20px 4px rgba(var(--harmonia-primary-rgb), 0.35), /* Bagliore primario più visibile in dark mode */
+                0 8px 25px rgba(0, 0, 0, 0.3); /* Ombra di profondità più marcata per dark mode */
+    border-color: var(--harmonia-primary); /* Stesso colore bordo */
+}
+body.dark-mode .timeline-image-preview img {
+    box-shadow: 0 6px 18px var(--harmonia-shadow-dark);
+    border: 1px solid var(--harmonia-border-dark);
+}
+body.dark-mode #mission-harmonia {
+    background-color: var(--harmonia-accent);
+    color: var(--harmonia-text-light); 
+    border: 1px solid var(--harmonia-border-dark);
+}
+body.dark-mode #mission-harmonia {
+    background-color: var(--harmonia-accent);
+    color: var(--harmonia-text-light); 
+}
+body.dark-mode #mission-harmonia .section-header h2,
+body.dark-mode #mission-harmonia .section-header p.subtitle {
+    color: var(--harmonia-text-light);
+}
+body.dark-mode #mission-harmonia .section-header h2::after {
+    background: var(--harmonia-text-light);
+}
+body.dark-mode .features-table th {
+    background-color: rgba(130, 192, 204, 0.15);
+}
+body.dark-mode .features-table td {
+    border-bottom: 1px solid var(--harmonia-border-dark);
+}
+body.dark-mode #backToTop {
+    box-shadow: 0 4px 15px rgba(130, 192, 204, 0.2);
+}
+body.dark-mode .chat-display {
+    border-color: var(--harmonia-border-dark);
+    background-color: var(--harmonia-bg-dark);
+}
+body.dark-mode .chat-input-area input[type="text"] {
+    background-color: rgba(224, 224, 229, 0.1); 
+    border-color: var(--harmonia-border-dark);
+    color: var(--harmonia-text-dark); 
+}
+body.dark-mode .chat-input-area input[type="text"]:focus {
+    border-color: var(--harmonia-primary);
+    box-shadow: 0 0 0 2px rgba(var(--harmonia-primary-rgb), 0.3);
+}
+/* Dark Mode per Pricing Section */
+body.dark-mode .pricing-card {
+    background-color: var(--harmonia-card-bg-dark);
+    box-shadow: 0 10px 30px var(--harmonia-shadow-dark);
+    border: 1px solid var(--harmonia-border-dark);
+}
+body.dark-mode .pricing-card h3 {
+    color: var(--harmonia-primary); 
+}
+body.dark-mode .price-tag {
+    color: var(--harmonia-text-dark);
+}
+body.dark-mode .pricing-card.recommended {
+    border-color: var(--harmonia-primary);
+
+    box-shadow: 0 10px 30px var(--harmonia-shadow-dark), 0 0 20px rgba(var(--harmonia-primary-rgb), 0.15);
+}
+.chat-message {
+    padding: 0.5rem 0.8rem; border-radius: 8px; margin-bottom: 0.5rem;
+    font-size: 0.9rem; line-height: 1.4; max-width: 80%; word-wrap: break-word;
+}
+.user-message {
+    background-color: rgba(var(--harmonia-primary-rgb), 0.2); color: #333; 
+    margin-left: auto; text-align: left;
+}
+.annina-message {
+    background-color: rgba(var(--harmonia-accent-rgb), 0.25); color: #333; 
+    margin-right: auto; text-align: left;
+}
+body.dark-mode .user-message { background-color: rgba(var(--harmonia-primary-rgb), 0.3); color: var(--harmonia-text-dark); }
+body.dark-mode .annina-message { background-color: rgba(var(--harmonia-accent-rgb), 0.35); color: var(--harmonia-text-dark); }
+
+.beta-stats-ticker-container {
+    width: 100%;
+    background-color: rgba(var(--harmonia-primary-rgb), 0.07); /* Very subtle background */
+    color: var(--harmonia-primary);
+    padding: 0.6rem 0;
+    overflow: hidden; /* Crucial for marquee effect */
+    border-top: 1px solid var(--harmonia-border-light);
+    border-bottom: 1px solid var(--harmonia-border-light);
+    box-sizing: border-box;
+    margin-top: 0; /* Positioned directly after hero */
+}
+.beta-stats-ticker-track {
+    display: flex; /* Aligns items in a row */
+    width: fit-content; /* Ensures the track is as wide as its content */
+    animation: scrollLeftToRight 8s linear infinite; /* Animazione ancora più veloce (da 12s a 8s) */
+    opacity: 0.75; /* Requested transparency */
+    font-weight: 500;
+    font-style: italic; /* Corsivo solo per il ticker */
+    font-size: 0.95rem; /* Slightly smaller, typical for tickers */
+}
+.beta-stats-ticker-track .ticker-item {
+    white-space: nowrap; /* Prevents text from wrapping within an item */
+    padding: 0 2.5rem; /* Spacing between the repeated text blocks */
+}
+@keyframes scrollLeftToRight {
+    0% { transform: translateX(-50%); } /* Starts with the second item at the beginning of the viewport */
+    100% { transform: translateX(0); }    /* Ends with the first item at the beginning of the viewport, creating LTR scroll */
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero-harmonia-content h1 { font-size: 3rem; }
+    .hero-harmonia-content p.subtitle { font-size: 1.2rem; }
+    .section-header h2 { font-size: 2.4rem; }
+    #annina-ai .content-split { flex-direction: column; }
+    #annina-ai .content-split .image-content { margin-top: 2rem; flex: 0 0 auto; max-width: 300px;}
+    
+    /* Roadmap responsive per tablet */
+    .timeline-harmonia::after {
+        left: 31px; /* Sposta la linea a sinistra */
+    }
+    .timeline-container-harmonia {
+        width: 100%;
+        padding-left: 70px; /* Spazio per la linea e il cerchio */
+        padding-right: 25px;
+    }
+    .timeline-container-harmonia:nth-child(even) {
+        left: 0%; /* Allinea tutti i box a sinistra */
+    }
+    .timeline-container-harmonia::after, .timeline-container-harmonia:nth-child(even)::after {
+        left: 21px; /* Posiziona il cerchio sulla linea spostata */
+    }
+    #what-is-harmonia .section-content-grid {
+        grid-template-columns: 1fr;
+    }
+    /* Staggering animazione float per tablet */
+    .timeline-container-harmonia:nth-child(1) { animation-delay: 0s; }
+    .timeline-container-harmonia:nth-child(2) { animation-delay: 0.8s; }
+    .timeline-container-harmonia:nth-child(3) { animation-delay: 0.4s; }
+    .timeline-container-harmonia:nth-child(4) { animation-delay: 1.2s; }
+
+}
+
+body.dark-mode .beta-stats-ticker-container {
+    border-top-color: var(--harmonia-border-dark);
+    border-bottom-color: var(--harmonia-border-dark);
+}
+@media (max-width: 768px) {
+    body {
+        --section-spacing: 6rem; 
+    }
+    .harmonia-nav .nav-links {
+        position: fixed; top: 0; right: -100%; height: 100vh;
+        width: 70vw; max-width: 300px;
+        background: var(--harmonia-bg-light);
+        flex-direction: column; justify-content: center; align-items: flex-start;
+        padding: 5rem 2rem; gap: 1.8rem;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        opacity: 0; pointer-events: none;
+    }
+    .harmonia-nav .nav-links.active { right: 0; opacity: 1; pointer-events: auto; }
+    body.dark-mode .harmonia-nav .nav-links { background: var(--harmonia-bg-dark); }
+    .harmonia-nav .mobile-menu { display: block; z-index: 1001; }
+    .hero-harmonia-content h1 { font-size: 2.5rem; }
+    .hero-harmonia-content .app-icon { width: 80px; height: 80px; }
+    .hero-harmonia-content .app-icon i { font-size: 2.5rem; }
+    .section-header h2 { font-size: 2rem; }
+
+    /* Modifiche per la galleria in #features-harmonia (Struttura Modulare) */
+    #features-harmonia .features-grid {
+        scroll-snap-stop: always; /* Aggiunto per snapping più deciso */
+        display: flex; /* Cambia da grid a flex per lo scorrimento orizzontale */
+        overflow-x: auto; /* Abilita lo scroll orizzontale */
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch; /* Migliora l'esperienza di scroll su iOS */
+
+        gap: 1.5rem; 
+        padding-top: 0.5rem; 
+        padding-bottom: 1.5rem; /* Allineato con pricing per coerenza estetica (es. ombre) */
+
+        /* Nascondi la scrollbar per un look più pulito */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;  /* IE 10+ */
+
+        /* Adattamenti per compensare il padding della section (5%) e centrare le card (80vw) */
+        /* La section ha padding: var(--section-spacing) 5% */
+        /* .section-content ha max-width, su mobile sarà 100% del genitore (section) meno i padding laterali della section */
+        /* Quindi .section-content è circa 90vw. */
+        /* features-grid è figlio di section-content. */
+        margin-left: -5vw; /* Compensa il padding 5% della section a sinistra */
+        margin-right: -5vw; /* Compensa il padding 5% della section a destra */
+        width: calc(100% + 10vw); /* 100% del section-content (90vw) + 10vw = 100vw */
+        
+        padding-left: 10vw; /* Per centrare la prima card da 80vw: (100vw - 80vw) / 2 */
+        padding-right: 10vw; /* Per centrare l'ultima card da 80vw */
+    }
+    #features-harmonia .features-grid::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+
+    #features-harmonia .features-grid .feature-card {
+        flex-shrink: 0; /* Impedisce il restringimento */
+        flex-basis: 80vw; /* Ogni card occupa l'80% della larghezza della viewport */
+        min-width: 0; /* Cruciale per sovrascrivere min-width globali e permettere corretto flex-basis */
+        scroll-snap-align: center; /* Allinea la card al centro */
+        /* opacity: 1 !important; Rimosso per permettere animazioni JS */
+        /* transform: translateY(0) !important; Rimosso per permettere animazioni JS */
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; 
+        height: auto; /* Assicura che l'altezza sia definita dal contenuto */
+    }
+    /* Layout normale per i piani tariffari su mobile (stack verticale) */
+    #pricing-harmonia .pricing-grid {
+        flex-direction: column; /* Impila le card verticalmente */
+        align-items: center; /* Centra le card nella colonna */
+        /* Rimuove le proprietà specifiche dello scorrimento orizzontale */
+        overflow-x: visible;
+        scroll-snap-type: none;
+        margin-left: auto; /* Resetta i margini laterali */
+        margin-right: auto;
+        width: auto; /* Resetta la larghezza, lasciala al flusso normale */
+        padding-left: 0; /* Resetta i padding laterali */
+        padding-right: 0;
+        padding-top: 0; /* Resetta padding superiore */
+        padding-bottom: 0; /* Resetta padding inferiore */
+        /* gap: 2rem; è ereditato dal desktop e ora si applica verticalmente */
+    }
+
+    #pricing-harmonia .pricing-grid .pricing-card {
+        width: 90%;       /* Larghezza della card */
+        max-width: 400px; /* Massimo per leggibilità su schermi piccoli */
+        flex: 0 1 auto;   /* Non crescere, permetti restringimento, base automatica */
+        min-width: unset; /* Rimuovi il min-width del desktop */
+        scroll-snap-align: unset; /* Rimuovi lo snap */
+    }
+    .timeline-container-harmonia { /* Rimuovi animazione float su mobile se preferisci */
+        scroll-snap-align: center; 
+        /* opacity: 1 !important; Rimosso per permettere animazioni JS */
+        /* transform: translateY(0) !important; Rimosso per permettere animazioni JS */
+        height: auto; 
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; 
+    }
+
+    /* Staggering animazione float per mobile, se mantenuta */
+    .timeline-container-harmonia:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-container-harmonia:nth-child(2) { animation-delay: 0.9s; }
+}
+
+/* Daily Quote Section */
+#daily-quote-annina {
+    background-color: rgba(var(--harmonia-accent-rgb), 0.08); /* Sfondo leggero e piacevole */
+    padding: var(--section-spacing) 5%;
+}
+
+#daily-quote-annina .section-header h2::after {
+    background: var(--harmonia-secondary); /* Un tocco di colore diverso per l'header */
+}
+
+.daily-quote-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    background-color: var(--harmonia-card-bg-light);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px var(--harmonia-shadow-light);
+    border: 1px solid var(--harmonia-border-light);
+    text-align: center;
+    position: relative; /* Necessario per il contenitore dei cuori fluttuanti */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.quote-text {
+    font-size: 1.6rem; /* Testo della frase ben leggibile */
+    font-style: italic;
+    color: var(--harmonia-text-light);
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+    min-height: 4em; /* Aumentato leggermente per l'effetto macchina da scrivere */
+    position: relative; /* Per il cursore della macchina da scrivere */
+}
+
+.typing-cursor-quote {
+    display: inline-block;
+    background-color: var(--harmonia-secondary);
+    width: 2px;
+    height: 1.5rem; /* Altezza del cursore */
+    animation: blink 0.8s infinite;
+    vertical-align: text-bottom; /* Allinea con il testo */
+}
+
+.quote-reaction .like-button {
+    background: none;
+    border: none;
+    color: var(--harmonia-secondary); /* Colore del cuore */
+    font-size: 2.5rem; /* Icona cuore più grande */
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s, transform 0.3s;
+    outline: none;
+}
+.daily-quote-wrapper:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 15px 35px var(--harmonia-shadow-light);
+}
+.quote-reaction .like-button.liked {
+     color: var(--harmonia-secondary); /* Mantiene lo stesso colore per il cuore pieno */
+}
+
+.quote-reaction .like-count {
+    font-size: 1.2rem; /* Dimensione del contatore */
+    color: var(--harmonia-text-light); /* Colore del testo */
+    margin-left: 0.5rem; /* Spazio tra cuore e contatore */
+    vertical-align: middle; /* Allinea verticalmente con il cuore */
+    transition: color 0.3s;
+}
+.quote-reaction .like-button:hover {
+    transform: scale(1.15);
+}
+
+.floating-hearts-container {
+    position: absolute;
+    bottom: 70px; /* Posizionato sopra il pulsante */
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    width: 100px;
+    height: 100px;
+    z-index: 10;
+}
+.floating-heart {
+    position: absolute;
+    left: 50%; /* Centrato orizzontalmente nel container */
+    bottom: 0;
+    /* width: 22px;
+    height: 22px; */
+    opacity: 1;
+    /* animation: floatUpAndFade 1.7s ease-out forwards; */ /* Animazione gestita da JS */
+    color: var(--harmonia-secondary);
+    font-size: 22px;
+}
+
+@keyframes floatUpAndFade {
+    0% {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -180px) scale(0.3); /* Sale ancora più in alto e rimpicciolisce di più */
+        opacity: 0;
+    }
+}
+/* Animazione pulsazione per il bottone like */
+.like-button.pulsing {
+    animation: pulseHeart 0.5s ease-out;
+}
+@keyframes pulseHeart {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+
+
+/* Dark Mode per Daily Quote */
+body.dark-mode #daily-quote-annina {
+    background-color: rgba(var(--harmonia-accent-rgb), 0.04);
+}
+body.dark-mode .daily-quote-wrapper {
+    background-color: var(--harmonia-card-bg-dark);
+    border-color: var(--harmonia-border-dark);
+    box-shadow: 0 10px 30px var(--harmonia-shadow-dark);
+}
+body.dark-mode .daily-quote-wrapper:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 18px 40px var(--harmonia-shadow-dark);
+}
+body.dark-mode .quote-text {
+    color: var(--harmonia-text-dark);
+}
+.social-share-buttons {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.social-share-buttons span {
+    font-size: 1.1rem;
+    color: var(--harmonia-text-light);
+    font-weight: 500;
+}
+.social-share-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 1.6rem; /* Aumentata la dimensione delle icone */
+    text-decoration: none;
+    color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.social-share-buttons a.share-x {
+    background-color: #000;
+}
+.social-share-buttons a.share-linkedin {
+    background-color: #0A66C2;
+}
+.social-share-buttons a.share-instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+.social-share-buttons a:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+body.dark-mode .social-share-buttons span {
+    color: var(--harmonia-text-dark);
+}
+body.dark-mode .social-share-buttons a.share-x { background-color: #fff; color: #000; }
+
+body.dark-mode .quote-reaction .like-button {
+    color: var(--harmonia-secondary); /* Manteniamo il colore del cuore o adattiamolo se necessario */
+}
+body.dark-mode .quote-reaction .like-count {
+    color: var(--harmonia-text-dark);
+}
+
+@media (max-width: 768px) {
+    .quote-text { font-size: 1.3rem; }
+    .quote-reaction .like-button { font-size: 2.2rem; }
+    .timeline-container-harmonia:nth-child(3) { animation-delay: 0.5s; }
+    .timeline-container-harmonia:nth-child(4) { animation-delay: 1.3s; }
+}
+@media (max-width: 768px){
+    #what-is-harmonia .chat-column { margin-top: 2rem; }
+}
+
+/* Language Switcher Styles */
+.lang-switcher {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.lang-switcher:hover {
+    background-color: rgba(var(--harmonia-primary-rgb), 0.1);
+}
+
+.lang-switcher img {
+    width: 24px;
+    height: 18px;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: calc(100% + 10px); /* Position below the current flag */
+    right: 0; /* Align to the right */
+    background-color: var(--harmonia-card-bg-light);
+    border: 1px solid var(--harmonia-border-light);
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px var(--harmonia-shadow-light);
+    min-width: 150px;
+    z-index: 2001; /* Above navbar */
+    padding: 0.5rem 0;
+    display: none; /* Hidden by default */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px); /* Initial state for animation */
+    transition: opacity 0.3s ease, transform 0.3s ease, display 0.3s;
+}
+
+.lang-dropdown.active {
+    display: block; /* Show when active */
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.lang-flag-item {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    gap: 0.8rem;
+    color: var(--harmonia-text-light);
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.lang-flag-item:hover {
+    background-color: rgba(var(--harmonia-primary-rgb), 0.1);
+    color: var(--harmonia-primary);
+}
+
+.lang-flag-item img {
+    width: 24px;
+    height: 18px;
+    border-radius: 3px;
+}
+
+.lang-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Dark mode adjustments for language switcher */
+body.dark-mode .lang-switcher:hover {
+    background-color: rgba(var(--harmonia-primary-rgb), 0.2);
+}
+
+body.dark-mode .lang-dropdown {
+    background-color: var(--harmonia-card-bg-dark);
+    border-color: var(--harmonia-border-dark);
+    box-shadow: 0 5px 15px var(--harmonia-shadow-dark);
+}
+
+body.dark-mode .lang-flag-item {
+    color: var(--harmonia-text-dark);
+}
+
+body.dark-mode .lang-flag-item:hover {
+    background-color: rgba(var(--harmonia-primary-rgb), 0.2);
+    color: var(--harmonia-primary);
+}
