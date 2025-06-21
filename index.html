@@ -81,7 +81,7 @@
         <div class="theme-switch" title="Switch theme" aria-label="Switch theme" tabindex="0" style="margin-left: 1.5rem; cursor:pointer; font-size:1.7rem; color: var(--accent);">
             <i class="fas fa-moon" aria-hidden="true"></i>
         </div>
-        <button class="aura-toggle" id="aura-toggle" title="Toggle Aura Animation" aria-label="Toggle Aura Animation" style="margin-left: 1rem; cursor:pointer; font-size:1.7rem; color: var(--accent); background: none; border: none; padding: 0;">
+        <button class="aura-toggle" id="aura-toggle" title="Toggle Aura Animation" aria-label="Toggle Aura Animation" style="margin-left: 1rem; cursor:pointer; font-size:1.7rem; color: var(--accent); background: none; border: none; padding: 0;" type="button">
             <i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i>
         </button>
         <div class="lang-switcher" title="Change language" aria-label="Change language">
@@ -111,7 +111,7 @@
     </nav>
     </header>
     <main id="main-content">
-    <!-- Hero Section -->
+    <!-- Hero Section --> 
     <section class="hero reveal-section" aria-labelledby="hero-title">
         <canvas class="hero-bg-anim" aria-hidden="true"></canvas>
         <div class="hero-content">
@@ -119,7 +119,7 @@
             <p>J.M Enterprises pioneers next-generation technologies that redefine human mental health.</p>
             <div class="hero-buttons">
                 <a href="/harmonia/harmonia.html" class="btn btn-primary">Explore Harmonia</a>
-                <a href="src/chat.html" class="btn btn-secondary" id="beta-annina-btn">Beta Annina</a>
+                <a href="src/chat.html" class="btn btn-secondary" id="beta-annina-btn" aria-label="Beta Annina (si apre in una nuova scheda)" target="_blank" rel="noopener noreferrer">Beta Annina</a>
             </div>
         </div>
         <div class="scroll-down" aria-hidden="true">
@@ -128,9 +128,9 @@
     </section>
     
     <!-- About Section -->
-    <section id="about" class="reveal-section">
+    <section id="about" class="reveal-section" aria-labelledby="about-heading">
         <div class="section-header">
-            <h2>Our Vision</h2>
+            <h2 id="about-heading">Our Vision</h2>
             <p>Pioneering the next generation of transformative technologies</p>
         </div>
         <div class="section-content">
@@ -142,7 +142,7 @@
                         <p>Our goal is to democratize innovation, offering solutions that combine the power of <strong>AI and modern technology with simplicity and empathy</strong>.</p>
                         <p>We believe that innovation should not be a luxury, but a right for everyone, regardless of income,language, or background.</p>
                     </p>
-                    <a href="#team" class="btn btn-secondary">Meet Our Visionaries</a>
+                    <a href="#team" class="btn btn-secondary">Meet Our Visionaries</a> 
                 </div>
                 <div class="about-image">
                     <img src="assets/favicon.png" alt="About J.M Enterprises" style="width:100%;height:100%;object-fit:contain;display:block;">
@@ -152,9 +152,9 @@
     </section>
     
     <!-- Products Section -->
-    <section id="products" class="products reveal-section">
+    <section id="products" class="products reveal-section" aria-labelledby="products-heading">
         <div class="section-header">
-            <h2>Our Innovations</h2>
+            <h2 id="products-heading">Our Innovations</h2>
             <p>Revolutionary technologies designed to transform industries</p>
         </div>
         <div class="section-content">
@@ -171,7 +171,7 @@
                                 reflect trough journaling, and feel understood when it matters most.
                             </p>
                             <a href="harmonia/harmonia.html" class="btn btn-secondary" target="_blank">Discover Harmonia</a>
-                        </div>
+                        </div> 
                     </div>
                     <div class="product-card">
                         <div class="product-image">
@@ -185,7 +185,7 @@
                                 Powered by AI, Saint anticipates trends, detects inefficiencies, and offers actionable insights to optimize your operations and reduce waste.
                             </p>
                             <a href="#forum" class="btn btn-secondary">Explore Saint & Co.</a>
-                        </div>
+                        </div> 
                     </div>
                     <div class="product-card">
                         <div class="product-image">
@@ -196,23 +196,23 @@
                             <p>AuraX is the world’s first AI-powered coach for cognitive and energetic performance, designed to help individuals unlock their peak focus, emotional balance, and mental clarity. Through real-time analysis and personalized guidance, AuraX empowers users to master their inner state and perform at their best every day. </p>
                             <a href="#forum" class="btn btn-secondary">Discover Quantum</a>
                         </div>
-                    </div>
+                    </div> 
                 </div>
                 <button class="carousel-arrow prev-arrow product-prev-arrow" aria-label="Previous product"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-arrow next-arrow product-next-arrow" aria-label="Next product"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
     </section>
-
+    
     <!-- Forum/Contact Section -->
-    <section id="forum" class="reveal-section">
+    <section id="forum" class="reveal-section" aria-labelledby="forum-heading">
         <div class="section-header">
-            <h2 id="forum-main-title">Join Our Community</h2>
+            <h2 id="forum-heading">Join Our Community</h2>
             <p id="forum-main-desc">Stay updated, share your interest, or get in touch with us.</p>
         </div>
         <div class="section-content">
-            <div class="forum-wrapper">
-                <form id="contact-forum" autocomplete="off">
+            <div class="forum-wrapper"> 
+                <form id="contact-forum">
                     <div>
                         <label for="forum-name" id="label-forum-name">Name</label>
                         <input type="text" id="forum-name" name="forum_name" required placeholder="Your name">
@@ -227,7 +227,7 @@
                     </div>
                     <div>
                         <label for="forum-interest" id="label-forum-interest">I'm interested in</label>
-                        <select id="forum-interest" name="forum_interest" required>
+                        <select id="forum-interest" name="forum_interest" required disabled selected>
                             <option value="" id="forum-select-option">Select...</option>
                             <option value="newsletter" id="forum-interest-newsletter">Newsletter</option>
                             <option value="wishlist" id="forum-interest-wishlist">Product Waitlist</option>
@@ -244,23 +244,21 @@
                     <button type="submit" class="btn btn-primary" id="forum-submit-btn">Submit</button>
                 </form>
                 <div class="forum-success-message" id="forum-success-message">
-                    <div class="thankyou-page-forum">
+                    <div class="thankyou-page-forum"> 
                         <div class="thankyou-anim-forum">
-                            <svg class="checkmark-forum" viewBox="0 0 52 52"><circle class="checkmark-circle-forum" cx="26" cy="26" r="25" fill="none"/><path class="checkmark-check-forum" fill="none" d="M14 27l7 7 16-16"/></svg>
+                            <svg class="checkmark-forum" viewBox="0 0 52 52" aria-hidden="true"><circle class="checkmark-circle-forum" cx="26" cy="26" r="25" fill="none"/><path class="checkmark-check-forum" fill="none" d="M14 27l7 7 16-16"/></svg>
                         </div>
                         <div class="thankyou-title-forum" id="forum-thankyou-title-text"></div>
                         <div class="thankyou-msg-forum" id="forum-thankyou-msg-text"></div>
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
     </section>
-
-    
     <!-- Roadmap Section -->
-    <section id="roadmap" class="roadmap reveal-section">
+    <section id="roadmap" class="roadmap reveal-section" aria-labelledby="roadmap-heading">
         <div class="section-header">
-            <h2>Strategic Roadmap</h2>
+            <h2 id="roadmap-heading">Strategic Roadmap</h2>
             <p>Our journey to technological leadership</p>
         </div>
         <div class="section-content">
@@ -301,9 +299,9 @@
     </section>
     
     <!-- Team Section -->
-    <section id="team" class="reveal-section">
+    <section id="team" class="reveal-section" aria-labelledby="team-heading">
         <div class="section-header">
-            <h2>Visionary Leadership</h2>
+            <h2 id="team-heading">Visionary Leadership</h2>
             <p>The minds shaping our technological future</p>
         </div>
         <div class="section-content">
@@ -311,7 +309,7 @@
                 <div class="team-grid">
                     <div class="team-card">
                         <div class="team-image">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user" aria-hidden="true"></i>
                         </div>
                         <div class="team-content">
                             <h3>Claudio Montoya</h3>
@@ -321,7 +319,7 @@
                     </div>
                     <div class="team-card">
                         <div class="team-image">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user" aria-hidden="true"></i>
                         </div>
                         <div class="team-content">
                             <h3>N/A</h3>
@@ -331,7 +329,7 @@
                     </div>
                     <div class="team-card">
                         <div class="team-image">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user" aria-hidden="true"></i>
                         </div>
                         <div class="team-content">
                             <h3>N/A</h3>
@@ -341,7 +339,7 @@
                     </div>
                     <div class="team-card">
                         <div class="team-image">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user" aria-hidden="true"></i>
                         </div>
                         <div class="team-content">
                             <h3>N/A</h3>
@@ -351,11 +349,10 @@
                     </div>
                 </div>
                 <button class="carousel-arrow prev-arrow team-prev-arrow" aria-label="Previous member"><i class="fas fa-chevron-left"></i></button>
-                <button class="carousel-arrow next-arrow team-next-arrow" aria-label="Next member"><i class="fas fa-chevron-right"></i></button>
+                <button class="carousel-arrow next-arrow team-next-arrow" aria-label="Next member"><i class="fas fa-chevron-right"></i></button> 
             </div>
         </div>
     </section>
-    
     <!-- Footer -->
     </main>
     <footer>
@@ -367,8 +364,8 @@
                     <div class="social-icons">
                         <a href="https://linkedin.in/clamontoya" target="_blank" aria-label="LinkedIn J.M Enterprises"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
                         <a href="https://x.com/sambucooo" target="_blank" aria-label="Twitter J.M Enterprises"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-                        <a href="https://instagram.com/_claudiomontoya_" target="_blank" aria-label="Instagram J.M Enterprises"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-                        <a href="https://github.com/clamontoya28" target="_blank" aria-label="GitHub J.M Enterprises"><i class="fab fa-github" aria-hidden="true"></i></a>
+                        <a href="https://instagram.com/_claudiomontoya_" target="_blank" aria-label="Instagram J.M Enterprises (si apre in una nuova scheda)" rel="noopener noreferrer"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="https://github.com/clamontoya28" target="_blank" aria-label="GitHub J.M Enterprises (si apre in una nuova scheda)" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -380,21 +377,19 @@
                 <div class="footer-column">
                     <h3>Company</h3>
                     <a href="#">About Us</a>
-                    <a href="#">Leadership</a>
-                    <a href="#">Careers</a>
-                    <a href="#">Investor Relations</a>
-                    <a href="src/gdpr.html" target="_blank">GDPR-Privacy Policy</a>
+                    <a href="#">Leadership</a> 
+                    <a href="src/gdpr.html" target="_blank" aria-label="GDPR-Privacy Policy (si apre in una nuova scheda)" rel="noopener noreferrer">GDPR-Privacy Policy</a>
                 </div>
                 <div class="footer-column">
                     <h3>Contact</h3>
                     <a href="mailto:info@jmenterprises.it"><i class="fas fa-envelope" aria-hidden="true"></i> info@jmenterprises.it</a>
                     <a href="mailto:claudio@jmenterprises.it"><i class="fas fa-envelope" aria-hidden="true"></i> claudio@jmenterprises.it</a>
-                    <a href="https://wa.me/393274545932" target="_blank"><i class="fas fa-phone" aria-hidden="true"></i> +39 3274545932</a>
-                    <a href="#"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Genova,Liguria - IT</a>
+                    <a href="https://wa.me/393274545932" target="_blank" aria-label="Contatto WhatsApp (si apre in una nuova scheda)" rel="noopener noreferrer"><i class="fas fa-phone" aria-hidden="true"></i> +39 3274545932</a>
+                    <a href="#"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Genova,Liguria - IT</a> 
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 J.M Enterprises Holdings. All rights reserved. | Con amore per Annina🩷.</p>
+                <p>&copy; 2025 J.M Enterprises Holdings. All rights reserved. | Con amore per Annina <i class="fas fa-sparkles" aria-hidden="true"></i>.</p>
             </div>
         </div>
     </footer>

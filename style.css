@@ -12,29 +12,30 @@ html {
     --text-secondary: #a1a1aa;
     --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     --success-green-rgb: 37, 211, 102; /* RGB per --success-green */
-    --success-green: #25d366; /* Verde per successo */
+    --success-green: #25d366; /* Verde per successo */ 
     --text-secondary-rgb: 161, 161, 170; /* RGB per text-secondary */
     --accent-rgb: 212, 175, 55; /* RGB per trasparenza */
     --border-radius: 12px;
     --section-spacing: 10rem;
     --glass: rgba(18, 18, 24, 0.6);
     --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-}
-:root {
-    /* ... existing variables ... */
     --accent-light-rgb: 230, 197, 103; /* Lighter gold */
     /* Aura colors for dark mode (default) */
     --aura-color1-rgb: var(--accent-rgb); /* 212, 175, 55 */
     --aura-color2-rgb: var(--accent-light-rgb); /* 230, 197, 103 */
     --aura-opacity1: 0.1;
     --aura-opacity2: 0.07;
+    --black-rgb: 10, 10, 15; /* Added for consistency with rgba(var(--black-rgb, ...)) */
 }
 body.light-mode {
-    /* Aura colors for light mode */
-    --aura-color1-rgb: 212, 175, 55; /* gold */
-    --aura-color2-rgb: 230, 197, 103; /* light gold */
-    --aura-opacity1: 0.22; /* più visibile su sfondo chiaro */
-    --aura-opacity2: 0.13;
+    /* Merged light mode styles */
+    background: #f5f5f7;
+    color: #222;
+    /* Aura colors for light mode (keeping the last definition from the original file) */
+    --aura-color1-rgb: 212, 175, 55; /* Gold */
+    --aura-color2-rgb: 220, 220, 240; /* Pale Lavender Blue */
+    --aura-opacity1: 0.12;
+    --aura-opacity2: 0.1;
 }
 body.light-mode::before {
     /* Più opaco e visibile in light mode */
@@ -45,7 +46,6 @@ body.light-mode::before {
     background-size: 280% 280%, 220% 220%, 180% 180%;
     transition: opacity 0.5s, background 0.5s;
 }
-
 * {
     margin: 0;
     padding: 0;
@@ -682,9 +682,7 @@ section {
     object-fit: contain; /* Mantiene le proporzioni, adattandosi allo spazio */
     aspect-ratio: 1/1;
 }
-.product-image img, .about-image img {
-    loading: lazy;
-}
+/* Removed: loading: lazy; as it is an HTML attribute, not a CSS property. */
 .product-image i {
     font-size: 6rem;
     color: var(--accent);

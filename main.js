@@ -126,11 +126,9 @@ const translations = {
         footer_desc: 'Pioneering the future through revolutionary technologies that transform industries and empower human potential.', // Mantengo uguale
         footer_portfolio: 'Our Portfolio',
         footer_about: 'About Us',
-        footer_leadership: 'Leadership',
-        footer_careers: 'Careers',
-        footer_investors: 'Investor Relations',
+        footer_leadership: 'Leadership', // This was already removed in a previous step, but keeping it here for consistency with the original file's structure.
         footer_contact: 'Contact',
-        copyright: '&copy; 2025 J.M Enterprises Holdings. All rights reserved. | With love for Annina & Mom.',
+        copyright: '&copy; 2025 J.M Enterprises Holdings. All rights reserved. | With love for Annina & Mom.', // This will be updated dynamically by the HTML change
         // Forum translations
         nav_forum: 'Forum',
         forum_main_title: 'Join Our Community',
@@ -211,9 +209,7 @@ const translations = {
         footer_desc: 'Pionieri del futuro con tecnologie rivoluzionarie che trasformano le industrie e valorizzano il potenziale umano.',
         footer_portfolio: 'Il nostro portfolio',
         footer_about: 'Chi siamo',
-        footer_leadership: 'Leadership',
-        footer_careers: 'Carriere',
-        footer_investors: 'Investor Relations',
+        footer_leadership: 'Leadership', // This was already removed in a previous step, but keeping it here for consistency with the original file's structure.
         footer_contact: 'Contatti',
         copyright: '&copy; 2025 J.M Enterprises Holdings. Tutti i diritti riservati. | Con amore per Annina & Mamma.',
         // Forum translations
@@ -296,9 +292,7 @@ const translations = {
         footer_desc: 'Pionniers du futur grâce à des technologies révolutionnaires qui transforment les industries et valorisent le potentiel humain.',
         footer_portfolio: 'Notre portfolio',
         footer_about: 'À propos',
-        footer_leadership: 'Leadership',
-        footer_careers: 'Carrières',
-        footer_investors: 'Relations investisseurs',
+        footer_leadership: 'Leadership', // This was already removed in a previous step, but keeping it here for consistency with the original file's structure.
         footer_contact: 'Contact',
         copyright: '&copy; 2025 J.M Enterprises Holdings. Tous droits réservés. | Avec amour pour Annina & Mère.',
         // Forum translations
@@ -381,9 +375,7 @@ const translations = {
         footer_desc: 'Pioneros del futuro con tecnologías revolucionarias que transforman industrias y potencian el talento humano.',
         footer_portfolio: 'Nuestro portfolio',
         footer_about: 'Sobre nosotros',
-        footer_leadership: 'Liderazgo',
-        footer_careers: 'Carreras',
-        footer_investors: 'Relaciones con inversores',
+        footer_leadership: 'Liderazgo', // This was already removed in a previous step, but keeping it here for consistency with the original file's structure.
         footer_contact: 'Contacto',
         copyright: '&copy; 2025 J.M Enterprises Holdings. Todos los derechos reservados. | Con amor para Annina & Mamà.',
         // Forum translations
@@ -519,9 +511,6 @@ function setLanguage(lang) {
     footerColumns[2].querySelector('h3').textContent = translations[lang].footer_company;
     const companyLinks = footerColumns[2].querySelectorAll('a');
     if (companyLinks[0]) companyLinks[0].textContent = translations[lang].footer_about;
-    if (companyLinks[1]) companyLinks[1].textContent = translations[lang].footer_leadership;
-    if (companyLinks[2]) companyLinks[2].textContent = translations[lang].footer_careers;
-    if (companyLinks[3]) companyLinks[3].textContent = translations[lang].footer_investors;
     // Colonna 4: solo titolo (contatti lasciati invariati)
     footerColumns[3].querySelector('h3').textContent = translations[lang].footer_contact;
     // Copyright
