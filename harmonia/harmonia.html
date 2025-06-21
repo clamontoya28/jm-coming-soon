@@ -174,7 +174,7 @@
                         <span>Condividi:</span>
                         <a href="#" id="shareX" class="share-x" title="Condividi su X"><i class="fab fa-twitter"></i></a> <!-- Modificato da fa-x-twitter a fa-twitter per compatibilità con Font Awesome Free -->
                         <a href="#" id="shareLinkedin" class="share-linkedin" title="Condividi su LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" id="shareInstagram" class="share-instagram" title="Copia per Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" id="shareInstagram" class="share-instagram" title="Crea immagine per Instagram"><i class="fab fa-instagram"></i></a>
                     </div>
                     <div id="floatingHeartsContainer" class="floating-hearts-container"></div>
                 </div>
@@ -392,6 +392,56 @@
             </div>
         </section>
     </main>
+
+    <!-- Share Modal -->
+    <div id="share-modal" class="share-modal-overlay">
+        <div class="share-modal-content">
+            <button id="close-share-modal" class="close-modal-btn" aria-label="Chiudi finestra di condivisione">&times;</button>
+            <h2>Crea e Condividi la tua Card</h2>
+            <div class="share-modal-body">
+                <div class="share-preview-container">
+                    <img id="share-preview-image" src="" alt="Anteprima della frase del giorno">
+                    <div id="share-preview-loader" class="loader" style="display: none;"></div>
+                </div>
+                <div class="share-options-container">
+                    <h3>Scegli uno Sfondo</h3>
+                    <div id="background-options" class="background-options-grid">
+                        <button class="background-option active" data-bg="aura-celeste">
+                            <span class="bg-preview" style="background: linear-gradient(to bottom, #3498db, #c5e3f8);"></span>
+                            Celeste
+                        </button>
+                        <button class="background-option" data-bg="aura-rosa">
+                            <span class="bg-preview" style="background: linear-gradient(to bottom, #d91e5b, #fccde0);"></span>
+                            Rosa
+                        </button>
+                        <button class="background-option" data-bg="aura-verde">
+                            <span class="bg-preview" style="background: linear-gradient(to bottom, #27ae60, #b3e6c9);"></span>
+                            Verde
+                        </button>
+                        <button class="background-option" data-bg="aura-viola">
+                            <span class="bg-preview" style="background: linear-gradient(to bottom, #8e44ad, #e1cde8);"></span>
+                            Viola
+                        </button>
+                        <button class="background-option" data-bg="light">
+                            <span class="bg-preview" style="background: linear-gradient(to bottom, #e0e0e0, #ffffff);"></span>
+                            Chiaro
+                        </button>
+                        <button class="background-option" data-bg="dark">
+                            <span class="bg-preview" style="background: linear-gradient(to bottom, #2c3e50, #465a6c);"></span>
+                            Scuro
+                        </button>
+                    </div>
+                    <h3>Condividi</h3>
+                    <button id="final-share-button" class="btn-harmonia-pricing"><i class="fas fa-share-alt"></i> Condividi Ora</button>
+                    <p class="share-fallback-info">Se la condivisione non è supportata, l'immagine verrà scaricata.</p>
+                    <div class="form-group">
+                        <input type="checkbox" id="download-permission" name="download_permission" required>
+                        <label for="download-permission">Acconsento al download dell'immagine sul mio dispositivo nel caso la condivisione diretta non sia possibile. *</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="harmonia-footer">
         <div class="footer-content">

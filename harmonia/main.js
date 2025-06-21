@@ -1,47 +1,329 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Social Share for Daily Quote
+    // Elementi per la condivisione
     const likeAudio = document.getElementById('likeAudio');
     const quoteTextElem = document.getElementById('anninaDailyQuoteText');
     const shareX = document.getElementById('shareX');
     const shareLinkedin = document.getElementById('shareLinkedin');
     const shareInstagram = document.getElementById('shareInstagram');
+    const shareModal = document.getElementById('share-modal');
+    const closeShareModalBtn = document.getElementById('close-share-modal');
+    const sharePreviewImage = document.getElementById('share-preview-image');
+    const sharePreviewLoader = document.getElementById('share-preview-loader');
+    const backgroundOptionsContainer = document.getElementById('background-options');
+    const finalShareButton = document.getElementById('final-share-button');
+
+    let currentCardBlob = null; // Per memorizzare il blob dell'immagine generata
 
     function getQuote() {
         return quoteTextElem ? quoteTextElem.innerText.trim() : '';
     }
 
-    if (shareX) {
-        shareX.addEventListener('click', function(e) {
-            e.preventDefault();
-            const quote = getQuote();
-            const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(quote + ' #HarmoniaApp');
-            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
-        });
-    }
-    if (shareLinkedin) {
-        shareLinkedin.addEventListener('click', function(e) {
-            e.preventDefault();
-            const quote = getQuote();
-            const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(quote);
-            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&summary=${text}`, '_blank');
-        });
-    }
-    if (shareInstagram) {
-        shareInstagram.addEventListener('click', function(e) {
-            e.preventDefault();
-            const quote = getQuote();
-            navigator.clipboard.writeText(quote).then(function() {
-                shareInstagram.title = 'Frase copiata! Incolla su Instagram Stories.';
-                shareInstagram.style.color = 'var(--harmonia-secondary)';
-                setTimeout(() => {
-                    shareInstagram.title = 'Copia per Instagram';
-                    shareInstagram.style.color = '';
-                }, 2000);
+    // --- Logica per la nuova modale di condivisione ---
+
+    // Aprire la modale quando si clicca su un'icona di condivisione
+    [shareX, shareLinkedin, shareInstagram].forEach(button => {
+        if (button) {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                openShareModal();
             });
+        }
+    });
+
+    function openShareModal() {
+        if (!shareModal) return;
+        shareModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+
+        const defaultBg = backgroundOptionsContainer.querySelector('.active')?.dataset.bg || 'aura-celeste';
+        updateSharePreview(defaultBg);
+    }
+
+    function closeShareModal() {
+        if (!shareModal) return;
+        shareModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    async function updateSharePreview(backgroundType) {
+        if (!sharePreviewImage || !sharePreviewLoader) return;
+
+        sharePreviewLoader.style.display = 'block';
+        sharePreviewImage.style.opacity = '0.5';
+
+        const quote = getQuote();
+        const isDarkMode = document.body.classList.contains('dark-mode');
+
+        try {
+            const dataUrl = await createQuoteCard(quote, isDarkMode, backgroundType);
+            sharePreviewImage.src = dataUrl;
+            // Converti in blob per la condivisione
+            const response = await fetch(dataUrl);
+            currentCardBlob = await response.blob();
+        } catch (error) {
+            console.error("Errore durante l'aggiornamento dell'anteprima:", error);
+            sharePreviewImage.alt = "Errore nella creazione dell'anteprima.";
+        } finally {
+            sharePreviewLoader.style.display = 'none';
+            sharePreviewImage.style.opacity = '1';
+        }
+    }
+
+    async function shareCard() {
+        if (!currentCardBlob) {
+            alert("Attendi la generazione dell'immagine prima di condividere.");
+            return;
+        }
+
+        const downloadPermission = document.getElementById('download-permission');
+        if (!downloadPermission || !downloadPermission.checked) {
+            alert("Per favore, acconsenti al download dell'immagine se la condivisione diretta non è possibile.");
+            return;
+        }
+
+        const quote = getQuote();
+        const file = new File([currentCardBlob], "harmonia_frase_del_giorno.png", { type: currentCardBlob.type });
+
+        // Usa la Web Share API se disponibile
+        if (navigator.share && navigator.canShare({ files: [file] })) {
+            try {
+                await navigator.share({
+                    files: [file],
+                    title: 'Frase del Giorno da Harmonia',
+                    text: `"${quote}" - via Harmonia App`,
+                });
+                closeShareModal(); // Chiudi la modale dopo la condivisione
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Errore durante la condivisione:', error);
+                    alert("Condivisione fallita. L'immagine verrà scaricata come alternativa.");
+                    downloadImage(sharePreviewImage.src, "harmonia_frase_del_giorno.png");
+                }
+            }
+        } else {
+            // Fallback per browser non supportati (es. desktop)
+            alert("La condivisione diretta non è supportata dal tuo browser. L'immagine verrà scaricata per permetterti di condividerla manualmente.");
+            downloadImage(sharePreviewImage.src, "harmonia_frase_del_giorno.png");
+        }
+    }
+
+    // Listeners per la modale
+    if (closeShareModalBtn) closeShareModalBtn.addEventListener('click', closeShareModal);
+    if (finalShareButton) finalShareButton.addEventListener('click', shareCard);
+    if (shareModal) shareModal.addEventListener('click', (e) => {
+        if (e.target === shareModal) closeShareModal(); // Chiudi cliccando sull'overlay
+    });
+    if (backgroundOptionsContainer) {
+        backgroundOptionsContainer.addEventListener('click', (e) => {
+            const button = e.target.closest('.background-option');
+            if (button && !button.classList.contains('active')) {
+                backgroundOptionsContainer.querySelector('.active')?.classList.remove('active');
+                button.classList.add('active');
+                updateSharePreview(button.dataset.bg);
+            }
         });
     }
+
+    /**
+ * Crea un'immagine della frase del giorno su un canvas e restituisce la sua Data URL.
+ * @param {string} quote - La frase da visualizzare sull'immagine.
+ * @param {boolean} isDark - Se `true`, genera la card in tema scuro.
+ * @param {string} backgroundType - Il tipo di sfondo da usare ('aura-celeste', 'light', 'dark', etc.).
+ * @returns {Promise<string>} - Una Promise che si risolve con la Data URL dell'immagine PNG.
+ */
+async function createQuoteCard(quote, isDark = false, backgroundType = 'aura-celeste') {
+    const canvas = document.createElement('canvas');
+    // Dimensioni standard per un post Instagram (quadrato)
+    canvas.width = 1080;
+    canvas.height = 1080;
+    const ctx = canvas.getContext('2d');
+
+    // Definisce i colori in base al tema
+        const colors = {
+        cardBg: isDark ? '#2a2a3e' : '#ffffff',
+        shadow: isDark ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0.1)',
+        primaryText: isDark ? '#e0e0e0' : '#333333',
+        secondaryText: isDark ? '#a0a0b0' : '#666666'
+    };
+
+    // 1. Disegna lo sfondo in base al tipo
+    let bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height); // Gradiente verticale
+    switch (backgroundType) {
+        case 'light':
+            bgGradient.addColorStop(0, '#e0e0e0'); // Grigio chiaro
+            bgGradient.addColorStop(1, '#ffffff'); // Bianco
+            break;
+        case 'dark':
+            bgGradient.addColorStop(0, '#2c3e50'); // Blu notte
+            bgGradient.addColorStop(1, '#465a6c'); // Grigio-blu scuro
+            break;
+        case 'aura-rosa':
+            if (isDark) {
+                bgGradient.addColorStop(0, '#c2185b'); // Magenta scuro
+                bgGradient.addColorStop(1, '#e94e77'); // Rosa più chiaro e vibrante
+            } else {
+                bgGradient.addColorStop(0, '#d91e5b'); // Rosa intenso
+                bgGradient.addColorStop(1, '#fccde0'); // Rosa molto chiaro
+            }
+            break;
+        case 'aura-verde':
+            if (isDark) {
+                bgGradient.addColorStop(0, '#16a085'); // Verde mare
+                bgGradient.addColorStop(1, '#58d68d'); // Smeraldo chiaro
+            } else {
+                bgGradient.addColorStop(0, '#27ae60'); // Verde nefrite
+                bgGradient.addColorStop(1, '#b3e6c9'); // Menta molto chiaro
+            }
+            break;
+        case 'aura-viola':
+            if (isDark) {
+                bgGradient.addColorStop(0, '#8e44ad'); // Glicine
+                bgGradient.addColorStop(1, '#c39bd3'); // Lavanda
+            } else {
+                bgGradient.addColorStop(0, '#8e44ad'); // Glicine
+                bgGradient.addColorStop(1, '#e1cde8'); // Lavanda molto chiaro
+            }
+            break;
+        case 'aura-celeste':
+        default:
+            if (isDark) {
+                bgGradient.addColorStop(0, '#2c3e50'); // Blu notte
+                bgGradient.addColorStop(1, '#5d8aa8'); // Blu Air Force
+            } else {
+                bgGradient.addColorStop(0, '#3498db'); // Blu Peter River
+                bgGradient.addColorStop(1, '#c5e3f8'); // Azzurro cielo molto chiaro
+            }
+            break;
+    }
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 2. Disegna la card con l'ombra
+    ctx.shadowColor = colors.shadow;
+    ctx.shadowBlur = 25;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 8;
+    ctx.fillStyle = colors.cardBg;
+    ctx.roundRect(60, 60, canvas.width - 120, canvas.height - 120, 30); // Rettangolo arrotondato con più padding
+    ctx.fill();
+    // Resetta l'ombra per i disegni successivi
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetY = 0;
+
+    // 3. Disegna il testo della frase
+    ctx.font = 'bold 48px "Inter", sans-serif'; // Usa il font Inter caricato
+    ctx.fillStyle = colors.primaryText;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const maxWidth = canvas.width - 240; // Larghezza massima per il testo (con più padding)
+    const lineHeight = 60; // Altezza di ogni riga
+    const lines = getWrappedText(ctx, quote, maxWidth);
+
+    // Calcola la posizione Y per centrare verticalmente il blocco di testo
+    const totalTextHeight = lines.length * lineHeight;
+    let startY = (canvas.height - totalTextHeight) / 2;
+
+    lines.forEach((line, i) => {
+        ctx.fillText(line, canvas.width / 2, startY + i * lineHeight);
+    });
+
+    // 4. Disegna il logo e il testo nell'angolo in basso a sinistra
+    const logoSize = 60; // Dimensione del logo (quadrato)
+    const logoX = 80;   // Distanza dal bordo sinistro
+    const logoY = canvas.height - 120; // Distanza dal bordo inferiore
+    const textX = logoX + logoSize + 10; // Posizione X del testo (a destra del logo)
+    const textY = logoY + logoSize / 2;  // Posizione Y del testo (centrato rispetto al logo)
+
+    try {
+        const logoImg = await loadImage('/assets/annina.png');
+        // Disegna l'immagine del logo, ritagliandola in un cerchio per un look pulito
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2, true);
+        ctx.clip();
+        ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
+        ctx.restore(); // Rimuove il clipping path per i disegni successivi
+    } catch (error) {
+        console.error("Impossibile caricare l'immagine del logo /assets/annina.png:", error);
+        // In caso di errore, non viene disegnato nessun logo, ma si potrebbe aggiungere un fallback.
+    }
+
+    // 5. Disegna il testo a fianco al logo, gestendo il wrapping
+    ctx.font = '24px "Inter", sans-serif';
+    ctx.fillStyle = colors.secondaryText;
+    ctx.textAlign = 'left'; // Allinea il testo a sinistra
+    ctx.textBaseline = 'middle';
+
+    const footerText = 'Harmonia | Benessere Mentale';
+    const footerMaxWidth = canvas.width - textX - 80; // Larghezza massima = canvas width - start X - padding destro
+    const footerLines = getWrappedText(ctx, footerText, footerMaxWidth);
+    const footerLineHeight = 28; // Altezza riga per il footer, leggermente superiore alla dimensione del font
+
+    const startFooterY = textY - ((footerLines.length - 1) * footerLineHeight) / 2; // Calcola la Y iniziale per centrare il blocco
+    footerLines.forEach((line, index) => {
+        ctx.fillText(line, textX, startFooterY + (index * footerLineHeight));
+    });
+
+    return canvas.toDataURL('image/png');
+}
+
+/**
+ * Funzione helper per caricare un'immagine come Promise.
+ * @param {string} src - L'URL dell'immagine.
+ * @returns {Promise<HTMLImageElement>}
+ */
+function loadImage(src) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = () => resolve(img);
+        img.onerror = (err) => reject(new Error(`Failed to load image's URL: ${src}`));
+        img.src = src;
+    });
+}
+
+/**
+ * Scarica una Data URL come file.
+ * @param {string} dataUrl - La Data URL dell'immagine.
+ * @param {string} filename - Il nome del file da scaricare.
+ */
+function downloadImage(dataUrl, filename) {
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = filename;
+    document.body.appendChild(link); // Necessario per Firefox
+    link.click();
+    document.body.removeChild(link); // Pulisci il DOM
+}
+
+/**
+ * Avvolge il testo per adattarlo a una larghezza massima sul canvas.
+ * @param {CanvasRenderingContext2D} context - Il contesto del canvas.
+ * @param {string} text - Il testo da avvolgere.
+ * @param {number} maxWidth - La larghezza massima consentita per una riga.
+ * @returns {string[]} - Un array di stringhe, dove ogni stringa è una riga di testo.
+ */
+function getWrappedText(context, text, maxWidth) {
+    const words = text.split(' ');
+    let line = '';
+    const lines = [];
+
+    for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = context.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+            lines.push(line.trim());
+            line = words[n] + ' ';
+        } else {
+            line = testLine;
+        }
+    }
+    lines.push(line.trim());
+    return lines;
+}
 
     // Theme Switcher
     const themeSwitchHarmonia = document.getElementById('theme-switch-harmonia');

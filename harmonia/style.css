@@ -1417,3 +1417,182 @@ body.dark-mode .lang-flag-item:hover {
     background-color: rgba(var(--harmonia-primary-rgb), 0.2);
     color: var(--harmonia-primary);
 }
+
+@media (max-width: 768px){
+    #what-is-harmonia .chat-column { margin-top: 2rem; }
+}
+
+/* Stili per la modale di condivisione */
+.share-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none; /* Modificato da JS */
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.share-modal-content {
+    background: var(--harmonia-bg-light);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    animation: fadeInModal 0.3s ease-out;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--harmonia-text-light);
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.share-modal-body {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.share-preview-container {
+    flex: 2;
+    position: relative;
+}
+
+#share-preview-image {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--harmonia-border-light);
+    transition: opacity 0.3s ease;
+}
+
+#share-preview-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--harmonia-border-light);
+    border-top-color: var(--harmonia-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.share-options-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.background-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.background-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background-color: var(--harmonia-card-bg-light);
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.background-option:hover {
+    border-color: var(--harmonia-secondary);
+}
+
+.background-option.active {
+    border-color: var(--harmonia-primary);
+    font-weight: bold;
+}
+
+.bg-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--harmonia-border-light);
+}
+
+#final-share-button {
+    width: 100%;
+    margin-top: auto;
+}
+
+.share-fallback-info {
+    font-size: 0.75rem;
+    color: var(--harmonia-text-light);
+    opacity: 0.7;
+    text-align: center;
+    margin-top: 0.75rem;
+    line-height: 1.4;
+}
+
+/* Dark mode per la modale */
+body.dark-mode .share-modal-content { background: var(--harmonia-bg-dark); }
+body.dark-mode .close-modal-btn,
+body.dark-mode .share-fallback-info { color: var(--harmonia-text-dark); }
+body.dark-mode #share-preview-image { border-color: var(--harmonia-border-dark); }
+body.dark-mode #share-preview-loader { border-color: var(--harmonia-border-dark); border-top-color: var(--harmonia-primary); }
+body.dark-mode .background-option { background-color: var(--harmonia-card-bg-dark); }
+body.dark-mode .bg-preview { border-color: var(--harmonia-border-dark); }
+
+@media (max-width: 768px) {
+    .share-modal-body {
+        flex-direction: column;
+    }
+}
+
+/* Stili per la checkbox di consenso download */
+.share-modal-content .form-group {
+    text-align: left;
+    margin-top: 0.75rem;
+}
+.share-modal-content .form-group input[type="checkbox"] {
+    width: 1.1em;
+    height: 1.1em;
+    margin-right: 0.5em;
+    vertical-align: middle;
+    accent-color: var(--harmonia-primary);
+    cursor: pointer;
+    margin-top: -2px; /* Allineamento fine */
+}
+.share-modal-content .form-group label {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: 0.75rem;
+    opacity: 0.8;
+    line-height: 1.4;
+}
+/* Dark mode per la checkbox */
+body.dark-mode .share-modal-content .form-group label {
+    color: var(--harmonia-text-dark);
+    opacity: 0.9;
+}
