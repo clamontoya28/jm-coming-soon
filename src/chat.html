@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beta Annina - Chat</title>
-  <link rel="icon" href="annina.png" type="img/png">
+  <link rel="icon" href="/assets/annina.png" type="img/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* Animazione 3 pallini (typing) */
@@ -415,7 +415,7 @@
   <div class="chat-wrapper">
     <div class="chat-header">
       <div class="avatar">
-        <img src="annina.png" alt="Annina" id="annina-avatar" style="width:100%;height:100%;object-fit:cover;" />
+        <img src="/assets/annina.png" alt="Annina" id="annina-avatar" style="width:100%;height:100%;object-fit:cover;" />
       </div>
       <div class="title-group">
         <div class="title">Annina AI❤️</div>
@@ -435,7 +435,7 @@
     <div class="chat-container" id="chat-container">
       <div class="message-row annina">
         <div class="msg-avatar annina">
-          <img src="annina.png" alt="Annina" id="annina-avatar-msg" />
+          <img src="/assets/annina.png" alt="Annina" id="annina-avatar-msg" />
         </div>
         <div class="message">Ciao! Sono Annina 🤖<br>Presto qui potrai chattare con la mia intelligenza artificiale.<br>Scrivi un messaggio per provare l'interfaccia!</div>
       </div>
@@ -444,20 +444,20 @@
       <input type="text" id="chat-input" placeholder="Scrivi un messaggio..." required />
       <div class="input-btns">
         <button type="submit"><i class="fas fa-paper-plane"></i></button>
-        <a href="feedback.html" class="feedback-btn" title="Lascia un feedback su Annina" target="_blank"><i class="fas fa-comments"></i></a>
+        <a href="/src/feedback.html" class="feedback-btn" title="Lascia un feedback su Annina" target="_blank"><i class="fas fa-comments"></i></a>
       </div>
     </form>
   </div>
   <script>
     // Avatar di esempio per Annina e utente
-    const anninaAvatar = 'annina.png';
-    const userAvatar = 'user.png';
+    const anninaAvatar = '/assets/annina.png';
+    const userAvatar = '/assets/user.png';
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const chatContainer = document.getElementById('chat-container');
     const sendButton = chatForm.querySelector('button[type="submit"]');
     // Prepara l'audio per la notifica
-    const notificationSound = new Audio('notification.mp3'); // Assicurati che 'notification.mp3' sia nel percorso corretto
+    const notificationSound = new Audio('/assets/notification.mp3'); 
 
     // Per il lampeggio del titolo
     let originalTitle = document.title;
