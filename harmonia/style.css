@@ -82,7 +82,7 @@ nav.harmonia-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 5%;
+    padding: 0.6rem 5%;
     position: fixed;
     top: 0;
     left: 0;
@@ -96,8 +96,8 @@ nav.harmonia-nav {
 }
 
 .harmonia-nav .logo img {
-    width: 50px; /* Leggermente più piccolo */
-    height: 50px;
+    width: 44px; /* Ridotto per una navbar più compatta */
+    height: 44px;
     object-fit: cover;
     display: block;
     border-radius: 50%;
@@ -131,14 +131,16 @@ nav.harmonia-nav {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 50%;
     width: 0;
     height: 2px;
     background: var(--harmonia-primary);
     transition: var(--transition);
+    transform: translateX(-50%);
 }
 .harmonia-nav .nav-links a:hover {
     color: var(--harmonia-primary);
+    transform: translateY(-2px);
 }
 .harmonia-nav .nav-links a:hover::after {
     width: 100%;
@@ -205,13 +207,13 @@ nav.harmonia-nav {
 .hero-harmonia-content .app-icon i { /* Se usi FontAwesome */
     font-size: 3rem; color: white;
 }
-.hero-harmonia-content h1#harmonia-hero-title { /* Aggiunto ID */
+.hero-harmonia-content h1 {
     font-size: 3.8rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
     color: var(--harmonia-text-light);
     line-height: 1.2;
-    min-height: 1.2em; /* Per evitare sfarfallio durante la scrittura */
+    min-height: 10rem; /* Altezza minima per contenere il testo su 2 righe ed evitare spostamenti del layout. */
 }
 .typing-cursor {
     color: var(--harmonia-primary);
@@ -997,7 +999,10 @@ body.dark-mode .annina-message { background-color: rgba(var(--harmonia-accent-rg
 
 /* Responsive */
 @media (max-width: 992px) {
-    .hero-harmonia-content h1 { font-size: 3rem; }
+    .hero-harmonia-content h1 {
+        font-size: 3rem;
+        min-height: 11rem; /* Altezza per 3 righe su tablet */
+    }
     .hero-harmonia-content p.subtitle { font-size: 1.2rem; }
     .section-header h2 { font-size: 2.4rem; }
     #annina-ai .content-split { flex-direction: column; }
@@ -1050,7 +1055,10 @@ body.dark-mode .beta-stats-ticker-container {
     .harmonia-nav .nav-links.active { right: 0; opacity: 1; pointer-events: auto; }
     body.dark-mode .harmonia-nav .nav-links { background: var(--harmonia-bg-dark); }
     .harmonia-nav .mobile-menu { display: block; z-index: 1001; }
-    .hero-harmonia-content h1 { font-size: 2.5rem; }
+    .hero-harmonia-content h1 {
+        font-size: 2.5rem;
+        min-height: 12rem; /* Altezza per 4 righe su mobile */
+    }
     .hero-harmonia-content .app-icon { width: 80px; height: 80px; }
     .hero-harmonia-content .app-icon i { font-size: 2.5rem; }
     .section-header h2 { font-size: 2rem; }
@@ -1422,177 +1430,286 @@ body.dark-mode .lang-flag-item:hover {
     #what-is-harmonia .chat-column { margin-top: 2rem; }
 }
 
-/* Stili per la modale di condivisione */
+/* ==========================================================================
+   Share Modal Styles - REVISED FOR RESPONSIVENESS
+   ========================================================================== */
+
+/* Overlay: copre l'intera pagina */
 .share-modal-overlay {
+    display: none; /* Nascosto di default, attivato da JS con la classe .active */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: none; /* Modificato da JS */
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
+    padding: 1rem; /* Spazio di sicurezza sui bordi per schermi piccoli */
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
+.share-modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Contenuto della modale: il box bianco */
 .share-modal-content {
-    background: var(--harmonia-bg-light);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    width: 90%;
-    max-width: 800px;
+    background-color: var(--harmonia-card-bg-light);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    max-width: 850px; /* Larghezza massima su desktop */
+    width: 100%;
     position: relative;
-    animation: fadeInModal 0.3s ease-out;
+    overflow-y: auto;   /* FONDAMENTALE: Abilita lo scorrimento se il contenuto è troppo alto */
+    max-height: 95vh;   /* FONDAMENTALE: Limita l'altezza per non uscire dallo schermo */
+    transform: translateY(20px) scale(0.98);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
 
-@keyframes fadeInModal {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+.share-modal-overlay.active .share-modal-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
 }
 
+/* Pulsante di chiusura "X" */
 .close-modal-btn {
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 1rem;
+    right: 1rem;
+    width: 44px; /* Area cliccabile più grande */
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
     font-size: 2rem;
     color: var(--harmonia-text-light);
-    opacity: 0.7;
     cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    line-height: 1;
+    z-index: 10; /* Assicura che sia sempre sopra tutto */
 }
 
+.close-modal-btn:hover {
+    color: var(--harmonia-primary);
+    transform: scale(1.1);
+}
+
+/* Titolo della modale */
+.share-modal-content h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--harmonia-primary);
+    font-size: 2rem;
+    margin-bottom: 2rem; /* Più spazio sotto il titolo */
+    text-align: center;
+}
+
+/* Corpo della modale: contenitore per anteprima e opzioni */
 .share-modal-body {
     display: flex;
-    gap: 2rem;
-    margin-top: 1rem;
+    gap: 2.5rem; /* Più spazio tra le colonne */
+    align-items: flex-start;
 }
 
+/* Colonna sinistra: Anteprima immagine */
 .share-preview-container {
-    flex: 2;
+    flex: 1 1 45%; /* Occupa il 45% dello spazio, può crescere e restringersi */
+    min-width: 280px; /* Larghezza minima per non collassare */
+    aspect-ratio: 1 / 1;
+    background-color: #f0f0f0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
     position: relative;
+    border: 1px solid var(--harmonia-border-light);
+    /* Animazione di entrata */
+    transform: scale(0.95);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.4s ease-out 0.1s;
 }
 
 #share-preview-image {
     width: 100%;
-    border-radius: 10px;
-    border: 1px solid var(--harmonia-border-light);
-    transition: opacity 0.3s ease;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
-#share-preview-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 50px;
-    height: 50px;
-    border: 5px solid var(--harmonia-border-light);
-    border-top-color: var(--harmonia-primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
+/* Colonna destra: Opzioni di personalizzazione */
 .share-options-container {
-    flex: 1;
+    flex: 1 1 55%; /* Occupa il 55% dello spazio */
+    min-width: 280px;
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
+    /* Animazione di entrata */
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s ease-out 0.2s, opacity 0.4s ease-out 0.2s;
 }
 
-.background-options-grid {
+/* Attivazione animazioni */
+.share-modal-overlay.active .share-preview-container,
+.share-modal-overlay.active .share-options-container {
+    transform: none;
+    opacity: 1;
+}
+
+.share-options-container h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    color: var(--harmonia-text-light);
+    margin-bottom: -0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--harmonia-border-light);
+}
+
+.background-options-grid,
+.font-options-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 0.8rem;
 }
 
-.background-option {
+.background-option,
+.font-option {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem;
-    border: 2px solid transparent;
+    padding: 0.6rem;
+    border: 2px solid var(--harmonia-border-light);
     border-radius: 8px;
-    background-color: var(--harmonia-card-bg-light);
+    background-color: transparent;
+    color: var(--harmonia-text-light);
+    font-size: 0.85rem;
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: all 0.3s ease;
+    text-align: center;
 }
 
-.background-option:hover {
-    border-color: var(--harmonia-secondary);
-}
-
-.background-option.active {
+.background-option:hover,
+.font-option:hover {
     border-color: var(--harmonia-primary);
-    font-weight: bold;
+    box-shadow: 0 0 0 2px rgba(var(--harmonia-primary-rgb), 0.2);
+}
+
+.background-option.active,
+.font-option.active {
+    border-color: var(--harmonia-primary);
+    box-shadow: 0 0 0 3px rgba(var(--harmonia-primary-rgb), 0.3);
+    background-color: rgba(var(--harmonia-primary-rgb), 0.05);
+}
+
+.font-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 700;
+    background-color: var(--harmonia-bg-light);
+    color: var(--harmonia-text-light);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .bg-preview {
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 1px solid var(--harmonia-border-light);
-}
-
-#final-share-button {
-    width: 100%;
-    margin-top: auto;
-}
-
-.share-fallback-info {
-    font-size: 0.75rem;
-    color: var(--harmonia-text-light);
-    opacity: 0.7;
-    text-align: center;
-    margin-top: 0.75rem;
-    line-height: 1.4;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
 }
 
 /* Dark mode per la modale */
-body.dark-mode .share-modal-content { background: var(--harmonia-bg-dark); }
-body.dark-mode .close-modal-btn,
-body.dark-mode .share-fallback-info { color: var(--harmonia-text-dark); }
-body.dark-mode #share-preview-image { border-color: var(--harmonia-border-dark); }
-body.dark-mode #share-preview-loader { border-color: var(--harmonia-border-dark); border-top-color: var(--harmonia-primary); }
-body.dark-mode .background-option { background-color: var(--harmonia-card-bg-dark); }
+body.dark-mode .share-modal-content { background-color: var(--harmonia-card-bg-dark); }
+body.dark-mode .close-modal-btn { color: var(--harmonia-text-dark); }
+body.dark-mode .share-preview-container { background-color: #333; border-color: var(--harmonia-border-dark); }
+body.dark-mode .share-options-container h3 { color: var(--harmonia-text-dark); border-bottom-color: var(--harmonia-border-dark); }
+body.dark-mode .background-option,
+body.dark-mode .font-option { color: var(--harmonia-text-dark); border-color: var(--harmonia-border-dark); }
+body.dark-mode .background-option.active,
+body.dark-mode .font-option.active { background-color: rgba(var(--harmonia-primary-rgb), 0.1); }
+body.dark-mode .font-preview { background-color: var(--harmonia-bg-dark); border-color: var(--harmonia-border-dark); color: var(--harmonia-text-dark); }
 body.dark-mode .bg-preview { border-color: var(--harmonia-border-dark); }
+body.dark-mode .share-fallback-info { color: var(--harmonia-text-dark); }
+body.dark-mode .share-modal-content .form-group label { color: var(--harmonia-text-dark); }
 
-@media (max-width: 768px) {
+/* ==========================================================================
+   MEDIA QUERIES PER LA MODALE - OTTIMIZZAZIONE TABLET E MOBILE
+   ========================================================================== */
+
+/* Per Tablet e schermi più piccoli (sotto 850px) */
+@media (max-width: 850px) {
     .share-modal-body {
-        flex-direction: column;
+        flex-direction: column; /* FONDAMENTALE: Impila le colonne verticalmente */
+        gap: 1.5rem;
+    }
+
+    .share-preview-container,
+    .share-options-container {
+        min-width: unset; /* Rimuovi la larghezza minima */
+        flex-basis: auto; /* Resetta la base del flex */
     }
 }
 
-/* Stili per la checkbox di consenso download */
-.share-modal-content .form-group {
-    text-align: left;
-    margin-top: 0.75rem;
-}
-.share-modal-content .form-group input[type="checkbox"] {
-    width: 1.1em;
-    height: 1.1em;
-    margin-right: 0.5em;
-    vertical-align: middle;
-    accent-color: var(--harmonia-primary);
-    cursor: pointer;
-    margin-top: -2px; /* Allineamento fine */
-}
-.share-modal-content .form-group label {
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    font-size: 0.75rem;
-    opacity: 0.8;
-    line-height: 1.4;
-}
-/* Dark mode per la checkbox */
-body.dark-mode .share-modal-content .form-group label {
-    color: var(--harmonia-text-dark);
-    opacity: 0.9;
+/* Per Telefoni (sotto 576px) */
+@media (max-width: 576px) {
+    .share-modal-content {
+        padding: 1.5rem 1rem; /* Riduci ancora il padding */
+    }
+
+    .share-modal-content h2 {
+        font-size: 1.5rem; /* Riduci il titolo */
+        margin-bottom: 1.2rem;
+    }
+
+    .close-modal-btn {
+        top: 0.8rem;
+        right: 0.8rem;
+    }
+
+    .share-options-container {
+        gap: 1.2rem;
+    }
+
+    .background-options-grid,
+    .font-options-grid {
+        grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .background-option,
+    .font-option {
+        padding: 0.6rem 0.2rem;
+        font-size: 0.8rem;
+    }
+
+    .font-preview,
+    .bg-preview {
+        width: 32px;
+        height: 32px;
+    }
+
+    .share-modal-content .form-group label {
+        font-size: 0.8rem; /* Testo checkbox più piccolo */
+    }
+
+    .share-fallback-info {
+        font-size: 0.75rem;
+    }
 }

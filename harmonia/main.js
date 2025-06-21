@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sharePreviewImage = document.getElementById('share-preview-image');
     const sharePreviewLoader = document.getElementById('share-preview-loader');
     const backgroundOptionsContainer = document.getElementById('background-options');
+    const fontOptionsContainer = document.getElementById('font-options');
     const finalShareButton = document.getElementById('final-share-button');
 
     let currentCardBlob = null; // Per memorizzare il blob dell'immagine generata
@@ -18,34 +19,54 @@ document.addEventListener('DOMContentLoaded', function() {
         return quoteTextElem ? quoteTextElem.innerText.trim() : '';
     }
 
-    // --- Logica per la nuova modale di condivisione ---
+    // --- Logica per la condivisione social e la modale ---
 
-    // Aprire la modale quando si clicca su un'icona di condivisione
-    [shareX, shareLinkedin, shareInstagram].forEach(button => {
-        if (button) {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                openShareModal();
-            });
-        }
-    });
+    // Condivisione diretta per X (Twitter) e LinkedIn
+    if (shareX) {
+        shareX.addEventListener('click', (e) => {
+            e.preventDefault();
+            const quote = getQuote();
+            const shareText = `"${quote}" - Annina AI via Harmonia`;
+            const pageUrl = 'https://jmenterprises.it/harmonia.html';
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}&hashtags=Harmonia,Benessere,AnninaAI`;
+            window.open(twitterUrl, '_blank', 'width=600,height=400,resizable=yes,scrollbars=yes');
+        });
+    }
+
+    if (shareLinkedin) {
+        shareLinkedin.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pageUrl = 'https://jmenterprises.it/harmonia.html';
+            const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`;
+            window.open(linkedinUrl, '_blank', 'width=600,height=550,resizable=yes,scrollbars=yes');
+        });
+    }
+
+    // Apertura modale per Instagram
+    if (shareInstagram) {
+        shareInstagram.addEventListener('click', (e) => {
+            e.preventDefault();
+            openShareModal();
+        });
+    }
 
     function openShareModal() {
         if (!shareModal) return;
-        shareModal.style.display = 'flex';
+        shareModal.classList.add('active'); // Usa la classe per le transizioni CSS
         document.body.style.overflow = 'hidden';
 
-        const defaultBg = backgroundOptionsContainer.querySelector('.active')?.dataset.bg || 'aura-celeste';
-        updateSharePreview(defaultBg);
+        const defaultBg = backgroundOptionsContainer?.querySelector('.active')?.dataset.bg || 'aura-celeste';
+        const defaultFont = fontOptionsContainer?.querySelector('.active')?.dataset.font || 'Inter';
+        updateSharePreview(defaultBg, defaultFont);
     }
 
     function closeShareModal() {
         if (!shareModal) return;
-        shareModal.style.display = 'none';
+        shareModal.classList.remove('active'); // Usa la classe per le transizioni CSS
         document.body.style.overflow = '';
     }
 
-    async function updateSharePreview(backgroundType) {
+    async function updateSharePreview(backgroundType, fontType = 'Inter') {
         if (!sharePreviewImage || !sharePreviewLoader) return;
 
         sharePreviewLoader.style.display = 'block';
@@ -55,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const isDarkMode = document.body.classList.contains('dark-mode');
 
         try {
-            const dataUrl = await createQuoteCard(quote, isDarkMode, backgroundType);
+            const dataUrl = await createQuoteCard(quote, isDarkMode, backgroundType, fontType);
             sharePreviewImage.src = dataUrl;
             // Converti in blob per la condivisione
             const response = await fetch(dataUrl);
@@ -76,9 +97,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const downloadPermission = document.getElementById('download-permission');
-        if (!downloadPermission || !downloadPermission.checked) {
-            alert("Per favore, acconsenti al download dell'immagine se la condivisione diretta non è possibile.");
+        const formGroup = downloadPermission.parentElement;
+
+        if (!downloadPermission.checked) {
+            alert("Per favore, acconsenti al download dell'immagine prima di procedere.");
+            if (formGroup) {
+                formGroup.classList.add('is-invalid');
+            }
             return;
+        }
+        if (formGroup) {
+            formGroup.classList.remove('is-invalid');
         }
 
         const quote = getQuote();
@@ -119,8 +148,29 @@ document.addEventListener('DOMContentLoaded', function() {
             if (button && !button.classList.contains('active')) {
                 backgroundOptionsContainer.querySelector('.active')?.classList.remove('active');
                 button.classList.add('active');
-                updateSharePreview(button.dataset.bg);
+                const fontType = fontOptionsContainer?.querySelector('.active')?.dataset.font || 'Inter';
+                updateSharePreview(button.dataset.bg, fontType);
             }
+        });
+    }
+    if (fontOptionsContainer) {
+        fontOptionsContainer.addEventListener('click', (e) => {
+            const button = e.target.closest('.font-option');
+            if (button && !button.classList.contains('active')) {
+                fontOptionsContainer.querySelector('.active')?.classList.remove('active');
+                button.classList.add('active');
+                const backgroundType = backgroundOptionsContainer.querySelector('.active')?.dataset.bg || 'aura-celeste';
+                updateSharePreview(backgroundType, button.dataset.font);
+            }
+        });
+    }
+
+
+    // Rimuovi lo stato di errore dalla checkbox quando viene selezionata
+    const downloadPermissionCheckbox = document.getElementById('download-permission');
+    if (downloadPermissionCheckbox) {
+        downloadPermissionCheckbox.addEventListener('change', () => {
+            if (downloadPermissionCheckbox.checked) downloadPermissionCheckbox.parentElement.classList.remove('is-invalid');
         });
     }
 
@@ -131,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
  * @param {string} backgroundType - Il tipo di sfondo da usare ('aura-celeste', 'light', 'dark', etc.).
  * @returns {Promise<string>} - Una Promise che si risolve con la Data URL dell'immagine PNG.
  */
-async function createQuoteCard(quote, isDark = false, backgroundType = 'aura-celeste') {
+async function createQuoteCard(quote, isDark = false, backgroundType = 'aura-celeste', fontType = 'Inter') {
     const canvas = document.createElement('canvas');
     // Dimensioni standard per un post Instagram (quadrato)
     canvas.width = 1080;
@@ -139,11 +189,12 @@ async function createQuoteCard(quote, isDark = false, backgroundType = 'aura-cel
     const ctx = canvas.getContext('2d');
 
     // Definisce i colori in base al tema
-        const colors = {
+    const colors = {
         cardBg: isDark ? '#2a2a3e' : '#ffffff',
         shadow: isDark ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0.1)',
         primaryText: isDark ? '#e0e0e0' : '#333333',
-        secondaryText: isDark ? '#a0a0b0' : '#666666'
+        secondaryText: isDark ? '#a0a0b0' : '#666666',
+        cardBorder: isDark ? 'rgba(130, 192, 204, 0.4)' : 'rgba(130, 192, 204, 0.6)'
     };
 
     // 1. Disegna lo sfondo in base al tipo
@@ -198,27 +249,62 @@ async function createQuoteCard(quote, isDark = false, backgroundType = 'aura-cel
     ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // 2. Disegna la card con l'ombra
+    // 2. Disegna la card con l'ombra e il bordo
     ctx.shadowColor = colors.shadow;
     ctx.shadowBlur = 25;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 8;
+
+    // Crea il percorso per la card
+    ctx.beginPath();
+    ctx.roundRect(60, 60, canvas.width - 120, canvas.height - 120, 30);
+
+    // Riempi la card
     ctx.fillStyle = colors.cardBg;
-    ctx.roundRect(60, 60, canvas.width - 120, canvas.height - 120, 30); // Rettangolo arrotondato con più padding
     ctx.fill();
-    // Resetta l'ombra per i disegni successivi
+
+    // Resetta l'ombra prima di disegnare il bordo per non avere un'ombra anche sul bordo
     ctx.shadowColor = 'transparent';
     ctx.shadowBlur = 0;
     ctx.shadowOffsetY = 0;
 
+    // Disegna il bordo
+    ctx.strokeStyle = colors.cardBorder;
+    ctx.lineWidth = 2; // Un bordo sottile di 2px
+    ctx.stroke(); // Disegna il contorno del percorso corrente
+
     // 3. Disegna il testo della frase
-    ctx.font = 'bold 48px "Inter", sans-serif'; // Usa il font Inter caricato
+    const fontFamily = fontType === 'Playfair Display' ? '"Playfair Display", serif' : // Existing
+                       fontType === 'Caveat' ? '"Caveat", cursive' : // Existing
+                       fontType === 'Roboto' ? '"Roboto", sans-serif' : // New
+                       fontType === 'Lora' ? '"Lora", serif' : // New
+                       fontType === 'Pacifico' ? '"Pacifico", cursive' : // New
+                       '"Inter", sans-serif'; // Default
+
+    // Regola la dimensione del font in base al tipo per un aspetto bilanciato
+    let fontSize = 48;
+    if (fontType === 'Caveat') {
+        fontSize = 64; // Il font Caveat è più "sottile", quindi lo rendiamo più grande
+    } else if (fontType === 'Playfair Display') {
+        fontSize = 52; // Playfair è un font serif elegante
+    } else if (fontType === 'Roboto') {
+        fontSize = 48; // Roboto è un sans-serif standard, va bene la dimensione base
+    } else if (fontType === 'Lora') {
+        fontSize = 50; // Lora è un serif, leggermente più grande per leggibilità
+    } else if (fontType === 'Pacifico') {
+        fontSize = 60; // Pacifico è un font script, necessita di una dimensione maggiore
+    } else {
+        // Default for 'Inter'
+        fontSize = 48;
+    }
+
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
     ctx.fillStyle = colors.primaryText;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
     const maxWidth = canvas.width - 240; // Larghezza massima per il testo (con più padding)
-    const lineHeight = 60; // Altezza di ogni riga
+    const lineHeight = fontSize * 1.25; // Altezza di riga dinamica in base alla dimensione del font
     const lines = getWrappedText(ctx, quote, maxWidth);
 
     // Calcola la posizione Y per centrare verticalmente il blocco di testo
