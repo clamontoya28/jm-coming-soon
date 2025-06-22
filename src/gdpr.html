@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informativa Privacy e Cookie - J.M Enterprises</title>
+    <title data-i18n="title">Informativa Privacy e Cookie - J.M Enterprises</title>
     <link rel="icon" href="../assets/favicon.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -20,12 +20,16 @@
             margin: 20px auto;
             padding: 0 15px;
         }
+        .title-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
         h1, h2, h3 {
             color: #2c3e50;
         }
         h1 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 0;
         }
         h2 {
             border-bottom: 1px solid #ddd;
@@ -53,6 +57,58 @@
             margin-top: 40px;
             border-top: 1px solid #eee;
             padding-top: 10px;
+        }
+
+        /* Language Switcher Styles */
+        .lang-switcher {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .lang-switcher #current-lang-flag {
+            width: 32px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 1000;
+            padding: 5px 0;
+            min-width: 160px;
+        }
+        .lang-switcher .lang-dropdown.active {
+            display: block;
+        }
+        .lang-flag-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+        .lang-flag-item:hover {
+            background-color: #f0f2f5;
+        }
+        .lang-flag-item img {
+            width: 24px;
+            height: 18px;
+            margin-right: 12px;
+        }
+        .lang-flag-item .lang-name {
+            font-size: 0.95em;
+            color: #333;
         }
 
         /* Footer Styles */
@@ -125,139 +181,163 @@
 </head>
 <body>
     <div class="content-wrapper">
-        <h1>Informativa Privacy e Cookie</h1>
-        <p>La presente Informativa sulla privacy descrive le modalità con cui J.M Enterprises raccoglie, utilizza e protegge i tuoi dati personali in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR - Regolamento UE 2016/679) e la normativa italiana vigente.</p>
+        <div class="title-container">
+            <h1 id="main-title" data-i18n="title">Informativa Privacy e Cookie</h1>
+            <div class="lang-switcher" title="Change language" aria-label="Change language">
+                <img id="current-lang-flag" src="https://flagcdn.com/24x18/it.png" alt="Current language">
+                <div class="lang-dropdown" role="menu">
+                    <div class="lang-flag-item" data-lang="it" role="menuitem" tabindex="0">
+                        <img src="https://flagcdn.com/24x18/it.png" alt="Italiano flag">
+                        <span class="lang-name">Italiano</span>
+                    </div>
+                    <div class="lang-flag-item" data-lang="en" role="menuitem" tabindex="0">
+                        <img src="https://flagcdn.com/24x18/gb.png" alt="English flag">
+                        <span class="lang-name">English</span>
+                    </div>
+                    <div class="lang-flag-item" data-lang="fr" role="menuitem" tabindex="0">
+                        <img src="https://flagcdn.com/24x18/fr.png" alt="Français flag">
+                        <span class="lang-name">Français</span>
+                    </div>
+                    <div class="lang-flag-item" data-lang="es" role="menuitem" tabindex="0">
+                        <img src="https://flagcdn.com/24x18/es.png" alt="Español flag">
+                        <span class="lang-name">Español</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p data-i18n="intro">La presente Informativa sulla privacy descrive le modalità con cui J.M Enterprises raccoglie, utilizza e protegge i tuoi dati personali in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR - Regolamento UE 2016/679) e la normativa italiana vigente.</p>
 
         <hr>
 
-        <h2>1. Chi Siamo</h2>
-        <p><strong>J.M Enterprises</strong> è una startup tecnologica indipendente con sede operativa in Italia. Il sito ufficiale è <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>, gestito e manutenuto direttamente dal suo fondatore. Il nostro progetto include lo sviluppo di prodotti digitali innovativi come Harmonia, una piattaforma AI dedicata al benessere mentale, attualmente in fase di sviluppo.</p>
+        <h2 data-i18n="h2_1">1. Chi Siamo</h2>
+        <p data-i18n="p_1"><strong>J.M Enterprises</strong> è una startup tecnologica indipendente con sede operativa in Italia. Il sito ufficiale è <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>, gestito e manutenuto direttamente dal suo fondatore. Il nostro progetto include lo sviluppo di prodotti digitali innovativi come Harmonia, una piattaforma AI dedicata al benessere mentale, attualmente in fase di sviluppo.</p>
 
         <hr>
 
-        <h2>2. Dati Personali Raccolti</h2>
-        <p>Raccogliamo ed elaboriamo i seguenti dati personali:</p>
+        <h2 data-i18n="h2_2">2. Dati Personali Raccolti</h2>
+        <p data-i18n="p_2">Raccogliamo ed elaboriamo i seguenti dati personali:</p>
         <ul>
-            <li><strong>Email:</strong> Fornita volontariamente da te tramite moduli presenti sul sito (ad esempio, per l'iscrizione alla newsletter, l'accesso alla beta, o la partecipazione a un forum).</li>
-            <li><strong>Nome o Nickname:</strong> Un campo facoltativo che puoi scegliere di fornire quando interagisci con i nostri moduli.</li>
-            <li><strong>Dati Tecnici Anonimizzati:</strong> Come l'indirizzo IP (anonimizzato subito dopo la raccolta tramite troncamento), il tipo di browser utilizzato e il sistema operativo. Questi dati vengono raccolti per finalità di sicurezza e analisi tecnica aggregata, senza identificare direttamente l'utente.</li>
-            <li><strong>Dati di Utilizzo (futuri):</strong> In futuro, se attiveremo strumenti di analisi (es. Google Analytics), potremmo raccogliere dati anonimizzati sull'interazione con il sito, come le pagine visitate, il tempo di permanenza e i percorsi di navigazione. Ti informeremo preventivamente e ti forniremo opzioni per la gestione di tali dati.</li>
+            <li data-i18n="li_2_1"><strong>Email:</strong> Fornita volontariamente da te tramite moduli presenti sul sito (ad esempio, per l'iscrizione alla newsletter, l'accesso alla beta, o la partecipazione a un forum).</li>
+            <li data-i18n="li_2_2"><strong>Nome o Nickname:</strong> Un campo facoltativo che puoi scegliere di fornire quando interagisci con i nostri moduli.</li>
+            <li data-i18n="li_2_3"><strong>Dati Tecnici Anonimizzati:</strong> Come l'indirizzo IP (anonimizzato subito dopo la raccolta tramite troncamento), il tipo di browser utilizzato e il sistema operativo. Questi dati vengono raccolti per finalità di sicurezza e analisi tecnica aggregata, senza identificare direttamente l'utente.</li>
+            <li data-i18n="li_2_4"><strong>Dati di Utilizzo (futuri):</strong> In futuro, se attiveremo strumenti di analisi (es. Google Analytics), potremmo raccogliere dati anonimizzati sull'interazione con il sito, come le pagine visitate, il tempo di permanenza e i percorsi di navigazione. Ti informeremo preventivamente e ti forniremo opzioni per la gestione di tali dati.</li>
         </ul>
-        <p><strong>Non raccogliamo dati sensibili o biometrici</strong> (come dati sulla salute, l'orientamento sessuale, le convinzioni religiose o filosofiche).</p>
+        <p data-i18n="p_2_end"><strong>Non raccogliamo dati sensibili o biometrici</strong> (come dati sulla salute, l'orientamento sessuale, le convinzioni religiose o filosofiche).</p>
 
         <hr>
 
-        <h2>3. Finalità del Trattamento</h2>
-        <p>I tuoi dati personali sono trattati esclusivamente per le seguenti finalità:</p>
+        <h2 data-i18n="h2_3">3. Finalità del Trattamento</h2>
+        <p data-i18n="p_3">I tuoi dati personali sono trattati esclusivamente per le seguenti finalità:</p>
         <ul>
-            <li><strong>Gestione della Newsletter e Comunicazioni di Progetto:</strong> Per inviarti aggiornamenti sul nostro progetto, novità su Harmonia e altre comunicazioni pertinenti a cui hai acconsentito.</li>
-            <li><strong>Accesso alla Beta di Harmonia:</strong> Per consentirti di partecipare ai test della versione beta della nostra piattaforma e gestire la tua iscrizione.</li>
-            <li><strong>Analisi Tecnica e Prevenzione Abusi:</strong> Per monitorare il funzionamento tecnico del sito, prevenire attività fraudolente, proteggere la sicurezza della piattaforma (ad esempio, tramite sistemi di captcha) e garantire la stabilità del servizio.</li>
-            <li><strong>Miglioramento del Servizio (futuro):</strong> I dati di utilizzo anonimizzati potranno essere impiegati per analizzare l'interazione con il sito e migliorare l'esperienza utente e l'efficacia dei nostri servizi.</li>
+            <li data-i18n="li_3_1"><strong>Gestione della Newsletter e Comunicazioni di Progetto:</strong> Per inviarti aggiornamenti sul nostro progetto, novità su Harmonia e altre comunicazioni pertinenti a cui hai acconsentito.</li>
+            <li data-i18n="li_3_2"><strong>Accesso alla Beta di Harmonia:</strong> Per consentirti di partecipare ai test della versione beta della nostra piattaforma e gestire la tua iscrizione.</li>
+            <li data-i18n="li_3_3"><strong>Analisi Tecnica e Prevenzione Abusi:</strong> Per monitorare il funzionamento tecnico del sito, prevenire attività fraudolente, proteggere la sicurezza della piattaforma (ad esempio, tramite sistemi di captcha) e garantire la stabilità del servizio.</li>
+            <li data-i18n="li_3_4"><strong>Miglioramento del Servizio (futuro):</strong> I dati di utilizzo anonimizzati potranno essere impiegati per analizzare l'interazione con il sito e migliorare l'esperienza utente e l'efficacia dei nostri servizi.</li>
         </ul>
 
         <hr>
 
-        <h2>4. Base Giuridica del Trattamento</h2>
-        <p>Trattiamo i tuoi dati personali sulla base delle seguenti condizioni stabilite dal GDPR:</p>
+        <h2 data-i18n="h2_4">4. Base Giuridica del Trattamento</h2>
+        <p data-i18n="p_4">Trattiamo i tuoi dati personali sulla base delle seguenti condizioni stabilite dal GDPR:</p>
         <ul>
-            <li><strong>Consenso Esplicito dell’Utente (Art. 6, par. 1, lett. a GDPR):</strong> Per finalità come l'invio della newsletter e l'accesso alla beta di Harmonia, il trattamento si basa sul tuo consenso libero, specifico, informato e inequivocabile, che puoi revocare in qualsiasi momento.</li>
-            <li><strong>Legittimo Interesse del Titolare (Art. 6, par. 1, lett. f GDPR):</strong> Per finalità di analisi tecnica, prevenzione abusi e sicurezza del sito (es. gestione IP anonimizzati, sistemi di captcha), il trattamento si basa sul nostro legittimo interesse a garantire la sicurezza, l'affidabilità e la corretta erogazione dei nostri servizi e a proteggerci da attività illecite. Abbiamo bilanciato il nostro interesse con i tuoi diritti e libertà fondamentali, concludendo che il trattamento è necessario e proporzionato.</li>
+            <li data-i18n="li_4_1"><strong>Consenso Esplicito dell’Utente (Art. 6, par. 1, lett. a GDPR):</strong> Per finalità come l'invio della newsletter e l'accesso alla beta di Harmonia, il trattamento si basa sul tuo consenso libero, specifico, informato e inequivocabile, che puoi revocare in qualsiasi momento.</li>
+            <li data-i18n="li_4_2"><strong>Legittimo Interesse del Titolare (Art. 6, par. 1, lett. f GDPR):</strong> Per finalità di analisi tecnica, prevenzione abusi e sicurezza del sito (es. gestione IP anonimizzati, sistemi di captcha), il trattamento si basa sul nostro legittimo interesse a garantire la sicurezza, l'affidabilità e la corretta erogazione dei nostri servizi e a proteggerci da attività illecite. Abbiamo bilanciato il nostro interesse con i tuoi diritti e libertà fondamentali, concludendo che il trattamento è necessario e proporzionato.</li>
         </ul>
 
         <hr>
 
-        <h2>5. Modalità di Raccolta e Responsabili del Trattamento</h2>
-        <p>Raccogliamo i dati principalmente attraverso:</p>
+        <h2 data-i18n="h2_5">5. Modalità di Raccolta e Responsabili del Trattamento</h2>
+        <p data-i18n="p_5">Raccogliamo i dati principalmente attraverso:</p>
         <ul>
-            <li><strong>Moduli HTML:</strong> Integrati direttamente sul nostro sito, con invio delle email gestito lato client tramite <strong>EmailJS</strong>.</li>
-            <li><strong>Futuri Strumenti di Raccolta:</strong> Prevediamo di integrare servizi come <strong>Mailchimp</strong> per la gestione avanzata delle newsletter e <strong>Firebase</strong> (o servizi analoghi) per eventuali funzionalità di autenticazione o analisi anonima dei dati.</li>
+            <li data-i18n="li_5_1"><strong>Moduli HTML:</strong> Integrati direttamente sul nostro sito, con invio delle email gestito lato client tramite <strong>EmailJS</strong>.</li>
+            <li data-i18n="li_5_2"><strong>Futuri Strumenti di Raccolta:</strong> Prevediamo di integrare servizi come <strong>Mailchimp</strong> per la gestione avanzata delle newsletter e <strong>Firebase</strong> (o servizi analoghi) per eventuali funzionalità di autenticazione o analisi anonima dei dati.</li>
         </ul>
-        <p><strong>EmailJS</strong> opera come nostro responsabile esterno del trattamento, garantendo la conformità al GDPR. Puoi consultare la loro privacy policy al seguente link: <a href="https://www.emailjs.com/privacy-policy" target="_blank">EmailJS Privacy Policy</a>.</p>
-        <p>Ogni futuro servizio di terze parti sarà selezionato con cura per garantire il rispetto delle normative sulla protezione dei dati.</p>
+        <p data-i18n="p_5_1"><strong>EmailJS</strong> opera come nostro responsabile esterno del trattamento, garantendo la conformità al GDPR. Puoi consultare la loro privacy policy al seguente link: <a href="https://www.emailjs.com/privacy-policy" target="_blank">EmailJS Privacy Policy</a>.</p>
+        <p data-i18n="p_5_2">Ogni futuro servizio di terze parti sarà selezionato con cura per garantire il rispetto delle normative sulla protezione dei dati.</p>
 
         <hr>
 
-        <h2>6. Cookie e Strumenti di Tracking</h2>
-        <p>Il nostro sito web può utilizzare i seguenti tipi di cookie:</p>
+        <h2 data-i18n="h2_6">6. Cookie e Strumenti di Tracking</h2>
+        <p data-i18n="p_6">Il nostro sito web può utilizzare i seguenti tipi di cookie:</p>
         <ul>
-            <li><strong>Cookie Tecnici:</strong> Sono strettamente necessari per il corretto funzionamento del sito, consentendo la navigazione e l'utilizzo delle sue funzionalità essenziali (es. sessioni di login, preferenze di lingua). Non richiedono il tuo consenso preventivo.</li>
-            <li><strong>Cookie di Terze Parti (Tecnici/Funzionali):</strong> Possono essere utilizzati per integrare funzionalità fornite da servizi esterni, come:
+            <li data-i18n="li_6_1"><strong>Cookie Tecnici:</strong> Sono strettamente necessari per il corretto funzionamento del sito, consentendo la navigazione e l'utilizzo delle sue funzionalità essenziali (es. sessioni di login, preferenze di lingua). Non richiedono il tuo consenso preventivo.</li>
+            <li data-i18n="li_6_2"><strong>Cookie di Terze Parti (Tecnici/Funzionali):</strong> Possono essere utilizzati per integrare funzionalità fornite da servizi esterni, come:
                 <ul>
-                    <li><strong>Google Fonts:</strong> Per garantire un aspetto grafico uniforme e ottimizzato.</li>
-                    <li><strong>CDN (Content Delivery Network - es. Vercel, Netlify):</strong> Per ottimizzare la velocità di caricamento dei contenuti del sito.</li>
-                    <li><strong>Embed Esterni (es. YouTube, Vimeo):</strong> Per incorporare video o altri contenuti multimediali.</li>
+                    <li data-i18n="li_6_2_1"><strong>Google Fonts:</strong> Per garantire un aspetto grafico uniforme e ottimizzato.</li>
+                    <li data-i18n="li_6_2_2"><strong>CDN (Content Delivery Network - es. Vercel, Netlify):</strong> Per ottimizzare la velocità di caricamento dei contenuti del sito.</li>
+                    <li data-i18n="li_6_2_3"><strong>Embed Esterni (es. YouTube, Vimeo):</strong> Per incorporare video o altri contenuti multimediali.</li>
                 </ul>
-                Questi cookie possono raccogliere dati anonimi sul tuo utilizzo per finalità tecniche o statistiche legate al servizio specifico.</li>
+                <span data-i18n="li_6_2_desc">Questi cookie possono raccogliere dati anonimi sul tuo utilizzo per finalità tecniche o statistiche legate al servizio specifico.</span>
+            </li>
         </ul>
-        <p><strong>Non utilizziamo cookie di profilazione</strong>, ovvero cookie volti a creare profili relativi all'utente per inviare messaggi pubblicitari in linea con le preferenze manifestate durante la navigazione.</p>
-        <p>È attivo un <strong>banner di consenso GDPR/ePrivacy</strong> che ti permette di gestire le tue preferenze relative ai cookie e di esprimere o negare il consenso per i cookie non strettamente necessari. Puoi anche gestire le impostazioni dei cookie direttamente dal tuo browser.</p>
+        <p data-i18n="p_6_1"><strong>Non utilizziamo cookie di profilazione</strong>, ovvero cookie volti a creare profili relativi all'utente per inviare messaggi pubblicitari in linea con le preferenze manifestate durante la navigazione.</p>
+        <p data-i18n="p_6_2">È attivo un <strong>banner di consenso GDPR/ePrivacy</strong> che ti permette di gestire le tue preferenze relative ai cookie e di esprimere o negare il consenso per i cookie non strettamente necessari. Puoi anche gestire le impostazioni dei cookie direttamente dal tuo browser.</p>
 
         <hr>
 
-        <h2>7. Conservazione dei Dati</h2>
-        <p>I tuoi dati personali saranno conservati per il tempo strettamente necessario al raggiungimento delle finalità per cui sono stati raccolti, e comunque non oltre i seguenti termini:</p>
+        <h2 data-i18n="h2_7">7. Conservazione dei Dati</h2>
+        <p data-i18n="p_7">I tuoi dati personali saranno conservati per il tempo strettamente necessario al raggiungimento delle finalità per cui sono stati raccolti, e comunque non oltre i seguenti termini:</p>
         <ul>
-            <li><strong>Dati Email (per newsletter/beta):</strong> Massima di 24 mesi dall'ultimo contatto o fino alla tua revoca del consenso.</li>
-            <li><strong>Dati Tecnici Anonimi (es. IP anonimizzati):</strong> Fino a un massimo di 12 mesi per finalità di sicurezza e analisi aggregata.</li>
+            <li data-i18n="li_7_1"><strong>Dati Email (per newsletter/beta):</strong> Massima di 24 mesi dall'ultimo contatto o fino alla tua revoca del consenso.</li>
+            <li data-i18n="li_7_2"><strong>Dati Tecnici Anonimi (es. IP anonimizzati):</strong> Fino a un massimo di 12 mesi per finalità di sicurezza e analisi aggregata.</li>
         </ul>
-        <p>Al termine del periodo di conservazione, i dati saranno cancellati o resi anonimi in modo irreversibile, salvo eventuali obblighi legali che ne richiedano una conservazione ulteriore.</p>
+        <p data-i18n="p_7_end">Al termine del periodo di conservazione, i dati saranno cancellati o resi anonimi in modo irreversibile, salvo eventuali obblighi legali che ne richiedano una conservazione ulteriore.</p>
 
         <hr>
 
-        <h2>8. Hosting e Sicurezza</h2>
-        <p>Il nostro sito è ospitato su server sicuri gestiti da provider affidabili (es. Vercel, Netlify) che adottano elevate misure di sicurezza. La trasmissione dei dati avviene sempre tramite protocollo sicuro <strong>HTTPS</strong> con certificato SSL attivo, garantendo la cifratura delle comunicazioni.</p>
-        <p>Adottiamo misure di sicurezza adeguate per proteggere i tuoi dati personali da accessi non autorizzati, divulgazione, alterazione o distruzione, tra cui:</p>
+        <h2 data-i18n="h2_8">8. Hosting e Sicurezza</h2>
+        <p data-i18n="p_8_1">Il nostro sito è ospitato su server sicuri gestiti da provider affidabili (es. Vercel, Netlify) che adottano elevate misure di sicurezza. La trasmissione dei dati avviene sempre tramite protocollo sicuro <strong>HTTPS</strong> con certificato SSL attivo, garantendo la cifratura delle comunicazioni.</p>
+        <p data-i18n="p_8_2">Adottiamo misure di sicurezza adeguate per proteggere i tuoi dati personali da accessi non autorizzati, divulgazione, alterazione o distruzione, tra cui:</p>
         <ul>
-            <li>Validazione e sanificazione degli input nei form.</li>
-            <li>Trasmissione cifrata dei dati sensibili tramite TLS (Transport Layer Security).</li>
-            <li>Accesso ristretto ai dati da parte del personale autorizzato, con autenticazione e controlli di accesso.</li>
-            <li>Aggiornamenti regolari dei sistemi e monitoraggio delle vulnerabilità.</li>
+            <li data-i18n="li_8_1">Validazione e sanificazione degli input nei form.</li>
+            <li data-i18n="li_8_2">Trasmissione cifrata dei dati sensibili tramite TLS (Transport Layer Security).</li>
+            <li data-i18n="li_8_3">Accesso ristretto ai dati da parte del personale autorizzato, con autenticazione e controlli di accesso.</li>
+            <li data-i18n="li_8_4">Aggiornamenti regolari dei sistemi e monitoraggio delle vulnerabilità.</li>
         </ul>
 
         <hr>
 
-        <h2>9. Diritti dell’Utente</h2>
-        <p>In qualità di interessato, hai il diritto di esercitare in qualsiasi momento i seguenti diritti, in conformità con il GDPR:</p>
+        <h2 data-i18n="h2_9">9. Diritti dell’Utente</h2>
+        <p data-i18n="p_9">In qualità di interessato, hai il diritto di esercitare in qualsiasi momento i seguenti diritti, in conformità con il GDPR:</p>
         <ul>
-            <li><strong>Diritto di Accesso (Art. 15 GDPR):</strong> Richiedere la conferma che sia in corso un trattamento di tuoi dati personali e, in tal caso, ottenerne una copia.</li>
-            <li><strong>Diritto di Rettifica (Art. 16 GDPR):</strong> Ottenere la modifica o l'aggiornamento dei dati personali inesatti o incompleti che ti riguardano.</li>
-            <li><strong>Diritto alla Cancellazione (Diritto all'Oblio - Art. 17 GDPR):</strong> Ottenere la cancellazione dei dati personali che ti riguardano, in presenza di determinate condizioni (es. dati non più necessari per le finalità, revoca del consenso).</li>
-            <li><strong>Diritto di Limitazione di Trattamento (Art. 18 GDPR):</strong> Ottenere la limitazione del trattamento dei dati in alcuni casi (es. contesti l'esattezza dei dati, il trattamento è illecito).</li>
-            <li><strong>Diritto alla Portabilità dei Dati (Art. 20 GDPR):</strong> Ricevere i dati personali che ti riguardano in un formato strutturato, di uso comune e leggibile da dispositivo automatico, e trasmetterli a un altro titolare del trattamento, se tecnicamente fattibile.</li>
-            <li><strong>Diritto di Opposizione al Trattamento (Art. 21 GDPR):</strong> Opporti al trattamento dei tuoi dati personali basato sul legittimo interesse, per motivi connessi alla tua situazione particolare.</li>
-            <li><strong>Diritto di Revoca del Consenso (Art. 7, par. 3 GDPR):</strong> Revocare in qualsiasi momento il consenso al trattamento dei tuoi dati, senza pregiudicare la liceità del trattamento basato sul consenso prima della revoca.</li>
-            <li><strong>Diritto di Proporre Reclamo (Art. 77 GDPR):</strong> Proporre un reclamo all'Autorità Garante per la protezione dei dati personali (<a href="https://www.garanteprivacy.it" target="_blank">www.garanteprivacy.it</a>) se ritieni che il trattamento dei tuoi dati violi il GDPR.</li>
+            <li data-i18n="li_9_1"><strong>Diritto di Accesso (Art. 15 GDPR):</strong> Richiedere la conferma che sia in corso un trattamento di tuoi dati personali e, in tal caso, ottenerne una copia.</li>
+            <li data-i18n="li_9_2"><strong>Diritto di Rettifica (Art. 16 GDPR):</strong> Ottenere la modifica o l'aggiornamento dei dati personali inesatti o incompleti che ti riguardano.</li>
+            <li data-i18n="li_9_3"><strong>Diritto alla Cancellazione (Diritto all'Oblio - Art. 17 GDPR):</strong> Ottenere la cancellazione dei dati personali che ti riguardano, in presenza di determinate condizioni (es. dati non più necessari per le finalità, revoca del consenso).</li>
+            <li data-i18n="li_9_4"><strong>Diritto di Limitazione di Trattamento (Art. 18 GDPR):</strong> Ottenere la limitazione del trattamento dei dati in alcuni casi (es. contesti l'esattezza dei dati, il trattamento è illecito).</li>
+            <li data-i18n="li_9_5"><strong>Diritto alla Portabilità dei Dati (Art. 20 GDPR):</strong> Ricevere i dati personali che ti riguardano in un formato strutturato, di uso comune e leggibile da dispositivo automatico, e trasmetterli a un altro titolare del trattamento, se tecnicamente fattibile.</li>
+            <li data-i18n="li_9_6"><strong>Diritto di Opposizione al Trattamento (Art. 21 GDPR):</strong> Opporti al trattamento dei tuoi dati personali basato sul legittimo interesse, per motivi connessi alla tua situazione particolare.</li>
+            <li data-i18n="li_9_7"><strong>Diritto di Revoca del Consenso (Art. 7, par. 3 GDPR):</strong> Revocare in qualsiasi momento il consenso al trattamento dei tuoi dati, senza pregiudicare la liceità del trattamento basato sul consenso prima della revoca.</li>
+            <li data-i18n="li_9_8"><strong>Diritto di Proporre Reclamo (Art. 77 GDPR):</strong> Proporre un reclamo all'Autorità Garante per la protezione dei dati personali (<a href="https://www.garanteprivacy.it" target="_blank">www.garanteprivacy.it</a>) se ritieni che il trattamento dei tuoi dati violi il GDPR.</li>
         </ul>
-        <p>Per esercitare uno qualsiasi di questi diritti, puoi inviare una richiesta scritta all'indirizzo email fornito nella sezione "Contatti" di questa informativa.</p>
+        <p data-i18n="p_9_end">Per esercitare uno qualsiasi di questi diritti, puoi inviare una richiesta scritta all'indirizzo email fornito nella sezione "Contatti" di questa informativa.</p>
 
         <hr>
 
-        <h2>10. Trasferimenti Internazionali di Dati</h2>
-        <p>Alcuni dei tuoi dati personali potrebbero essere trasferiti verso paesi terzi al di fuori dello Spazio Economico Europeo (SEE), ad esempio tramite l'utilizzo di servizi come EmailJS (che ha server negli USA) per l'invio delle email. Tali trasferimenti avvengono nel rispetto delle disposizioni del GDPR.</p>
-        <p>In particolare, i nostri fornitori di servizi terzi che effettuano trasferimenti internazionali si impegnano ad adottare <strong>Clausole Contrattuali Standard (SCC)</strong> approvate dalla Commissione Europea o altre adeguate garanzie previste dagli articoli 44 e seguenti del GDPR, per assicurare un livello di protezione dei dati equivalente a quello garantito all'interno del SEE.</p>
+        <h2 data-i18n="h2_10">10. Trasferimenti Internazionali di Dati</h2>
+        <p data-i18n="p_10_1">Alcuni dei tuoi dati personali potrebbero essere trasferiti verso paesi terzi al di fuori dello Spazio Economico Europeo (SEE), ad esempio tramite l'utilizzo di servizi come EmailJS (che ha server negli USA) per l'invio delle email. Tali trasferimenti avvengono nel rispetto delle disposizioni del GDPR.</p>
+        <p data-i18n="p_10_2">In particolare, i nostri fornitori di servizi terzi che effettuano trasferimenti internazionali si impegnano ad adottare <strong>Clausole Contrattuali Standard (SCC)</strong> approvate dalla Commissione Europea o altre adeguate garanzie previste dagli articoli 44 e seguenti del GDPR, per assicurare un livello di protezione dei dati equivalente a quello garantito all'interno del SEE.</p>
 
         <hr>
 
-        <h2>11. Privacy dei Minori</h2>
-        <p>Il nostro sito e i nostri servizi <strong>non sono destinati a persone di età inferiore ai 16 anni</strong>. Non raccogliamo consapevolmente dati personali da minori di 16 anni. Se venissimo a conoscenza di aver raccolto dati personali da un minore di 16 anni senza il consenso verificabile dei genitori o del tutore legale, adotteremo misure per eliminare tali informazioni dai nostri server il prima possibile.</p>
+        <h2 data-i18n="h2_11">11. Privacy dei Minori</h2>
+        <p data-i18n="p_11">Il nostro sito e i nostri servizi <strong>non sono destinati a persone di età inferiore ai 16 anni</strong>. Non raccogliamo consapevolmente dati personali da minori di 16 anni. Se venissimo a conoscenza di aver raccolto dati personali da un minore di 16 anni senza il consenso verificabile dei genitori o del tutore legale, adotteremo misure per eliminare tali informazioni dai nostri server il prima possibile.</p>
 
         <hr>
 
-        <h2>12. Modifiche a Questa Informativa</h2>
-        <p>Ci riserviamo il diritto di modificare o aggiornare periodicamente la presente Informativa Privacy e Cookie. Ogni aggiornamento sarà comunicato sul nostro sito web o, se significativo, tramite email agli utenti registrati. Ti invitiamo a consultare regolarmente questa pagina per essere sempre informato sulle nostre pratiche di protezione dei dati.</p>
+        <h2 data-i18n="h2_12">12. Modifiche a Questa Informativa</h2>
+        <p data-i18n="p_12">Ci riserviamo il diritto di modificare o aggiornare periodicamente la presente Informativa Privacy e Cookie. Ogni aggiornamento sarà comunicato sul nostro sito web o, se significativo, tramite email agli utenti registrati. Ti invitiamo a consultare regolarmente questa pagina per essere sempre informato sulle nostre pratiche di protezione dei dati.</p>
 
         <hr>
 
-        <h2>13. Contatti del Titolare del Trattamento</h2>
-        <p>Il Titolare del Trattamento dei tuoi dati personali è:</p>
-        <p><strong>J.M Enterprises</strong><br>
+        <h2 data-i18n="h2_13">13. Contatti del Titolare del Trattamento</h2>
+        <p data-i18n="p_13_1">Il Titolare del Trattamento dei tuoi dati personali è:</p>
+        <p data-i18n="p_13_2"><strong>J.M Enterprises</strong><br>
         Email: <a href="mailto:info@jmenterprises.it">info@jmenterprises.it</a><br>
         Sito Web: <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a></p>
 
         <div class="version-info">
-            <p>Versione 1.2 – Ultimo aggiornamento: 22 Giugno 2025</p>
-            <p>Conforme al Regolamento (UE) 2016/679 (GDPR) e alla normativa italiana vigente.</p>
+            <p data-i18n="version_info_p1">Versione 1.2 – Ultimo aggiornamento: 22 Giugno 2025</p>
+            <p data-i18n="version_info_p2">Conforme al Regolamento (UE) 2016/679 (GDPR) e alla normativa italiana vigente.</p>
         </div>
     </div>
 
@@ -265,7 +345,7 @@
         <div class="footer-content">
             <div class="footer-column">
                 <h3>J.M Enterprises</h3>
-                <p>Pioneering the future through revolutionary technologies that transform industries and empower human potential.</p>
+                <p data-i18n="footer_desc">Pioneering the future through revolutionary technologies that transform industries and empower human potential.</p>
                 <div class="social-icons">
                     <a href="https://linkedin.com/in/clamontoya" target="_blank" aria-label="LinkedIn J.M Enterprises"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
                     <a href="https://x.com/sambucooo" target="_blank" aria-label="Twitter J.M Enterprises"><i class="fab fa-twitter" aria-hidden="true"></i></a>
@@ -274,29 +354,437 @@
                 </div>
             </div>
             <div class="footer-column">
-                <h3>Our Portfolio</h3>
-                <a href="../harmonia/harmonia.html">Harmonia</a>
-                <a href="../index.html#products">Saint & Co.</a>
-                <a href="../index.html#products">AuraX</a>
+                <h3 data-i18n="footer_h3_portfolio">Our Portfolio</h3>
+                <a href="../harmonia/harmonia.html" data-i18n="footer_link_harmonia">Harmonia</a>
+                <a href="../index.html#products" data-i18n="footer_link_saint">Saint & Co.</a>
+                <a href="../index.html#products" data-i18n="footer_link_aurax">AuraX</a>
             </div>
             <div class="footer-column">
-                <h3>Company</h3>
-                <a href="../index.html#about">About Us</a>
-                <a href="../index.html#team">Leadership</a> 
-                <a href="gdpr.html">Privacy & GDPR</a>
+                <h3 data-i18n="footer_h3_company">Company</h3>
+                <a href="../index.html#about" data-i18n="footer_link_about">About Us</a>
+                <a href="../index.html#team" data-i18n="footer_link_leadership">Leadership</a> 
+                <a href="gdpr.html" data-i18n="footer_link_privacy">Privacy & GDPR</a>
             </div>
             <div class="footer-column">
-                <h3>Contact</h3>
+                <h3 data-i18n="footer_h3_contact">Contact</h3>
                 <a href="mailto:info@jmenterprises.it"><i class="fas fa-envelope" aria-hidden="true"></i> info@jmenterprises.it</a>
                 <a href="mailto:claudio@jmenterprises.it"><i class="fas fa-envelope" aria-hidden="true"></i> claudio@jmenterprises.it</a>
                 <a href="https://wa.me/393274545932" target="_blank" aria-label="Contatto WhatsApp (si apre in una nuova scheda)" rel="noopener noreferrer"><i class="fas fa-phone" aria-hidden="true"></i> +39 3274545932</a>
-                <a href="#"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Genova,Liguria - IT</a> 
+                <a href="#" data-i18n="footer_location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Genova,Liguria - IT</a> 
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2025 J.M Enterprises Holdings. All rights reserved. | Con amore per Annina <i class="fas fa-sparkles" aria-hidden="true"></i>.</p>
+            <p data-i18n="copyright_text">&copy; 2025 J.M Enterprises Holdings. All rights reserved. | Con amore per Annina <i class="fas fa-sparkles" aria-hidden="true"></i>.</p>
         </div>
     </footer>
 </body>
+<script>
+    const translations = {
+        it: {
+            title: 'Informativa Privacy e Cookie',
+            intro: 'La presente Informativa sulla privacy descrive le modalità con cui J.M Enterprises raccoglie, utilizza e protegge i tuoi dati personali in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR - Regolamento UE 2016/679) e la normativa italiana vigente.',
+            h2_1: '1. Chi Siamo',
+            p_1: '<strong>J.M Enterprises</strong> è una startup tecnologica indipendente con sede operativa in Italia. Il sito ufficiale è <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>, gestito e manutenuto direttamente dal suo fondatore. Il nostro progetto include lo sviluppo di prodotti digitali innovativi come Harmonia, una piattaforma AI dedicata al benessere mentale, attualmente in fase di sviluppo.',
+            h2_2: '2. Dati Personali Raccolti',
+            p_2: 'Raccogliamo ed elaboriamo i seguenti dati personali:',
+            li_2_1: '<strong>Email:</strong> Fornita volontariamente da te tramite moduli presenti sul sito (ad esempio, per l\'iscrizione alla newsletter, l\'accesso alla beta, o la partecipazione a un forum).',
+            li_2_2: '<strong>Nome o Nickname:</strong> Un campo facoltativo che puoi scegliere di fornire quando interagisci con i nostri moduli.',
+            li_2_3: '<strong>Dati Tecnici Anonimizzati:</strong> Come l\'indirizzo IP (anonimizzato subito dopo la raccolta tramite troncamento), il tipo di browser utilizzato e il sistema operativo. Questi dati vengono raccolti per finalità di sicurezza e analisi tecnica aggregata, senza identificare direttamente l\'utente.',
+            li_2_4: '<strong>Dati di Utilizzo (futuri):</strong> In futuro, se attiveremo strumenti di analisi (es. Google Analytics), potremmo raccogliere dati anonimizzati sull\'interazione con il sito, come le pagine visitate, il tempo di permanenza e i percorsi di navigazione. Ti informeremo preventivamente e ti forniremo opzioni per la gestione di tali dati.',
+            p_2_end: '<strong>Non raccogliamo dati sensibili o biometrici</strong> (come dati sulla salute, l\'orientamento sessuale, le convinzioni religiose o filosofiche).',
+            h2_3: '3. Finalità del Trattamento',
+            p_3: 'I tuoi dati personali sono trattati esclusivamente per le seguenti finalità:',
+            li_3_1: '<strong>Gestione della Newsletter e Comunicazioni di Progetto:</strong> Per inviarti aggiornamenti sul nostro progetto, novità su Harmonia e altre comunicazioni pertinenti a cui hai acconsentito.',
+            li_3_2: '<strong>Accesso alla Beta di Harmonia:</strong> Per consentirti di partecipare ai test della versione beta della nostra piattaforma e gestire la tua iscrizione.',
+            li_3_3: '<strong>Analisi Tecnica e Prevenzione Abusi:</strong> Per monitorare il funzionamento tecnico del sito, prevenire attività fraudolente, proteggere la sicurezza della piattaforma (ad esempio, tramite sistemi di captcha) e garantire la stabilità del servizio.',
+            li_3_4: '<strong>Miglioramento del Servizio (futuro):</strong> I dati di utilizzo anonimizzati potranno essere impiegati per analizzare l\'interazione con il sito e migliorare l\'esperienza utente e l\'efficacia dei nostri servizi.',
+            h2_4: '4. Base Giuridica del Trattamento',
+            p_4: 'Trattiamo i tuoi dati personali sulla base delle seguenti condizioni stabilite dal GDPR:',
+            li_4_1: '<strong>Consenso Esplicito dell’Utente (Art. 6, par. 1, lett. a GDPR):</strong> Per finalità come l\'invio della newsletter e l\'accesso alla beta di Harmonia, il trattamento si basa sul tuo consenso libero, specifico, informato e inequivocabile, che puoi revocare in qualsiasi momento.',
+            li_4_2: '<strong>Legittimo Interesse del Titolare (Art. 6, par. 1, lett. f GDPR):</strong> Per finalità di analisi tecnica, prevenzione abusi e sicurezza del sito (es. gestione IP anonimizzati, sistemi di captcha), il trattamento si basa sul nostro legittimo interesse a garantire la sicurezza, l\'affidabilità e la corretta erogazione dei nostri servizi e a proteggerci da attività illecite. Abbiamo bilanciato il nostro interesse con i tuoi diritti e libertà fondamentali, concludendo che il trattamento è necessario e proporzionato.',
+            h2_5: '5. Modalità di Raccolta e Responsabili del Trattamento',
+            p_5: 'Raccogliamo i dati principalmente attraverso:',
+            li_5_1: '<strong>Moduli HTML:</strong> Integrati direttamente sul nostro sito, con invio delle email gestito lato client tramite <strong>EmailJS</strong>.',
+            li_5_2: '<strong>Futuri Strumenti di Raccolta:</strong> Prevediamo di integrare servizi come <strong>Mailchimp</strong> per la gestione avanzata delle newsletter e <strong>Firebase</strong> (o servizi analoghi) per eventuali funzionalità di autenticazione o analisi anonima dei dati.',
+            p_5_1: '<strong>EmailJS</strong> opera come nostro responsabile esterno del trattamento, garantendo la conformità al GDPR. Puoi consultare la loro privacy policy al seguente link: <a href="https://www.emailjs.com/privacy-policy" target="_blank">EmailJS Privacy Policy</a>.',
+            p_5_2: 'Ogni futuro servizio di terze parti sarà selezionato con cura per garantire il rispetto delle normative sulla protezione dei dati.',
+            h2_6: '6. Cookie e Strumenti di Tracking',
+            p_6: 'Il nostro sito web può utilizzare i seguenti tipi di cookie:',
+            li_6_1: '<strong>Cookie Tecnici:</strong> Sono strettamente necessari per il corretto funzionamento del sito, consentendo la navigazione e l\'utilizzo delle sue funzionalità essenziali (es. sessioni di login, preferenze di lingua). Non richiedono il tuo consenso preventivo.',
+            li_6_2: '<strong>Cookie di Terze Parti (Tecnici/Funzionali):</strong> Possono essere utilizzati per integrare funzionalità fornite da servizi esterni, come:',
+            li_6_2_1: '<strong>Google Fonts:</strong> Per garantire un aspetto grafico uniforme e ottimizzato.',
+            li_6_2_2: '<strong>CDN (Content Delivery Network - es. Vercel, Netlify):</strong> Per ottimizzare la velocità di caricamento dei contenuti del sito.',
+            li_6_2_3: '<strong>Embed Esterni (es. YouTube, Vimeo):</strong> Per incorporare video o altri contenuti multimediali.',
+            li_6_2_desc: 'Questi cookie possono raccogliere dati anonimi sul tuo utilizzo per finalità tecniche o statistiche legate al servizio specifico.',
+            p_6_1: '<strong>Non utilizziamo cookie di profilazione</strong>, ovvero cookie volti a creare profili relativi all\'utente per inviare messaggi pubblicitari in linea con le preferenze manifestate durante la navigazione.',
+            p_6_2: 'È attivo un <strong>banner di consenso GDPR/ePrivacy</strong> che ti permette di gestire le tue preferenze relative ai cookie e di esprimere o negare il consenso per i cookie non strettamente necessari. Puoi anche gestire le impostazioni dei cookie direttamente dal tuo browser.',
+            h2_7: '7. Conservazione dei Dati',
+            p_7: 'I tuoi dati personali saranno conservati per il tempo strettamente necessario al raggiungimento delle finalità per cui sono stati raccolti, e comunque non oltre i seguenti termini:',
+            li_7_1: '<strong>Dati Email (per newsletter/beta):</strong> Massima di 24 mesi dall\'ultimo contatto o fino alla tua revoca del consenso.',
+            li_7_2: '<strong>Dati Tecnici Anonimi (es. IP anonimizzati):</strong> Fino a un massimo di 12 mesi per finalità di sicurezza e analisi aggregata.',
+            p_7_end: 'Al termine del periodo di conservazione, i dati saranno cancellati o resi anonimi in modo irreversibile, salvo eventuali obblighi legali che ne richiedano una conservazione ulteriore.',
+            h2_8: '8. Hosting e Sicurezza',
+            p_8_1: 'Il nostro sito è ospitato su server sicuri gestiti da provider affidabili (es. Vercel, Netlify) che adottano elevate misure di sicurezza. La trasmissione dei dati avviene sempre tramite protocollo sicuro <strong>HTTPS</strong> con certificato SSL attivo, garantendo la cifratura delle comunicazioni.',
+            p_8_2: 'Adottiamo misure di sicurezza adeguate per proteggere i tuoi dati personali da accessi non autorizzati, divulgazione, alterazione o distruzione, tra cui:',
+            li_8_1: 'Validazione e sanificazione degli input nei form.',
+            li_8_2: 'Trasmissione cifrata dei dati sensibili tramite TLS (Transport Layer Security).',
+            li_8_3: 'Accesso ristretto ai dati da parte del personale autorizzato, con autenticazione e controlli di accesso.',
+            li_8_4: 'Aggiornamenti regolari dei sistemi e monitoraggio delle vulnerabilità.',
+            h2_9: '9. Diritti dell’Utente',
+            p_9: 'In qualità di interessato, hai il diritto di esercitare in qualsiasi momento i seguenti diritti, in conformità con il GDPR:',
+            li_9_1: '<strong>Diritto di Accesso (Art. 15 GDPR):</strong> Richiedere la conferma che sia in corso un trattamento di tuoi dati personali e, in tal caso, ottenerne una copia.',
+            li_9_2: '<strong>Diritto di Rettifica (Art. 16 GDPR):</strong> Ottenere la modifica o l\'aggiornamento dei dati personali inesatti o incompleti che ti riguardano.',
+            li_9_3: '<strong>Diritto alla Cancellazione (Diritto all\'Oblio - Art. 17 GDPR):</strong> Ottenere la cancellazione dei dati personali che ti riguardano, in presenza di determinate condizioni (es. dati non più necessari per le finalità, revoca del consenso).',
+            li_9_4: '<strong>Diritto di Limitazione di Trattamento (Art. 18 GDPR):</strong> Ottenere la limitazione del trattamento dei dati in alcuni casi (es. contesti l\'esattezza dei dati, il trattamento è illecito).',
+            li_9_5: '<strong>Diritto alla Portabilità dei Dati (Art. 20 GDPR):</strong> Ricevere i dati personali che ti riguardano in un formato strutturato, di uso comune e leggibile da dispositivo automatico, e trasmetterli a un altro titolare del trattamento, se tecnicamente fattibile.',
+            li_9_6: '<strong>Diritto di Opposizione al Trattamento (Art. 21 GDPR):</strong> Opporti al trattamento dei tuoi dati personali basato sul legittimo interesse, per motivi connessi alla tua situazione particolare.',
+            li_9_7: '<strong>Diritto di Revoca del Consenso (Art. 7, par. 3 GDPR):</strong> Revocare in qualsiasi momento il consenso al trattamento dei tuoi dati, senza pregiudicare la liceità del trattamento basato sul consenso prima della revoca.',
+            li_9_8: '<strong>Diritto di Proporre Reclamo (Art. 77 GDPR):</strong> Proporre un reclamo all\'Autorità Garante per la protezione dei dati personali (<a href="https://www.garanteprivacy.it" target="_blank">www.garanteprivacy.it</a>) se ritieni che il trattamento dei tuoi dati violi il GDPR.',
+            p_9_end: 'Per esercitare uno qualsiasi di questi diritti, puoi inviare una richiesta scritta all\'indirizzo email fornito nella sezione "Contatti" di questa informativa.',
+            h2_10: '10. Trasferimenti Internazionali di Dati',
+            p_10_1: 'Alcuni dei tuoi dati personali potrebbero essere trasferiti verso paesi terzi al di fuori dello Spazio Economico Europeo (SEE), ad esempio tramite l\'utilizzo di servizi come EmailJS (che ha server negli USA) per l\'invio delle email. Tali trasferimenti avvengono nel rispetto delle disposizioni del GDPR.',
+            p_10_2: 'In particolare, i nostri fornitori di servizi terzi che effettuano trasferimenti internazionali si impegnano ad adottare <strong>Clausole Contrattuali Standard (SCC)</strong> approvate dalla Commissione Europea o altre adeguate garanzie previste dagli articoli 44 e seguenti del GDPR, per assicurare un livello di protezione dei dati equivalente a quello garantito all\'interno del SEE.',
+            h2_11: '11. Privacy dei Minori',
+            p_11: 'Il nostro sito e i nostri servizi <strong>non sono destinati a persone di età inferiore ai 16 anni</strong>. Non raccogliamo consapevolmente dati personali da minori di 16 anni. Se venissimo a conoscenza di aver raccolto dati personali da un minore di 16 anni senza il consenso verificabile dei genitori o del tutore legale, adotteremo misure per eliminare tali informazioni dai nostri server il prima possibile.',
+            h2_12: '12. Modifiche a Questa Informativa',
+            p_12: 'Ci riserviamo il diritto di modificare o aggiornare periodicamente la presente Informativa Privacy e Cookie. Ogni aggiornamento sarà comunicato sul nostro sito web o, se significativo, tramite email agli utenti registrati. Ti invitiamo a consultare regolarmente questa pagina per essere sempre informato sulle nostre pratiche di protezione dei dati.',
+            h2_13: '13. Contatti del Titolare del Trattamento',
+            p_13_1: 'Il Titolare del Trattamento dei tuoi dati personali è:',
+            p_13_2: '<strong>J.M Enterprises</strong><br>Email: <a href="mailto:info@jmenterprises.it">info@jmenterprises.it</a><br>Sito Web: <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>',
+            version_info_p1: 'Versione 1.2 – Ultimo aggiornamento: 22 Giugno 2025',
+            version_info_p2: 'Conforme al Regolamento (UE) 2016/679 (GDPR) e alla normativa italiana vigente.',
+            footer_desc: 'Pionieri del futuro attraverso tecnologie rivoluzionarie che trasformano le industrie e potenziano il potenziale umano.',
+            footer_h3_portfolio: 'Il Nostro Portfolio',
+            footer_h3_company: 'Azienda',
+            footer_link_about: 'Chi Siamo',
+            footer_link_leadership: 'Leadership',
+            footer_link_privacy: 'Privacy & GDPR',
+            footer_h3_contact: 'Contatti',
+            copyright_text: '&copy; 2025 J.M Enterprises Holdings. Tutti i diritti riservati. | Con amore per Annina <i class="fas fa-sparkles" aria-hidden="true"></i>.',
+            footer_link_harmonia: 'Harmonia',
+            footer_link_saint: 'Saint & Co.',
+            footer_link_aurax: 'AuraX',
+            footer_location: '<i class="fas fa-map-marker-alt" aria-hidden="true"></i> Genova, Liguria - IT'
+        },
+        en: {
+            title: 'Privacy and Cookie Policy',
+            intro: 'This Privacy Policy describes how J.M Enterprises collects, uses, and protects your personal data in accordance with the General Data Protection Regulation (GDPR - EU Regulation 2016/679) and current Italian legislation.',
+            h2_1: '1. Who We Are',
+            p_1: '<strong>J.M Enterprises</strong> is an independent technology startup with operational headquarters in Italy. The official website is <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>, managed and maintained directly by its founder. Our project includes the development of innovative digital products such as Harmonia, an AI platform dedicated to mental well-being, currently under development.',
+            h2_2: '2. Personal Data Collected',
+            p_2: 'We collect and process the following personal data:',
+            li_2_1: '<strong>Email:</strong> Voluntarily provided by you through forms on the site (e.g., for newsletter subscription, beta access, or forum participation).',
+            li_2_2: '<strong>Name or Nickname:</strong> An optional field you can choose to provide when interacting with our forms.',
+            li_2_3: '<strong>Anonymized Technical Data:</strong> Such as the IP address (anonymized immediately after collection by truncation), browser type, and operating system. This data is collected for security purposes and aggregated technical analysis, without directly identifying the user.',
+            li_2_4: '<strong>Usage Data (future):</strong> In the future, if we activate analytics tools (e.g., Google Analytics), we may collect anonymized data about interaction with the site, such as pages visited, time spent, and navigation paths. We will inform you in advance and provide you with options to manage such data.',
+            p_2_end: '<strong>We do not collect sensitive or biometric data</strong> (such as health data, sexual orientation, religious or philosophical beliefs).',
+            h2_3: '3. Purposes of Processing',
+            p_3: 'Your personal data is processed exclusively for the following purposes:',
+            li_3_1: '<strong>Newsletter and Project Communications Management:</strong> To send you updates about our project, news about Harmonia, and other relevant communications to which you have consented.',
+            li_3_2: '<strong>Access to Harmonia Beta:</strong> To allow you to participate in the beta testing of our platform and manage your registration.',
+            li_3_3: '<strong>Technical Analysis and Abuse Prevention:</strong> To monitor the technical operation of the site, prevent fraudulent activities, protect the security of the platform (e.g., through captcha systems), and ensure the stability of the service.',
+            li_3_4: '<strong>Service Improvement (future):</strong> Anonymized usage data may be used to analyze interaction with the site and improve the user experience and the effectiveness of our services.',
+            h2_4: '4. Legal Basis for Processing',
+            p_4: 'We process your personal data based on the following conditions established by the GDPR:',
+            li_4_1: '<strong>Explicit Consent of the User (Art. 6, par. 1, lett. a GDPR):</strong> For purposes such as sending the newsletter and accessing the Harmonia beta, processing is based on your free, specific, informed, and unambiguous consent, which you can withdraw at any time.',
+            li_4_2: '<strong>Legitimate Interest of the Controller (Art. 6, par. 1, lett. f GDPR):</strong> For purposes of technical analysis, abuse prevention, and site security (e.g., management of anonymized IPs, captcha systems), processing is based on our legitimate interest to ensure the security, reliability, and proper delivery of our services and to protect ourselves from illegal activities. We have balanced our interest with your fundamental rights and freedoms, concluding that the processing is necessary and proportionate.',
+            h2_5: '5. Data Collection Methods and Data Processors',
+            p_5: 'We collect data primarily through:',
+            li_5_1: '<strong>HTML Forms:</strong> Integrated directly on our site, with email sending managed client-side via <strong>EmailJS</strong>.',
+            li_5_2: '<strong>Future Collection Tools:</strong> We plan to integrate services like <strong>Mailchimp</strong> for advanced newsletter management and <strong>Firebase</strong> (or similar services) for any authentication or anonymous data analysis features.',
+            p_5_1: '<strong>EmailJS</strong> acts as our external data processor, ensuring GDPR compliance. You can consult their privacy policy at the following link: <a href="https://www.emailjs.com/privacy-policy" target="_blank">EmailJS Privacy Policy</a>.',
+            p_5_2: 'Any future third-party service will be carefully selected to ensure compliance with data protection regulations.',
+            h2_6: '6. Cookies and Tracking Tools',
+            p_6: 'Our website may use the following types of cookies:',
+            li_6_1: '<strong>Technical Cookies:</strong> These are strictly necessary for the proper functioning of the site, allowing navigation and use of its essential features (e.g., login sessions, language preferences). They do not require your prior consent.',
+            li_6_2: '<strong>Third-Party Cookies (Technical/Functional):</strong> These may be used to integrate features provided by external services, such as:',
+            li_6_2_1: '<strong>Google Fonts:</strong> To ensure a uniform and optimized graphic appearance.',
+            li_6_2_2: '<strong>CDN (Content Delivery Network - e.g., Vercel, Netlify):</strong> To optimize the loading speed of the site\'s content.',
+            li_6_2_3: '<strong>External Embeds (e.g., YouTube, Vimeo):</strong> To embed videos or other multimedia content.',
+            li_6_2_desc: 'These cookies may collect anonymous data about your usage for technical or statistical purposes related to the specific service.',
+            p_6_1: '<strong>We do not use profiling cookies</strong>, which are cookies aimed at creating user profiles to send advertising messages in line with the preferences expressed during navigation.',
+            p_6_2: 'A <strong>GDPR/ePrivacy consent banner</strong> is active, allowing you to manage your cookie preferences and to give or deny consent for non-strictly necessary cookies. You can also manage cookie settings directly from your browser.',
+            h2_7: '7. Data Retention',
+            p_7: 'Your personal data will be stored for the time strictly necessary to achieve the purposes for which it was collected, and in any case no longer than the following terms:',
+            li_7_1: '<strong>Email Data (for newsletter/beta):</strong> Maximum of 24 months from the last contact or until you withdraw your consent.',
+            li_7_2: '<strong>Anonymous Technical Data (e.g., anonymized IPs):</strong> Up to a maximum of 12 months for security and aggregated analysis purposes.',
+            p_7_end: 'At the end of the retention period, the data will be deleted or irreversibly anonymized, unless there are legal obligations that require further storage.',
+            h2_8: '8. Hosting and Security',
+            p_8_1: 'Our site is hosted on secure servers managed by reliable providers (e.g., Vercel, Netlify) that adopt high-security measures. Data transmission always occurs via the secure <strong>HTTPS</strong> protocol with an active SSL certificate, ensuring the encryption of communications.',
+            p_8_2: 'We adopt appropriate security measures to protect your personal data from unauthorized access, disclosure, alteration, or destruction, including:',
+            li_8_1: 'Validation and sanitization of form inputs.',
+            li_8_2: 'Encrypted transmission of sensitive data via TLS (Transport Layer Security).',
+            li_8_3: 'Restricted access to data by authorized personnel, with authentication and access controls.',
+            li_8_4: 'Regular system updates and vulnerability monitoring.',
+            h2_9: '9. User Rights',
+            p_9: 'As a data subject, you have the right to exercise the following rights at any time, in accordance with the GDPR:',
+            li_9_1: '<strong>Right of Access (Art. 15 GDPR):</strong> To request confirmation of whether personal data concerning you is being processed and, if so, to obtain a copy.',
+            li_9_2: '<strong>Right to Rectification (Art. 16 GDPR):</strong> To obtain the correction or updating of inaccurate or incomplete personal data concerning you.',
+            li_9_3: '<strong>Right to Erasure (Right to be Forgotten - Art. 17 GDPR):</strong> To obtain the erasure of personal data concerning you, under certain conditions (e.g., data no longer necessary for the purposes, withdrawal of consent).',
+            li_9_4: '<strong>Right to Restriction of Processing (Art. 18 GDPR):</strong> To obtain the restriction of data processing in certain cases (e.g., you contest the accuracy of the data, the processing is unlawful).',
+            li_9_5: '<strong>Right to Data Portability (Art. 20 GDPR):</strong> To receive the personal data concerning you in a structured, commonly used, and machine-readable format, and to transmit those data to another controller, where technically feasible.',
+            li_9_6: '<strong>Right to Object (Art. 21 GDPR):</strong> To object to the processing of your personal data based on legitimate interest, for reasons related to your particular situation.',
+            li_9_7: '<strong>Right to Withdraw Consent (Art. 7, par. 3 GDPR):</strong> To withdraw your consent to the processing of your data at any time, without affecting the lawfulness of processing based on consent before its withdrawal.',
+            li_9_8: '<strong>Right to Lodge a Complaint (Art. 77 GDPR):</strong> To lodge a complaint with the Data Protection Authority (<a href="https://www.garanteprivacy.it" target="_blank">www.garanteprivacy.it</a>) if you believe that the processing of your data violates the GDPR.',
+            p_9_end: 'To exercise any of these rights, you can send a written request to the email address provided in the "Contacts" section of this policy.',
+            h2_10: '10. International Data Transfers',
+            p_10_1: 'Some of your personal data may be transferred to third countries outside the European Economic Area (EEA), for example, through the use of services like EmailJS (which has servers in the USA) for sending emails. Such transfers are carried out in compliance with the provisions of the GDPR.',
+            p_10_2: 'In particular, our third-party service providers that carry out international transfers are committed to adopting <strong>Standard Contractual Clauses (SCC)</strong> approved by the European Commission or other appropriate safeguards provided for in Articles 44 et seq. of the GDPR, to ensure a level of data protection equivalent to that guaranteed within the EEA.',
+            h2_11: '11. Children\'s Privacy',
+            p_11: 'Our site and our services are <strong>not intended for persons under the age of 16</strong>. We do not knowingly collect personal data from children under 16. If we become aware that we have collected personal data from a child under 16 without verifiable parental or legal guardian consent, we will take steps to delete such information from our servers as soon as possible.',
+            h2_12: '12. Changes to This Policy',
+            p_12: 'We reserve the right to periodically modify or update this Privacy and Cookie Policy. Any updates will be communicated on our website or, if significant, via email to registered users. We invite you to regularly consult this page to stay informed about our data protection practices.',
+            h2_13: '13. Data Controller Contacts',
+            p_13_1: 'The Data Controller of your personal data is:',
+            p_13_2: '<strong>J.M Enterprises</strong><br>Email: <a href="mailto:info@jmenterprises.it">info@jmenterprises.it</a><br>Website: <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>',
+            version_info_p1: 'Version 1.2 – Last updated: June 22, 2025',
+            version_info_p2: 'Compliant with Regulation (EU) 2016/679 (GDPR) and current Italian legislation.',
+            footer_desc: 'Pioneering the future through revolutionary technologies that transform industries and empower human potential.',
+            footer_h3_portfolio: 'Our Portfolio',
+            footer_h3_company: 'Company',
+            footer_link_about: 'About Us',
+            footer_link_leadership: 'Leadership',
+            footer_link_privacy: 'Privacy & GDPR',
+            footer_h3_contact: 'Contact',
+            copyright_text: '&copy; 2025 J.M Enterprises Holdings. All rights reserved. | With love for Annina <i class="fas fa-sparkles" aria-hidden="true"></i>.',
+            footer_link_harmonia: 'Harmonia',
+            footer_link_saint: 'Saint & Co.',
+            footer_link_aurax: 'AuraX',
+            footer_location: '<i class="fas fa-map-marker-alt" aria-hidden="true"></i> Genoa, Liguria - IT'
+        },
+        fr: {
+            title: 'Politique de Confidentialité et de Cookies',
+            intro: 'Cette politique de confidentialité décrit comment J.M Enterprises collecte, utilise et protège vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD - Règlement UE 2016/679) et à la législation italienne en vigueur.',
+            h2_1: '1. Qui sommes-nous',
+            p_1: '<strong>J.M Enterprises</strong> est une startup technologique indépendante dont le siège opérationnel est en Italie. Le site officiel est <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>, géré et maintenu directement par son fondateur. Notre projet comprend le développement de produits numériques innovants comme Harmonia, une plateforme d\'IA dédiée au bien-être mental, actuellement en développement.',
+            h2_2: '2. Données Personnelles Collectées',
+            p_2: 'Nous collectons et traitons les données personnelles suivantes :',
+            li_2_1: '<strong>Email :</strong> Fourni volontairement par vous via des formulaires sur le site (par ex., pour l\'inscription à la newsletter, l\'accès à la version bêta ou la participation à un forum).',
+            li_2_2: '<strong>Nom ou Pseudo :</strong> Un champ facultatif que vous pouvez choisir de fournir lorsque vous interagissez avec nos formulaires.',
+            li_2_3: '<strong>Données Techniques Anonymisées :</strong> Telles que l\'adresse IP (anonymisée immédiatement après la collecte par troncature), le type de navigateur et le système d\'exploitation. Ces données sont collectées à des fins de sécurité et d\'analyse technique agrégée, sans identifier directement l\'utilisateur.',
+            li_2_4: '<strong>Données d\'Utilisation (futures) :</strong> À l\'avenir, si nous activons des outils d\'analyse (par ex., Google Analytics), nous pourrons collecter des données anonymisées sur l\'interaction avec le site, telles que les pages visitées, le temps passé et les parcours de navigation. Nous vous en informerons à l\'avance et vous fournirons des options pour gérer ces données.',
+            p_2_end: '<strong>Nous ne collectons pas de données sensibles ou biométriques</strong> (telles que les données de santé, l\'orientation sexuelle, les convictions religieuses ou philosophiques).',
+            h2_3: '3. Finalités du Traitement',
+            p_3: 'Vos données personnelles sont traitées exclusivement pour les finalités suivantes :',
+            li_3_1: '<strong>Gestion de la Newsletter et des Communications de Projet :</strong> Pour vous envoyer des mises à jour sur notre projet, des nouvelles sur Harmonia et d\'autres communications pertinentes auxquelles vous avez consenti.',
+            li_3_2: '<strong>Accès à la Bêta d\'Harmonia :</strong> Pour vous permettre de participer aux tests de la version bêta de notre plateforme et de gérer votre inscription.',
+            li_3_3: '<strong>Analyse Technique et Prévention des Abus :</strong> Pour surveiller le fonctionnement technique du site, prévenir les activités frauduleuses, protéger la sécurité de la plateforme (par ex., via des systèmes de captcha) et garantir la stabilité du service.',
+            li_3_4: '<strong>Amélioration du Service (future) :</strong> Les données d\'utilisation anonymisées pourront être utilisées pour analyser l\'interaction avec le site et améliorer l\'expérience utilisateur et l\'efficacité de nos services.',
+            h2_4: '4. Base Juridique du Traitement',
+            p_4: 'Nous traitons vos données personnelles sur la base des conditions suivantes établies par le RGPD :',
+            li_4_1: '<strong>Consentement Explicite de l’Utilisateur (Art. 6, par. 1, let. a RGPD) :</strong> Pour des finalités telles que l\'envoi de la newsletter et l\'accès à la bêta d\'Harmonia, le traitement est basé sur votre consentement libre, spécifique, éclairé et univoque, que vous pouvez retirer à tout moment.',
+            li_4_2: '<strong>Intérêt Légitime du Responsable du Traitement (Art. 6, par. 1, let. f RGPD) :</strong> Pour des finalités d\'analyse technique, de prévention des abus et de sécurité du site (par ex., gestion des IP anonymisées, systèmes de captcha), le traitement est basé sur notre intérêt légitime à garantir la sécurité, la fiabilité et la bonne prestation de nos services et à nous protéger contre les activités illicites. Nous avons mis en balance notre intérêt avec vos droits et libertés fondamentaux, concluant que le traitement est nécessaire et proportionné.',
+            h2_5: '5. Méthodes de Collecte et Sous-traitants',
+            p_5: 'Nous collectons les données principalement via :',
+            li_5_1: '<strong>Formulaires HTML :</strong> Intégrés directement sur notre site, avec envoi des e-mails géré côté client via <strong>EmailJS</strong>.',
+            li_5_2: '<strong>Outils de Collecte Futurs :</strong> Nous prévoyons d\'intégrer des services comme <strong>Mailchimp</strong> pour la gestion avancée des newsletters et <strong>Firebase</strong> (ou des services similaires) pour d\'éventuelles fonctionnalités d\'authentification ou d\'analyse de données anonymes.',
+            p_5_1: '<strong>EmailJS</strong> agit en tant que notre sous-traitant externe, garantissant la conformité au RGPD. Vous pouvez consulter leur politique de confidentialité sur ce lien : <a href="https://www.emailjs.com/privacy-policy" target="_blank">Politique de confidentialité d\'EmailJS</a>.',
+            p_5_2: 'Tout futur service tiers sera soigneusement sélectionné pour garantir le respect des réglementations sur la protection des données.',
+            h2_6: '6. Cookies et Outils de Suivi',
+            p_6: 'Notre site web peut utiliser les types de cookies suivants :',
+            li_6_1: '<strong>Cookies Techniques :</strong> Ils sont strictement nécessaires au bon fonctionnement du site, permettant la navigation et l\'utilisation de ses fonctionnalités essentielles (par ex., sessions de connexion, préférences linguistiques). Ils ne nécessitent pas votre consentement préalable.',
+            li_6_2: '<strong>Cookies Tiers (Techniques/Fonctionnels) :</strong> Ils peuvent être utilisés pour intégrer des fonctionnalités fournies par des services externes, tels que :',
+            li_6_2_1: '<strong>Google Fonts :</strong> Pour garantir une apparence graphique uniforme et optimisée.',
+            li_6_2_2: '<strong>CDN (Réseau de Diffusion de Contenu - ex. Vercel, Netlify) :</strong> Pour optimiser la vitesse de chargement du contenu du site.',
+            li_6_2_3: '<strong>Intégrations Externes (ex. YouTube, Vimeo) :</strong> Pour intégrer des vidéos ou d\'autres contenus multimédias.',
+            li_6_2_desc: 'Ces cookies peuvent collecter des données anonymes sur votre utilisation à des fins techniques ou statistiques liées au service spécifique.',
+            p_6_1: '<strong>Nous n\'utilisons pas de cookies de profilage</strong>, c\'est-à-dire des cookies visant à créer des profils d\'utilisateurs pour envoyer des messages publicitaires en ligne avec les préférences manifestées lors de la navigation.',
+            p_6_2: 'Une <strong>bannière de consentement RGPD/ePrivacy</strong> est active, vous permettant de gérer vos préférences en matière de cookies et de donner ou de refuser votre consentement pour les cookies non strictement nécessaires. Vous pouvez également gérer les paramètres des cookies directement depuis votre navigateur.',
+            h2_7: '7. Conservation des Données',
+            p_7: 'Vos données personnelles seront conservées pendant le temps strictement nécessaire pour atteindre les finalités pour lesquelles elles ont été collectées, et en aucun cas au-delà des termes suivants :',
+            li_7_1: '<strong>Données d\'Email (pour newsletter/bêta) :</strong> Maximum de 24 mois à compter du dernier contact ou jusqu\'à ce que vous retiriez votre consentement.',
+            li_7_2: '<strong>Données Techniques Anonymes (ex. IP anonymisées) :</strong> Jusqu\'à un maximum de 12 mois à des fins de sécurité et d\'analyse agrégée.',
+            p_7_end: 'À la fin de la période de conservation, les données seront supprimées ou anonymisées de manière irréversible, sauf si des obligations légales exigent une conservation plus longue.',
+            h2_8: '8. Hébergement et Sécurité',
+            p_8_1: 'Notre site est hébergé sur des serveurs sécurisés gérés par des fournisseurs fiables (par ex., Vercel, Netlify) qui adoptent des mesures de sécurité élevées. La transmission des données se fait toujours via le protocole sécurisé <strong>HTTPS</strong> avec un certificat SSL actif, garantissant le cryptage des communications.',
+            p_8_2: 'Nous adoptons des mesures de sécurité appropriées pour protéger vos données personnelles contre l\'accès, la divulgation, l\'altération ou la destruction non autorisés, notamment :',
+            li_8_1: 'Validation et nettoyage des entrées des formulaires.',
+            li_8_2: 'Transmission cryptée des données sensibles via TLS (Transport Layer Security).',
+            li_8_3: 'Accès restreint aux données par le personnel autorisé, avec authentification et contrôles d\'accès.',
+            li_8_4: 'Mises à jour régulières des systèmes et surveillance des vulnérabilités.',
+            h2_9: '9. Droits de l\'Utilisateur',
+            p_9: 'En tant que personne concernée, vous avez le droit d\'exercer à tout moment les droits suivants, conformément au RGPD :',
+            li_9_1: '<strong>Droit d\'Accès (Art. 15 RGPD) :</strong> Demander la confirmation que des données personnelles vous concernant sont traitées et, le cas échéant, en obtenir une copie.',
+            li_9_2: '<strong>Droit de Rectification (Art. 16 RGPD) :</strong> Obtenir la correction ou la mise à jour des données personnelles inexactes ou incomplètes vous concernant.',
+            li_9_3: '<strong>Droit à l\'Effacement (Droit à l\'oubli - Art. 17 RGPD) :</strong> Obtenir l\'effacement des données personnelles vous concernant, sous certaines conditions (par ex., données non plus nécessaires aux finalités, retrait du consentement).',
+            li_9_4: '<strong>Droit à la Limitation du Traitement (Art. 18 RGPD) :</strong> Obtenir la limitation du traitement des données dans certains cas (par ex., vous contestez l\'exactitude des données, le traitement est illégal).',
+            li_9_5: '<strong>Droit à la Portabilité des Données (Art. 20 RGPD) :</strong> Recevoir les données personnelles vous concernant dans un format structuré, couramment utilisé et lisible par machine, et les transmettre à un autre responsable du traitement, lorsque cela est techniquement possible.',
+            li_9_6: '<strong>Droit d\'Opposition (Art. 21 RGPD) :</strong> Vous opposer au traitement de vos données personnelles fondé sur un intérêt légitime, pour des raisons tenant à votre situation particulière.',
+            li_9_7: '<strong>Droit de Retirer le Consentement (Art. 7, par. 3 RGPD) :</strong> Retirer à tout moment votre consentement au traitement de vos données, sans affecter la licéité du traitement fondé sur le consentement avant son retrait.',
+            li_9_8: '<strong>Droit d\'Introduire une Réclamation (Art. 77 RGPD) :</strong> Introduire une réclamation auprès de l\'Autorité de protection des données (<a href="https://www.garanteprivacy.it" target="_blank">www.garanteprivacy.it</a>) si vous estimez que le traitement de vos données viole le RGPD.',
+            p_9_end: 'Pour exercer l\'un de ces droits, vous pouvez envoyer une demande écrite à l\'adresse e-mail fournie dans la section "Contacts" de cette politique.',
+            h2_10: '10. Transferts Internationaux de Données',
+            p_10_1: 'Certaines de vos données personnelles peuvent être transférées vers des pays tiers en dehors de l\'Espace Économique Européen (EEE), par exemple, via l\'utilisation de services comme EmailJS (qui a des serveurs aux États-Unis) pour l\'envoi d\'e-mails. Ces transferts sont effectués conformément aux dispositions du RGPD.',
+            p_10_2: 'En particulier, nos fournisseurs de services tiers qui effectuent des transferts internationaux s\'engagent à adopter des <strong>Clauses Contractuelles Types (CCT)</strong> approuvées par la Commission Européenne ou d\'autres garanties appropriées prévues aux articles 44 et suivants du RGPD, pour assurer un niveau de protection des données équivalent à celui garanti au sein de l\'EEE.',
+            h2_11: '11. Confidentialité des Enfants',
+            p_11: 'Notre site et nos services ne sont <strong>pas destinés aux personnes de moins de 16 ans</strong>. Nous ne collectons pas sciemment de données personnelles auprès d\'enfants de moins de 16 ans. Si nous apprenons que nous avons collecté des données personnelles d\'un enfant de moins de 16 ans sans le consentement vérifiable des parents ou du tuteur légal, nous prendrons des mesures pour supprimer ces informations de nos serveurs dès que possible.',
+            h2_12: '12. Modifications de cette Politique',
+            p_12: 'Nous nous réservons le droit de modifier ou de mettre à jour périodiquement cette Politique de Confidentialité et de Cookies. Toute mise à jour sera communiquée sur notre site web ou, si elle est significative, par e-mail aux utilisateurs enregistrés. Nous vous invitons à consulter régulièrement cette page pour rester informé de nos pratiques en matière de protection des données.',
+            h2_13: '13. Contacts du Responsable du Traitement',
+            p_13_1: 'Le Responsable du Traitement de vos données personnelles est :',
+            p_13_2: '<strong>J.M Enterprises</strong><br>Email : <a href="mailto:info@jmenterprises.it">info@jmenterprises.it</a><br>Site Web : <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>',
+            version_info_p1: 'Version 1.2 – Dernière mise à jour : 22 juin 2025',
+            version_info_p2: 'Conforme au Règlement (UE) 2016/679 (RGPD) et à la législation italienne en vigueur.',
+            footer_desc: 'Pionnier de l\'avenir grâce à des technologies révolutionnaires qui transforment les industries et renforcent le potentiel humain.',
+            footer_h3_portfolio: 'Notre Portefeuille',
+            footer_h3_company: 'Entreprise',
+            footer_link_about: 'À propos de nous',
+            footer_link_leadership: 'Direction',
+            footer_link_privacy: 'Confidentialité & RGPD',
+            footer_h3_contact: 'Contact',
+            copyright_text: '&copy; 2025 J.M Enterprises Holdings. Tous droits réservés. | Avec amour pour Annina <i class="fas fa-sparkles" aria-hidden="true"></i>.',
+            footer_link_harmonia: 'Harmonia',
+            footer_link_saint: 'Saint & Co.',
+            footer_link_aurax: 'AuraX',
+            footer_location: '<i class="fas fa-map-marker-alt" aria-hidden="true"></i> Gênes, Ligurie - IT'
+        },
+        es: {
+            title: 'Política de Privacidad y Cookies',
+            intro: 'Esta Política de Privacidad describe cómo J.M Enterprises recopila, utiliza y protege sus datos personales de conformidad con el Reglamento General de Protección de Datos (RGPD - Reglamento UE 2016/679) y la legislación italiana vigente.',
+            h2_1: '1. Quiénes Somos',
+            p_1: '<strong>J.M Enterprises</strong> es una startup tecnológica independiente con sede operativa en Italia. El sitio web oficial es <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>, gestionado y mantenido directamente por su fundador. Nuestro proyecto incluye el desarrollo de productos digitales innovadores como Harmonia, una plataforma de IA dedicada al bienestar mental, actualmente en desarrollo.',
+            h2_2: '2. Datos Personales Recopilados',
+            p_2: 'Recopilamos y procesamos los siguientes datos personales:',
+            li_2_1: '<strong>Email:</strong> Proporcionado voluntariamente por usted a través de formularios en el sitio (p. ej., para la suscripción al boletín, acceso a la beta o participación en el foro).',
+            li_2_2: '<strong>Nombre o Apodo:</strong> Un campo opcional que puede elegir proporcionar al interactuar con nuestros formularios.',
+            li_2_3: '<strong>Datos Técnicos Anonimizados:</strong> Como la dirección IP (anonimizada inmediatamente después de la recopilación mediante truncamiento), el tipo de navegador y el sistema operativo. Estos datos se recopilan con fines de seguridad y análisis técnico agregado, sin identificar directamente al usuario.',
+            li_2_4: '<strong>Datos de Uso (futuro):</strong> En el futuro, si activamos herramientas de análisis (p. ej., Google Analytics), podremos recopilar datos anonimizados sobre la interacción con el sitio, como las páginas visitadas, el tiempo de permanencia y las rutas de navegación. Le informaremos con antelación y le proporcionaremos opciones para gestionar dichos datos.',
+            p_2_end: '<strong>No recopilamos datos sensibles o biométricos</strong> (como datos de salud, orientación sexual, creencias religiosas o filosóficas).',
+            h2_3: '3. Fines del Tratamiento',
+            p_3: 'Sus datos personales se tratan exclusivamente para los siguientes fines:',
+            li_3_1: '<strong>Gestión del Boletín y Comunicaciones del Proyecto:</strong> Para enviarle actualizaciones sobre nuestro proyecto, noticias sobre Harmonia y otras comunicaciones pertinentes a las que ha consentido.',
+            li_3_2: '<strong>Acceso a la Beta de Harmonia:</strong> Para permitirle participar en las pruebas de la versión beta de nuestra plataforma y gestionar su registro.',
+            li_3_3: '<strong>Análisis Técnico y Prevención de Abusos:</strong> Para monitorear el funcionamiento técnico del sitio, prevenir actividades fraudulentas, proteger la seguridad de la plataforma (p. ej., mediante sistemas de captcha) y garantizar la estabilidad del servicio.',
+            li_3_4: '<strong>Mejora del Servicio (futuro):</strong> Los datos de uso anonimizados podrán emplearse para analizar la interacción con el sitio y mejorar la experiencia del usuario y la eficacia de nuestros servicios.',
+            h2_4: '4. Base Jurídica del Tratamiento',
+            p_4: 'Tratamos sus datos personales sobre la base de las siguientes condiciones establecidas por el RGPD:',
+            li_4_1: '<strong>Consentimiento Explícito del Usuario (Art. 6, párr. 1, letra a RGPD):</strong> Para fines como el envío del boletín y el acceso a la beta de Harmonia, el tratamiento se basa en su consentimiento libre, específico, informado e inequívoco, que puede revocar en cualquier momento.',
+            li_4_2: '<strong>Interés Legítimo del Responsable (Art. 6, párr. 1, letra f RGPD):</strong> Para fines de análisis técnico, prevención de abusos y seguridad del sitio (p. ej., gestión de IP anonimizadas, sistemas de captcha), el tratamiento se basa en nuestro interés legítimo de garantizar la seguridad, fiabilidad y correcta prestación de nuestros servicios y de protegernos contra actividades ilícitas. Hemos sopesado nuestro interés con sus derechos y libertades fundamentales, concluyendo que el tratamiento es necesario y proporcionado.',
+            h2_5: '5. Métodos de Recopilación y Encargados del Tratamiento',
+            p_5: 'Recopilamos datos principalmente a través de:',
+            li_5_1: '<strong>Formularios HTML:</strong> Integrados directamente en nuestro sitio, con el envío de correos electrónicos gestionado del lado del cliente a través de <strong>EmailJS</strong>.',
+            li_5_2: '<strong>Futuras Herramientas de Recopilación:</strong> Prevemos integrar servicios como <strong>Mailchimp</strong> para la gestión avanzada de boletines y <strong>Firebase</strong> (o servicios análogos) para eventuales funcionalidades de autenticación o análisis anónimo de datos.',
+            p_5_1: '<strong>EmailJS</strong> opera como nuestro encargado externo del tratamiento, garantizando la conformidad con el RGPD. Puede consultar su política de privacidad en el siguiente enlace: <a href="https://www.emailjs.com/privacy-policy" target="_blank">Política de Privacidad de EmailJS</a>.',
+            p_5_2: 'Cualquier futuro servicio de terceros será seleccionado cuidadosamente para garantizar el cumplimiento de las normativas de protección de datos.',
+            h2_6: '6. Cookies y Herramientas de Seguimiento',
+            p_6: 'Nuestro sitio web puede utilizar los siguientes tipos de cookies:',
+            li_6_1: '<strong>Cookies Técnicas:</strong> Son estrictamente necesarias para el correcto funcionamiento del sitio, permitiendo la navegación y el uso de sus funcionalidades esenciales (p. ej., sesiones de inicio de sesión, preferencias de idioma). No requieren su consentimiento previo.',
+            li_6_2: '<strong>Cookies de Terceros (Técnicas/Funcionales):</strong> Pueden utilizarse para integrar funcionalidades proporcionadas por servicios externos, como:',
+            li_6_2_1: '<strong>Google Fonts:</strong> Para garantizar un aspecto gráfico uniforme y optimizado.',
+            li_6_2_2: '<strong>CDN (Red de Distribución de Contenidos - ej. Vercel, Netlify):</strong> Para optimizar la velocidad de carga del contenido del sitio.',
+            li_6_2_3: '<strong>Incrustaciones Externas (ej. YouTube, Vimeo):</strong> Para incrustar videos u otros contenidos multimedia.',
+            li_6_2_desc: 'Estas cookies pueden recopilar datos anónimos sobre su uso con fines técnicos o estadísticos relacionados con el servicio específico.',
+            p_6_1: '<strong>No utilizamos cookies de perfilado</strong>, es decir, cookies destinadas a crear perfiles de usuario para enviar mensajes publicitarios acordes con las preferencias manifestadas durante la navegación.',
+            p_6_2: 'Hay activo un <strong>banner de consentimiento RGPD/ePrivacy</strong> que le permite gestionar sus preferencias de cookies y expresar o negar el consentimiento para las cookies no estrictamente necesarias. También puede gestionar la configuración de las cookies directamente desde su navegador.',
+            h2_7: '7. Conservación de Datos',
+            p_7: 'Sus datos personales se conservarán durante el tiempo estrictamente necesario para alcanzar los fines para los que fueron recopilados, y en cualquier caso no más allá de los siguientes plazos:',
+            li_7_1: '<strong>Datos de Email (para boletín/beta):</strong> Máximo de 24 meses desde el último contacto o hasta que revoque su consentimiento.',
+            li_7_2: '<strong>Datos Técnicos Anónimos (ej. IP anonimizadas):</strong> Hasta un máximo de 12 meses para fines de seguridad y análisis agregado.',
+            p_7_end: 'Al final del período de conservación, los datos serán eliminados o anonimizados de forma irreversible, salvo que existan obligaciones legales que requieran una conservación ulterior.',
+            h2_8: '8. Alojamiento y Seguridad',
+            p_8_1: 'Nuestro sitio está alojado en servidores seguros gestionados por proveedores fiables (ej. Vercel, Netlify) que adoptan elevadas medidas de seguridad. La transmisión de datos se realiza siempre a través del protocolo seguro <strong>HTTPS</strong> con un certificado SSL activo, garantizando el cifrado de las comunicaciones.',
+            p_8_2: 'Adoptamos medidas de seguridad adecuadas para proteger sus datos personales contra el acceso, la divulgación, la alteración o la destrucción no autorizados, entre ellas:',
+            li_8_1: 'Validación y saneamiento de las entradas de los formularios.',
+            li_8_2: 'Transmisión cifrada de datos sensibles mediante TLS (Transport Layer Security).',
+            li_8_3: 'Acceso restringido a los datos por parte del personal autorizado, con autenticación y controles de acceso.',
+            li_8_4: 'Actualizaciones regulares de los sistemas y monitoreo de vulnerabilidades.',
+            h2_9: '9. Derechos del Usuario',
+            p_9: 'Como interesado, tiene derecho a ejercer en cualquier momento los siguientes derechos, de conformidad con el RGPD:',
+            li_9_1: '<strong>Derecho de Acceso (Art. 15 RGPD):</strong> Solicitar la confirmación de si se están tratando datos personales que le conciernen y, en tal caso, obtener una copia.',
+            li_9_2: '<strong>Derecho de Rectificación (Art. 16 RGPD):</strong> Obtener la modificación o actualización de los datos personales inexactos o incompletos que le conciernen.',
+            li_9_3: '<strong>Derecho de Supresión (Derecho al Olvido - Art. 17 RGPD):</strong> Obtener la supresión de los datos personales que le conciernen, en determinadas condiciones (p. ej., datos ya no necesarios para los fines, revocación del consentimiento).',
+            li_9_4: '<strong>Derecho a la Limitación del Tratamiento (Art. 18 RGPD):</strong> Obtener la limitación del tratamiento de los datos en algunos casos (p. ej., se impugna la exactitud de los datos, el tratamiento es ilícito).',
+            li_9_5: '<strong>Derecho a la Portabilidad de los Datos (Art. 20 RGPD):</strong> Recibir los datos personales que le conciernen en un formato estructurado, de uso común y lectura mecánica, y transmitirlos a otro responsable del tratamiento, si es técnicamente factible.',
+            li_9_6: '<strong>Derecho de Oposición (Art. 21 RGPD):</strong> Oponerse al tratamiento de sus datos personales basado en el interés legítimo, por motivos relacionados con su situación particular.',
+            li_9_7: '<strong>Derecho a Retirar el Consentimiento (Art. 7, párr. 3 RGPD):</strong> Retirar en cualquier momento el consentimiento al tratamiento de sus datos, sin que ello afecte a la licitud del tratamiento basado en el consentimiento previo a su retirada.',
+            li_9_8: '<strong>Derecho a Presentar una Reclamación (Art. 77 RGPD):</strong> Presentar una reclamación ante la Autoridad de Protección de Datos (<a href="https://www.garanteprivacy.it" target="_blank">www.garanteprivacy.it</a>) si considera que el tratamiento de sus datos infringe el RGPD.',
+            p_9_end: 'Para ejercer cualquiera de estos derechos, puede enviar una solicitud por escrito a la dirección de correo electrónico proporcionada en la sección "Contactos" de esta política.',
+            h2_10: '10. Transferencias Internacionales de Datos',
+            p_10_1: 'Algunos de sus datos personales podrían ser transferidos a terceros países fuera del Espacio Económico Europeo (EEE), por ejemplo, mediante el uso de servicios como EmailJS (que tiene servidores en EE. UU.) para el envío de correos electrónicos. Dichas transferencias se realizan respetando las disposiciones del RGPD.',
+            p_10_2: 'En particular, nuestros proveedores de servicios externos que realizan transferencias internacionales se comprometen a adoptar <strong>Cláusulas Contractuales Tipo (CCT)</strong> aprobadas por la Comisión Europea u otras garantías adecuadas previstas en los artículos 44 y siguientes del RGPD, para asegurar un nivel de protección de datos equivalente al garantizado dentro del EEE.',
+            h2_11: '11. Privacidad de los Menores',
+            p_11: 'Nuestro sitio y nuestros servicios <strong>no están destinados a personas menores de 16 años</strong>. No recopilamos conscientemente datos personales de menores de 16 años. Si nos damos cuenta de que hemos recopilado datos personales de un menor de 16 años sin el consentimiento verificable de los padres o del tutor legal, tomaremos medidas para eliminar dicha información de nuestros servidores lo antes posible.',
+            h2_12: '12. Modificaciones de esta Política',
+            p_12: 'Nos reservamos el derecho de modificar o actualizar periódicamente esta Política de Privacidad y Cookies. Cualquier actualización se comunicará en nuestro sitio web o, si es significativa, por correo electrónico a los usuarios registrados. Le invitamos a consultar regularmente esta página para estar siempre informado sobre nuestras prácticas de protección de datos.',
+            h2_13: '13. Contactos del Responsable del Tratamiento',
+            p_13_1: 'El Responsable del Tratamiento de sus datos personales es:',
+            p_13_2: '<strong>J.M Enterprises</strong><br>Email: <a href="mailto:info@jmenterprises.it">info@jmenterprises.it</a><br>Sitio Web: <a href="https://jmenterprises.it" target="_blank">https://jmenterprises.it</a>',
+            version_info_p1: 'Versión 1.2 – Última actualización: 22 de junio de 2025',
+            version_info_p2: 'Conforme al Reglamento (UE) 2016/679 (RGPD) y la legislación italiana vigente.',
+            footer_desc: 'Pioneros en el futuro a través de tecnologías revolucionarias que transforman industrias y potencian el potencial humano.',
+            footer_h3_portfolio: 'Nuestro Portafolio',
+            footer_h3_company: 'Compañía',
+            footer_link_about: 'Sobre Nosotros',
+            footer_link_leadership: 'Liderazgo',
+            footer_link_privacy: 'Privacidad y RGPD',
+            footer_h3_contact: 'Contacto',
+            copyright_text: '&copy; 2025 J.M Enterprises Holdings. Todos los derechos reservados. | Con amor para Annina <i class="fas fa-sparkles" aria-hidden="true"></i>.',
+            footer_link_harmonia: 'Harmonia',
+            footer_link_saint: 'Saint & Co.',
+            footer_link_aurax: 'AuraX',
+            footer_location: '<i class="fas fa-map-marker-alt" aria-hidden="true"></i> Génova, Liguria - IT'
+        }
+    };
 
+    const langFlags = {
+      it: 'https://flagcdn.com/24x18/it.png',
+      en: 'https://flagcdn.com/24x18/gb.png',
+      fr: 'https://flagcdn.com/24x18/fr.png',
+      es: 'https://flagcdn.com/24x18/es.png'
+    };
+
+    function setLang(lang) {
+        if (!translations[lang]) return;
+        localStorage.setItem('gdprLang', lang);
+        document.documentElement.lang = lang;
+        document.getElementById('current-lang-flag').src = langFlags[lang];
+
+        const t = translations[lang];
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key]) {
+                if (el.tagName === 'TITLE') {
+                    document.title = t[key] + " - J.M Enterprises";
+                } else {
+                    el.innerHTML = t[key];
+                }
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const langSwitcher = document.querySelector('.lang-switcher');
+        const langDropdown = langSwitcher.querySelector('.lang-dropdown');
+
+        // Toggle dropdown
+        langSwitcher.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('active');
+        });
+
+        // Set language on item click
+        langDropdown.querySelectorAll('.lang-flag-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const lang = item.getAttribute('data-lang');
+                setLang(lang);
+                langDropdown.classList.remove('active');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!langSwitcher.contains(e.target)) {
+                langDropdown.classList.remove('active');
+            }
+        });
+
+        // Set initial language
+        let userLang = localStorage.getItem('gdprLang') || (navigator.language || navigator.userLanguage).slice(0, 2);
+        if (!['it', 'en', 'fr', 'es'].includes(userLang)) {
+            userLang = 'it'; // Default to Italian
+        }
+        setLang(userLang);
+    });
+</script>
 </html>

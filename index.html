@@ -141,7 +141,6 @@
                         <p>To bluid accessible, intelligent and human-centered products that improves lives -> everywhere.</p>
                         <p>Our goal is to democratize innovation, offering solutions that combine the power of <strong>AI and modern technology with simplicity and empathy</strong>.</p>
                         <p>We believe that innovation should not be a luxury, but a right for everyone, regardless of income,language, or background.</p>
-                    </p>
                     <a href="#team" class="btn btn-secondary">Meet Our Visionaries</a> 
                 </div>
                 <div class="about-image">
@@ -227,8 +226,8 @@
                     </div>
                     <div>
                         <label for="forum-interest" id="label-forum-interest">I'm interested in</label>
-                        <select id="forum-interest" name="forum_interest" required disabled selected>
-                            <option value="" id="forum-select-option">Select...</option>
+                        <select id="forum-interest" name="forum_interest" required>
+                            <option value="" id="forum-select-option" disabled selected>Select...</option>
                             <option value="newsletter" id="forum-interest-newsletter">Newsletter</option>
                             <option value="wishlist" id="forum-interest-wishlist">Product Waitlist</option>
                             <option value="contact" id="forum-interest-contact">General Contact</option>
@@ -512,6 +511,90 @@
             --aura-opacity1: 0.12;
             --aura-opacity2: 0.1;
         }
+
+        /* Typing animation cursor */
+        #hero-title.typing::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+            font-weight: 300; /* Make cursor thinner */
+            margin-left: 0.2em;
+        }
+
+        @keyframes blink {
+            from, to { color: transparent }
+            50% { color: var(--accent, #d4af37); } /* Use accent color if available */
+        }
+
+        /* On mobile, we want the static title, so no min-height is needed */
+        @media (max-width: 768px) {
+            #hero-title {
+                min-height: unset !important;
+            }
+        }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroTitle = document.getElementById('hero-title');
+            if (!heroTitle) return;
+
+            const originalText = heroTitle.textContent;
+            const typingSpeed = 100;
+            const erasingSpeed = 50;
+            const delayBeforeRestart = 2000;
+            let isAnimating = false;
+            let animationTimeout;
+
+            function typeAndErase() {
+                isAnimating = true;
+                heroTitle.classList.add('typing');
+                let i = 0;
+                heroTitle.innerHTML = '';
+
+                function type() {
+                    if (i < originalText.length) {
+                        heroTitle.innerHTML += originalText.charAt(i);
+                        i++;
+                        animationTimeout = setTimeout(type, typingSpeed);
+                    } else {
+                        animationTimeout = setTimeout(erase, delayBeforeRestart);
+                    }
+                }
+
+                function erase() {
+                    if (heroTitle.innerHTML.length > 0) {
+                        heroTitle.innerHTML = heroTitle.innerHTML.slice(0, -1);
+                        animationTimeout = setTimeout(erase, erasingSpeed);
+                    } else {
+                        animationTimeout = setTimeout(typeAndErase, 500);
+                    }
+                }
+                type();
+            }
+
+            function stopAnimation() {
+                clearTimeout(animationTimeout);
+                heroTitle.textContent = originalText;
+                heroTitle.classList.remove('typing');
+                heroTitle.style.minHeight = '';
+                isAnimating = false;
+            }
+
+            function handleAnimation() {
+                const isDesktop = window.innerWidth > 768;
+
+                if (isDesktop && !isAnimating) {
+                    const height = heroTitle.offsetHeight;
+                    heroTitle.style.minHeight = `${height}px`;
+                    typeAndErase();
+                } else if (!isDesktop && isAnimating) {
+                    stopAnimation();
+                }
+            }
+
+            handleAnimation();
+
+            window.addEventListener('resize', handleAnimation);
+        });
+    </script>
 </body>
 </html>
