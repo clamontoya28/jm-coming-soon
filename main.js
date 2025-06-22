@@ -402,6 +402,55 @@ const translations = {
         sending: 'Enviando...'
     }
 };
+// --- HERO TITLE TYPING ANIMATION ---
+let heroTypingTimeout = null;
+let heroTypingErasingTimeout = null;
+let heroTypingIsAnimating = false;
+let heroTypingCurrentText = '';
+
+function animateHeroTitle(text) {
+    const heroTitle = document.getElementById('hero-title');
+    if (!heroTitle) return;
+    // Stop any previous animation
+    if (heroTypingTimeout) clearTimeout(heroTypingTimeout);
+    if (heroTypingErasingTimeout) clearTimeout(heroTypingErasingTimeout);
+    heroTypingIsAnimating = false;
+    heroTitle.classList.remove('typing');
+    heroTitle.textContent = '';
+    heroTypingCurrentText = text;
+    // Only animate on desktop
+    if (window.innerWidth <= 768) {
+        heroTitle.textContent = text;
+        return;
+    }
+    let i = 0;
+    heroTitle.classList.add('typing');
+    function type() {
+        if (i < text.length) {
+            heroTitle.textContent += text.charAt(i);
+            i++;
+            heroTypingTimeout = setTimeout(type, 100);
+        } else {
+            heroTypingTimeout = setTimeout(erase, 2000);
+        }
+    }
+    function erase() {
+        if (heroTitle.textContent.length > 0) {
+            heroTitle.textContent = heroTitle.textContent.slice(0, -1);
+            heroTypingErasingTimeout = setTimeout(erase, 50);
+        } else {
+            heroTypingTimeout = setTimeout(() => animateHeroTitle(text), 500);
+        }
+    }
+    type();
+}
+window.addEventListener('resize', () => {
+    // Re-animate on resize for desktop/mobile switch
+    const lang = localStorage.getItem('siteLang') || 'en';
+    animateHeroTitle(translations[lang].hero_title);
+});
+// --- END HERO TITLE TYPING ANIMATION ---
+
 function setLanguage(lang) {
     localStorage.setItem('siteLang', lang);
     document.getElementById('current-lang-flag').src = langFlags[lang];
@@ -413,8 +462,8 @@ function setLanguage(lang) {
     navLinks[3].textContent = translations[lang].nav_team;
     if (navLinks[4]) navLinks[4].textContent = translations[lang].nav_forum;
     // Hero
-    document.querySelector('.hero h1').textContent = translations[lang].hero_title;
-    document.querySelector('.hero p').textContent = translations[lang].hero_desc;
+    animateHeroTitle(translations[lang].hero_title);
+    document.getElementById('hero-desc').textContent = translations[lang].hero_desc;
     const heroBtns = document.querySelectorAll('.hero-buttons .btn');
     heroBtns[0].textContent = translations[lang].hero_btn1;
     heroBtns[1].textContent = translations[lang].hero_btn2;

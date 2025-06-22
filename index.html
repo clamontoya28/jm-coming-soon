@@ -115,8 +115,8 @@
     <section class="hero reveal-section" aria-labelledby="hero-title">
         <canvas class="hero-bg-anim" aria-hidden="true"></canvas>
         <div class="hero-content">
-            <h1 id="hero-title">Where Innovation Meets Excellence</h1>
-            <p>J.M Enterprises pioneers next-generation technologies that redefine human mental health.</p>
+            <h1 id="hero-title"></h1>
+            <p id="hero-desc"></p>
             <div class="hero-buttons">
                 <a href="/harmonia/harmonia.html" class="btn btn-primary">Explore Harmonia</a>
                 <a href="src/chat.html" class="btn btn-secondary" id="beta-annina-btn" aria-label="Beta Annina (si apre in una nuova scheda)" target="_blank" rel="noopener noreferrer">Beta Annina</a>
@@ -400,16 +400,16 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="main.js" defer></script>
     <style>
-        /* Light mode styles */
+        
         body.light-mode {
             background: #f5f5f7;
             color: #222;
         }
-        body.light-mode #forum { /* Aggiunto per cambiare lo sfondo della sezione forum in light mode */
-            background: #f0f2f5; /* Un grigio chiaro, o usa var(--white) se preferisci lo stesso sfondo del body */
+        body.light-mode #forum { 
+            background: #f0f2f5; 
         }
         body.light-mode nav {
-            background: rgba(255,255,255,0.85); /* Aumentata trasparenza base per light mode */
+            background: rgba(255,255,255,0.85); 
             border-bottom: 1px solid #e6c567;
         }
         body.light-mode .logo {
@@ -430,7 +430,7 @@
             color: #d4af37;
         }
         body.light-mode .theme-switch .fa-sun {
-            display: inline; /* Assicura che l'icona sole sia visibile in light mode */
+            display: inline; 
         }
          body.light-mode .theme-switch .fa-moon { display: none; }
         body.light-mode .mobile-menu {
@@ -532,69 +532,6 @@
             }
         }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const heroTitle = document.getElementById('hero-title');
-            if (!heroTitle) return;
-
-            const originalText = heroTitle.textContent;
-            const typingSpeed = 100;
-            const erasingSpeed = 50;
-            const delayBeforeRestart = 2000;
-            let isAnimating = false;
-            let animationTimeout;
-
-            function typeAndErase() {
-                isAnimating = true;
-                heroTitle.classList.add('typing');
-                let i = 0;
-                heroTitle.innerHTML = '';
-
-                function type() {
-                    if (i < originalText.length) {
-                        heroTitle.innerHTML += originalText.charAt(i);
-                        i++;
-                        animationTimeout = setTimeout(type, typingSpeed);
-                    } else {
-                        animationTimeout = setTimeout(erase, delayBeforeRestart);
-                    }
-                }
-
-                function erase() {
-                    if (heroTitle.innerHTML.length > 0) {
-                        heroTitle.innerHTML = heroTitle.innerHTML.slice(0, -1);
-                        animationTimeout = setTimeout(erase, erasingSpeed);
-                    } else {
-                        animationTimeout = setTimeout(typeAndErase, 500);
-                    }
-                }
-                type();
-            }
-
-            function stopAnimation() {
-                clearTimeout(animationTimeout);
-                heroTitle.textContent = originalText;
-                heroTitle.classList.remove('typing');
-                heroTitle.style.minHeight = '';
-                isAnimating = false;
-            }
-
-            function handleAnimation() {
-                const isDesktop = window.innerWidth > 768;
-
-                if (isDesktop && !isAnimating) {
-                    const height = heroTitle.offsetHeight;
-                    heroTitle.style.minHeight = `${height}px`;
-                    typeAndErase();
-                } else if (!isDesktop && isAnimating) {
-                    stopAnimation();
-                }
-            }
-
-            handleAnimation();
-
-            window.addEventListener('resize', handleAnimation);
-        });
-    </script>
+    <!-- L'animazione del titolo viene ora gestita solo da main.js per garantire la traduzione dinamica -->
 </body>
 </html>
