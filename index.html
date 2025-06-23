@@ -22,7 +22,7 @@
     <meta name="twitter:description" content="Scopri Annina, Harmonia e le nostre soluzioni AI per il benessere mentale e l'innovazione. Startup italiana leader nel settore tech.">
     <meta name="twitter:image" content="https://jmenterprises.it/assets/harmonia.png">
     <meta name="twitter:site" content="@sambucooo">
-    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="icon" href="assets/1jmspirale VERO.png" type="image/png">
     <!-- Structured Data JSON-LD -->
     <script type="application/ld+json">
     {
@@ -60,8 +60,6 @@
         ]
     }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -69,7 +67,7 @@
     <!-- Navigation -->
     <nav aria-label="Main navigation">
         <a href="#" class="logo" aria-label="Homepage J.M Enterprises">
-            <img src="assets/favicon.png" alt="Logo di J.M Enterprises">
+            <img src="assets/1pallaJM.png" alt="Logo di J.M Enterprises">
         </a>
         <div class="nav-links" role="menubar">
             <a href="#about" role="menuitem">About</a>
@@ -144,7 +142,7 @@
                     <a href="#team" class="btn btn-secondary">Meet Our Visionaries</a> 
                 </div>
                 <div class="about-image">
-                    <img src="assets/favicon.png" alt="About J.M Enterprises" style="width:100%;height:100%;object-fit:contain;display:block;">
+                    <img src="assets/1pallaJM.png" alt="About J.M Enterprises" style="width:100%;height:100%;object-fit:contain;display:block;">
                 </div>
             </div>
         </div>
@@ -533,5 +531,240 @@
         }
     </style>
     <!-- L'animazione del titolo viene ora gestita solo da main.js per garantire la traduzione dinamica -->
+
+    <!-- Cookie Banner Start -->
+    <div id="cookie-banner" style="display:none;" role="dialog" aria-modal="true" aria-label="Cookie e tecnologie esterne">
+      <div class="cookie-banner-content">
+        <div class="cookie-banner-title">
+          Questo sito utilizza cookie e tecnologie esterne
+        </div>
+        <div class="cookie-banner-desc">
+          Per offrirti la migliore esperienza possibile, utilizziamo cookie tecnici e di terze parti, oltre a font, API e servizi esterni (come Google Analytics, EmailJS, Google Fonts, Font Awesome). Questi strumenti ci aiutano a migliorare le prestazioni, la sicurezza e la qualità del sito, oltre a personalizzare e ottimizzare la tua esperienza di navigazione. Nessun dato viene venduto o usato per profilazione commerciale.<br>
+          Puoi scegliere se accettare o rifiutare questi strumenti. Per maggiori dettagli consulta la nostra <a href="/src/gdpr.html" target="_blank" rel="noopener noreferrer">Privacy & Cookie Policy</a>.
+        </div>
+        <div class="cookie-banner-actions">
+          <button id="cookie-accept" class="cookie-btn cookie-accept" aria-label="Accetta cookie e servizi esterni">Accetta tutto</button>
+          <button id="cookie-decline" class="cookie-btn cookie-decline" aria-label="Rifiuta cookie e servizi esterni">Rifiuta</button>
+        </div>
+      </div>
+    </div>
+    <!-- Caricamento dinamico servizi esterni solo se consenso -->
+    <script>
+      (function() {
+        // Cambia la versione per forzare la ripresentazione del banner dopo ogni aggiornamento
+        var consentKey = 'jm-cookie-consent-v2';
+        function loadExternalResources() {
+          // Font Awesome
+          var fa = document.createElement('link');
+          fa.rel = 'stylesheet';
+          fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+          document.head.appendChild(fa);
+          // Google Fonts
+          var gf = document.createElement('link');
+          gf.rel = 'stylesheet';
+          gf.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap';
+          document.head.appendChild(gf);
+          // Google Analytics/Tag Manager
+          var gtagScript = document.createElement('script');
+          gtagScript.async = true;
+          gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17247002987';
+          document.head.appendChild(gtagScript);
+          gtagScript.onload = function() {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', 'AW-17247002987');
+            gtag('event', 'conversion', {'send_to': 'AW-17247002987/Sh2OCI-lhuAaEOvCgaBA'});
+          };
+          // EmailJS
+          var emailjsScript = document.createElement('script');
+          emailjsScript.src = 'https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js';
+          document.body.appendChild(emailjsScript);
+        }
+        function removeExternalResources() {
+          // Rimuovi link/script esterni se già caricati
+          var selectors = [
+            'link[href*="font-awesome"]',
+            'link[href*="fonts.googleapis.com"]',
+            'script[src*="googletagmanager"]',
+            'script[src*="emailjs-com"]'
+          ];
+          selectors.forEach(function(sel) {
+            document.querySelectorAll(sel).forEach(function(el) { el.parentNode && el.parentNode.removeChild(el); });
+          });
+        }
+        function showBanner() {
+          var banner = document.getElementById('cookie-banner');
+          if (banner) banner.style.display = 'flex';
+        }
+        function hideBanner() {
+          var banner = document.getElementById('cookie-banner');
+          if (banner) banner.style.display = 'none';
+        }
+        function checkConsentAndLoad() {
+          var consent = localStorage.getItem(consentKey);
+          if (consent === 'accepted') {
+            loadExternalResources();
+            hideBanner();
+          } else if (consent === 'declined') {
+            removeExternalResources();
+            hideBanner();
+          } else {
+            removeExternalResources();
+            showBanner();
+          }
+        }
+        document.addEventListener('DOMContentLoaded', checkConsentAndLoad);
+        window.addEventListener('storage', checkConsentAndLoad); // Sync tra tab
+        // Aggancia ai bottoni banner
+        setTimeout(function() {
+          var acceptBtn = document.getElementById('cookie-accept');
+          var declineBtn = document.getElementById('cookie-decline');
+          if (acceptBtn) acceptBtn.onclick = function() {
+            localStorage.setItem(consentKey, 'accepted');
+            loadExternalResources();
+            hideBanner();
+          };
+          if (declineBtn) declineBtn.onclick = function() {
+            localStorage.setItem(consentKey, 'declined');
+            removeExternalResources();
+            hideBanner();
+          };
+        }, 500);
+      })();
+    </script>
+    <style>
+      #cookie-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        background: rgba(34, 34, 34, 0.98);
+        color: #fff;
+        z-index: 9999;
+        box-shadow: 0 -2px 24px 0 #00000033;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        font-family: 'Inter', 'Playfair Display', Arial, sans-serif;
+        animation: slideUp 0.7s cubic-bezier(.4,1.6,.6,1) 1;
+      }
+      @keyframes slideUp {
+        from { transform: translateY(100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      .cookie-banner-content {
+        max-width: 540px;
+        margin: 1.5rem;
+        background: #222;
+        border-radius: 1.2rem;
+        box-shadow: 0 2px 16px #00000022;
+        padding: 2rem 2rem 1.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.1rem;
+      }
+      .cookie-banner-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #e6c567;
+        margin-bottom: 0.2rem;
+      }
+      .cookie-banner-desc {
+        font-size: 1rem;
+        color: #eee;
+        line-height: 1.5;
+      }
+      .cookie-banner-desc a {
+        color: #d4af37;
+        text-decoration: underline;
+        transition: color 0.2s;
+      }
+      .cookie-banner-desc a:hover {
+        color: #fffbe6;
+      }
+      .cookie-banner-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+      .cookie-btn {
+        padding: 0.6rem 1.5rem;
+        border-radius: 2rem;
+        border: none;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+      }
+      .cookie-accept {
+        background: linear-gradient(135deg, #d4af37, #e6c567);
+        color: #222;
+      }
+      .cookie-accept:hover {
+        background: #fffbe6;
+        color: #d4af37;
+      }
+      .cookie-decline {
+        background: transparent;
+        color: #fffbe6;
+        border: 2px solid #e6c56799;
+      }
+      .cookie-decline:hover {
+        background: #e6c567;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .cookie-banner-content {
+          max-width: 98vw;
+          padding: 1.2rem 0.7rem 1rem 0.7rem;
+        }
+      }
+    </style>
+    <script>
+      // Banner cookies automatico
+      (function() {
+        var banner = document.getElementById('cookie-banner');
+        var acceptBtn = document.getElementById('cookie-accept');
+        var declineBtn = document.getElementById('cookie-decline');
+        var consentKey = 'jm-cookie-consent';
+        function showBanner() {
+          banner.style.display = 'flex';
+        }
+        function hideBanner() {
+          banner.style.display = 'none';
+        }
+        function setConsent(value) {
+          localStorage.setItem(consentKey, value);
+        }
+        function getConsent() {
+          return localStorage.getItem(consentKey);
+        }
+        // Blocca Google Analytics/Tag Manager se rifiutato
+        function blockExternalScripts() {
+          // Blocca Google Tag Manager/Analytics
+          var gtm = document.querySelectorAll('script[src*="googletagmanager"], script[src*="google-analytics"]');
+          gtm.forEach(function(s) { s.type = 'text/plain'; s.parentNode && s.parentNode.removeChild(s); });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+          if (!getConsent()) {
+            showBanner();
+            blockExternalScripts();
+          }
+        });
+        acceptBtn.onclick = function() {
+          setConsent('accepted');
+          hideBanner();
+        };
+        declineBtn.onclick = function() {
+          setConsent('declined');
+          hideBanner();
+          blockExternalScripts();
+        };
+      })();
+    </script>
+    <!-- Cookie Banner End -->
 </body>
 </html>

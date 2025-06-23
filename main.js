@@ -418,11 +418,7 @@ function animateHeroTitle(text) {
     heroTitle.classList.remove('typing');
     heroTitle.textContent = '';
     heroTypingCurrentText = text;
-    // Only animate on desktop
-    if (window.innerWidth <= 768) {
-        heroTitle.textContent = text;
-        return;
-    }
+    // Animazione sempre attiva anche su mobile
     let i = 0;
     heroTitle.classList.add('typing');
     function type() {
