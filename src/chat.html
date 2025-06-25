@@ -517,21 +517,33 @@
       chatContainer.appendChild(typingRow);
       chatContainer.scrollTop = chatContainer.scrollHeight;
       // Dopo un po', sostituisci con la risposta di Annina
-      setTimeout(() => {
-        typingRow.querySelector('.message').innerHTML = 'Funzionalità AI in arrivo!';
-        console.log('Tentativo di riproduzione suono. Sound enabled:', soundEnabled); // Log per debug
-        // Riproduci il suono di notifica solo se abilitato
-        if (soundEnabled) {
-          notificationSound.play().catch(error => {
-            // La riproduzione automatica potrebbe essere bloccata dal browser
-            // se non c'è stata interazione utente recente.
-            console.warn("Impossibile riprodurre il suono di notifica:", error);
-          });
+
+      // Invia il messaggio al backend Flask
+      fetch('http://127.0.0.1:5000/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: text }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.response) {
+          typingRow.querySelector('.message').innerHTML = data.response;
+          if (soundEnabled) {
+            notificationSound.play().catch(error => console.warn("Impossibile riprodurre il suono di notifica:", error));
+          }
+          if (document.hidden) {
+            startTitleBlink();
+          }
+        } else if (data.error) {
+          typingRow.querySelector('.message').innerHTML = `Errore: ${data.error}`;
         }
-        if (document.hidden) {
-          startTitleBlink();
-        }
-      }, 900);
+      })
+      .catch(error => {
+        console.error('Errore durante la comunicazione con il backend:', error);
+        typingRow.querySelector('.message').innerHTML = 'Errore di connessione con Annina. Riprova più tardi.';
+      });
       updateChatInputState(); // Aggiorna stato pulsante e aura dopo invio
     });
     // Theme switch logic
@@ -619,4 +631,3 @@
     </script>
 </body>
 </html>
-

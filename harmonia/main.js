@@ -893,3 +893,56 @@ function getWrappedText(context, text, maxWidth) {
         chatDisplay.scrollTop = chatDisplay.scrollHeight; // Assicura che il messaggio sia visibile
     } 
 });
+
+document.getElementById("invia").addEventListener("click", function () {
+  const messaggioInput = document.getElementById("messaggio");
+  const messaggio = messaggioInput.value.trim();
+
+  if (messaggio === "") return;
+
+  mostraMessaggio("Tu", messaggio);
+  messaggioInput.value = "";
+
+  // Mostra "Annina sta scrivendo..."
+  mostraMessaggio("Annina", "Scrivendo...");
+
+  // Invia il messaggio all’AI su Render
+  fetch("https://anninaai.onrender.com/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: messaggio })
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Rimuove il messaggio "Scrivendo..."
+      rimuoviUltimoMessaggio();
+      if (data.response) {
+        mostraMessaggio("Annina", data.response);
+      } else {
+        mostraMessaggio("Annina", "Errore nella risposta 😢");
+      }
+    })
+    .catch(error => {
+      rimuoviUltimoMessaggio();
+      mostraMessaggio("Annina", "Errore di connessione 😥");
+    });
+});
+
+function mostraMessaggio(mittente, testo) {
+  const chat = document.getElementById("chat");
+  const nuovoMessaggio = document.createElement("div");
+  nuovoMessaggio.classList.add("messaggio");
+  nuovoMessaggio.innerHTML = `<strong>${mittente}:</strong> ${testo}`;
+  chat.appendChild(nuovoMessaggio);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function rimuoviUltimoMessaggio() {
+  const chat = document.getElementById("chat");
+  const messaggi = chat.getElementsByClassName("messaggio");
+  if (messaggi.length > 0) {
+    chat.removeChild(messaggi[messaggi.length - 1]);
+  }
+}
