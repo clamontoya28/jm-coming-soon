@@ -418,7 +418,9 @@ function getWrappedText(context, text, maxWidth) {
     function setHarmoniaTheme(isDark) {
         document.body.classList.toggle('dark-mode', isDark);
         document.documentElement.classList.toggle('dark-mode-active', isDark); // Applica classe a HTML
-        themeSwitchHarmonia.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        if (themeSwitchHarmonia) {
+            themeSwitchHarmonia.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
         localStorage.setItem('harmoniaTheme', isDark ? 'dark' : 'light');
     }
 
@@ -502,9 +504,13 @@ function getWrappedText(context, text, maxWidth) {
             backToTopBtn.style.pointerEvents = 'none';
         }
     });
-    backToTopBtn.addEventListener('click', () => {
+    if (backToTopBtn) {
+        if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+        });
+        }
+    }
 
     // Simple scroll animations for cards/sections (optional)
     // Seleziona gli elementi che dovrebbero avere l'animazione
