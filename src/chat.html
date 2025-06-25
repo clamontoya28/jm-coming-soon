@@ -1,178 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beta Annina - Chat</title>
-  <link rel="icon" href="/assets/annina.png" type="img/png">
+  <title>Beta Annina-JM</title>
+  <link rel="icon" href="/assets/annina.png" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17247002987"></script>
-  <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'AW-17247002987');
-  </script>
-    <!-- Event snippet for Registrazione conversion page -->
-  <script>
-    gtag('event', 'conversion', {'send_to': 'AW-17247002987/Sh2OCI-lhuAaEOvCgaBA'});
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Animazione 3 pallini (typing) */
-    .typing-indicator {
-      display: flex;
-      align-items: center;
-      height: 32px;
-      padding: 0 12px;
+    :root {
+      --primary: #3a4664;
+      --primary-light: #f5f6fa;
+      --primary-dark: #23232b;
+      --accent: #d4af37;
+      --user-bubble: #e9ecf3;
+      --annina-bubble: #fff;
+      --border: #e0e0e0;
+      --shadow: 0 2px 12px 0 rgba(60,60,60,0.07);
+      --radius: 18px;
+      --radius-lg: 24px;
+      --input-bg: #f7f7fa;
+      --input-border: #d4af37;
+      --input-focus: #3a4664;
+      --header-bg: #fff;
+      --header-border: #ececec;
+      --icon-muted: #b0b0b0;
+      --transition: 0.18s cubic-bezier(.4,0,.2,1);
     }
-    .typing-dot {
-      width: 8px;
-      height: 8px;
-      margin: 0 3px;
-      border-radius: 50%;
-      background: #d4af37;
-      opacity: 0.7;
-      animation: typing-bounce 1s infinite both;
-    }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typing-bounce {
-      0%, 80%, 100% { transform: translateY(0); opacity: 0.7; }
-      40% { transform: translateY(-7px); opacity: 1; }
-    }
-    /* Animazione Shake per input vuoto */
-    @keyframes shake {
-      10%, 90% { transform: translateX(-1px); }
-      20%, 80% { transform: translateX(2px); }
-      30%, 50%, 70% { transform: translateX(-3px); }
-      40%, 60% { transform: translateX(3px); }
-    }
-    .chat-input--shake {
-      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-    }
-    html {
-      height: 100%; /* Assicura che html occupi l'intera altezza */
-    }
-    body {
-      height: 100%; /* Fa in modo che body occupi l'intera altezza di html */
+    html, body {
+      height: 100%;
       margin: 0;
-      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%);
-      position: relative;
-      transition: background 0.4s;
+      padding: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--primary-light);
+      min-height: 100vh;
+      color: var(--primary);
+      -webkit-tap-highlight-color: transparent;
     }
-    .bg-blur {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      background: radial-gradient(circle at 80% 10%, #d4af37cc 0%, transparent 60%),
-                  radial-gradient(circle at 10% 90%, #a1a1aacc 0%, transparent 60%);
-      filter: blur(60px) saturate(1.2);
-      opacity: 0.5;
-      transition: opacity 0.4s;
+    body.dark-mode {
+      background: var(--primary-dark);
+      color: #f5f5f7;
     }
-    .chat-wrapper {
-      position: relative;
-      z-index: 1;
+    .chat-main-wrapper {
       max-width: 480px;
-      margin: 40px auto 0 auto;
-      background: rgba(255,255,255,0.92); /* Leggermente meno trasparente per far risaltare l'aura */
-      border-radius: 24px;
+      margin: 0 auto;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      height: 80vh;
-      min-height: 480px;
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
       overflow: hidden;
-      transition: background 0.4s, box-shadow 0.4s;
-      box-shadow: 0 4px 20px -10px rgba(0,0,0,0.1), 0 0 25px 3px rgba(212, 175, 55, 0.35); /* Aura esterna leggermente ridotta */
+      position: relative;
+      border: 2px solid #e0e0e0;
+      transition: background var(--transition);
+    }
+    body.dark-mode .chat-main-wrapper {
+      background: #23232b;
+      border: 1px solid #23232b;
+      box-shadow: 0 2px 16px 0 #0002;
     }
     .chat-header {
-      background: transparent;
-      padding: 1.2rem 2rem 1.2rem 1.2rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
-      border-bottom: 1px solid #ececec;
-      box-shadow: 0 0 20px 0px rgba(212, 175, 55, 0.30); /* Aura per l'intero header */
-      position: relative;
+      justify-content: space-between;
+      padding: 0.7rem 1.1rem;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--header-border);
+      min-height: 62px;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      transition: background var(--transition);
+    }
+    body.dark-mode .chat-header {
+      background: #23232b;
+      border-bottom: 1px solid #2d2d38;
+    }
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
     }
     .chat-header .avatar {
-      width: 48px;
-      height: 48px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background: #fff;
+      background: #f5f5f7;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.7rem;
-      color: #d4af37;
-      font-weight: bold;      
-      box-shadow: 0 0 20px 3px rgba(212, 175, 55, 0.50); /* Aura avatar header intensificata */
       overflow: hidden;
+      border: 1.5px solid var(--border);
     }
-    .chat-header .title-group {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      min-width: 0;
+    .chat-header .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
     .chat-header .title {
-      font-size: 1.25rem;
+      font-size: 1.18rem;
       font-weight: 700;
-      color: #23232b;
       letter-spacing: -0.01em;
-      line-height: 1.1;
+      color: var(--primary);
+      margin-bottom: 2px;
     }
-    .chat-header .subtitle-beta {
-      font-size: 0.92rem;
-      color: #a1a1aa;
-      font-style: italic;
-      margin-top: 0.1rem;
-      margin-bottom: 0.1rem;
-      margin-left: 2px;
+    .chat-header .subtitle {
+      font-size: 0.93rem;
+      color: var(--icon-muted);
+      font-weight: 400;
+      margin-top: 0;
     }
-    body.dark-mode .chat-header .subtitle-beta {
-      color: #e6c567;
+    body.dark-mode .chat-header .title {
+      color: #f5f5f7;
+    }
+    body.dark-mode .chat-header .subtitle {
+      color: #d4af37;
     }
     .chat-header-controls {
-      position: absolute;
-      right: 1.2rem;
-      top: 50%;
-      transform: translateY(-50%);
       display: flex;
       align-items: center;
-      gap: 0.8rem; /* Spazio tra i pulsanti di controllo */
-      z-index: 2;
+      gap: 0.5rem;
     }
-    .theme-switch {
-      font-size: 1.6rem;
-      color: #d4af37;
-      cursor: pointer;
+    .chat-header-controls button {
       background: none;
       border: none;
-      outline: none;
-      transition: color 0.3s;
-    }
-    .theme-switch:hover {
-      color: #a1a1aa;
-    }
-    .sound-toggle {
-      font-size: 1.6rem;
-      color: #d4af37;
+      color: var(--icon-muted);
+      font-size: 1.35rem;
       cursor: pointer;
-      background: none;
-      border: none;
-      outline: none;
-      padding: 0; /* Rimuove padding di default dei button */
-      transition: color 0.3s;
+      border-radius: 50%;
+      padding: 0.35em 0.45em;
+      transition: background var(--transition), color var(--transition);
     }
-    .sound-toggle:hover {
-      color: #a1a1aa;
+    .chat-header-controls button:hover {
+      background: #f5f5f7;
+      color: var(--accent);
+    }
+    body.dark-mode .chat-header-controls button:hover {
+      background: #23232b;
+      color: var(--accent);
     }
     .sound-toggle .fa-volume-mute { display: none; }
     .sound-toggle.sound-muted .fa-volume-up { display: none; }
@@ -181,15 +148,15 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+      padding: 1.2rem 0.7rem 0.7rem 0.7rem;
       overflow-y: auto;
-      background: transparent;
-      transition: background 0.4s;
+      background: none;
+      transition: background var(--transition);
     }
     .message-row {
       display: flex;
       align-items: flex-end;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.1rem;
     }
     .message-row.annina {
       flex-direction: row;
@@ -200,16 +167,16 @@
       justify-content: flex-end;
     }
     .msg-avatar {
-      width: 38px;
-      height: 38px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: #fff;
-      box-shadow: 0 2px 8px #d4af3733;
+      background: #f5f5f7;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 0.7rem;
+      margin: 0 0.5rem;
       overflow: hidden;
+      border: 1.5px solid var(--border);
     }
     .msg-avatar img {
       width: 100%;
@@ -219,221 +186,214 @@
     }
     .msg-avatar.annina {
       background: #fffbe6;
-      box-shadow: 0 0 20px 4px rgba(212, 175, 55, 0.60); /* Aura avatar messaggi Annina molto intensificata */
     }
     .msg-avatar.user {
-      background: #e6e9f0;
+      background: #e9ecf3;
     }
     .message {
       max-width: 70vw;
-      min-width: 48px;
-      padding: 1rem 1.3rem;
-      border-radius: 18px 18px 18px 4px;
-      font-size: 1.08rem;
+      min-width: 44px;
+      padding: 0.85rem 1.1rem;
+      border-radius: 22px;
+      font-size: 1.04rem;
       line-height: 1.6;
-      background: rgba(255,255,255,0.7);
-      box-shadow: 0 2px 12px #0001;
-      color: #23232b;
+      background: var(--annina-bubble);
+      box-shadow: 0 1px 6px #0001;
+      color: var(--primary);
       position: relative;
-      backdrop-filter: blur(4px);
-      border: 1px solid #ececec;
+      border: 1.5px solid var(--border);
       word-break: break-word;
       margin: 0;
-      transition: background 0.4s, color 0.4s, border 0.4s;
+      transition: background var(--transition), color var(--transition), border var(--transition);
     }
     .message-row.user .message {
-      background: rgba(212,175,55,0.13);
-      color: #23232b;
-      border-radius: 18px 18px 4px 18px;
-      border: 1.5px solid #d4af37;
+      background: var(--user-bubble);
+      color: var(--primary);
+      border: 2.5px solid #5d8aa8;
       margin-left: auto;
+      border-radius: 22px 22px 8px 22px;
     }
     .message-row.annina .message {
-      background: linear-gradient(135deg, #fffbe6 0%, #fff 60%, #f9e7b3 100%);
-      color: #23232b;
-      border-radius: 18px 18px 18px 4px;
-      border: 2px solid #d4af37;
+      background: var(--annina-bubble);
+      color: var(--primary);
+      border: 2.5px solid #d4af37;
       margin-right: auto;
-      box-shadow: 0 0 30px 8px rgba(212, 175, 55, 0.60); /* Aura messaggi Annina molto intensificata */
-      position: relative;
-      overflow: hidden;
+      border-radius: 22px 22px 22px 8px;
     }
-    .chat-input {
-      display: flex;
-      align-items: center;
-      padding: 1.1rem 1.2rem;
-      background: rgba(255,255,255,0.95); /* Leggermente più opaco */
-      border-top: 1px solid #ececec;
-      box-shadow: 0 -5px 25px -5px rgba(212, 175, 55, 0.35); /* Aura base light mode */
-      gap: 0.7rem;
-      transition: background 0.4s, box-shadow 0.3s ease-out; /* Aggiunta transizione per box-shadow */
+    body.dark-mode .message {
+      background: #23232b;
+      color: #f5f5f7;
+      border: 1.5px solid #2d2d38;
     }
-
-    .chat-input.chat-input--active-aura {
-      box-shadow: 0 -6px 35px -4px rgba(212, 175, 55, 0.55); /* Aura intensa light mode */
-    }
-
-    .chat-input input {
-      flex: 1;
-      padding: 0.9rem 1.2rem;
-      border-radius: 24px;
+    body.dark-mode .message-row.user .message {
+      background: #2d2d38;
+      color: #f5f5f7;
       border: 1.5px solid #d4af37;
-      font-size: 1.08rem;
-      outline: none;
-      background: #fffbe6;
-      color: #23232b;
-      transition: border 0.2s, background 0.4s, color 0.4s;
     }
-    .chat-input input:focus {
-      border: 1.5px solid #a1a1aa;
+    body.dark-mode .message-row.annina .message {
+      background: #23232b;
+      color: #f5f5f7;
+      border: 1.5px solid #2d2d38;
     }
-    .chat-input .input-btns {
+    .typing-indicator {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
+      height: 28px;
+      padding: 0 10px;
     }
-    .chat-input button, .chat-input a.feedback-btn {
-      background: linear-gradient(135deg, #d4af37, #e6c567);
-      color: #23232b;
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      margin: 0 2px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.7;
+      animation: typing-bounce 1s infinite both;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing-bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.7; }
+      40% { transform: translateY(-6px); opacity: 1; }
+    }
+    @keyframes shake {
+      10%, 90% { transform: translateX(-1px); }
+      20%, 80% { transform: translateX(2px); }
+      30%, 50%, 70% { transform: translateX(-3px); }
+      40%, 60% { transform: translateX(3px); }
+    }
+    .chat-input--shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    .chat-input-bar {
+      display: flex;
+      align-items: center;
+      padding: 0.7rem 0.7rem;
+      background: var(--input-bg);
+      border-top: 1px solid var(--border);
+      gap: 0.5rem;
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      transition: background var(--transition), border var(--transition);
+    }
+    .chat-input-bar input {
+      flex: 1;
+      padding: 0.8rem 1.1rem;
+      border-radius: 22px;
+      border: 1.5px solid var(--input-border);
+      font-size: 1.04rem;
+      outline: none;
+      background: #fff;
+      color: var(--primary);
+      transition: border var(--transition), background var(--transition), color var(--transition);
+    }
+    .chat-input-bar input:focus {
+      border: 1.5px solid var(--input-focus);
+      background: #f5f6fa;
+    }
+    .chat-input-bar .input-btns {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .chat-input-bar button, .chat-input-bar a.feedback-btn {
+      background: var(--accent);
+      color: #fff;
       border: none;
       border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      font-size: 1.3rem;
+      width: 40px;
+      height: 40px;
+      font-size: 1.18rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px #d4af3733;
-      transition: background 0.2s, color 0.4s;
+      transition: background var(--transition), color var(--transition);
       text-decoration: none;
     }
-    .chat-input button:disabled {
+    .chat-input-bar button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      background: linear-gradient(135deg, #d4af37cc, #e6c567cc); /* Leggermente sbiadito */
+      background: #e0e0e0;
+      color: #b0b0b0;
     }
-    .chat-input button:hover, .chat-input a.feedback-btn:hover {
-      background: linear-gradient(135deg, #e6c567, #d4af37);
-      color: #23232b;
+    .chat-input-bar button:hover, .chat-input-bar a.feedback-btn:hover {
+      background: #bfa12e;
+      color: #fff;
     }
-    .chat-input a.feedback-btn {
-      font-size: 1.25rem;
+    .chat-input-bar a.feedback-btn {
+      font-size: 1.08rem;
       margin-left: 0.1rem;
+      background: #e9ecf3;
+      color: var(--primary);
+      border: 1.5px solid var(--border);
     }
-    /* DARK MODE */
-    body.dark-mode {
-      background: linear-gradient(135deg, #181a1b 0%, #23232b 100%);
+    .chat-input-bar a.feedback-btn:hover {
+      background: #f5f6fa;
+      color: var(--primary);
     }
-    body.dark-mode .bg-blur {
-      opacity: 0.18;
-    }
-    body.dark-mode .chat-wrapper {
-      background: rgba(26,26,36,0.97); /* Leggermente meno trasparente per far risaltare l'aura */
-      box-shadow: 0 4px 20px -10px rgba(0,0,0,0.25), 0 0 30px 5px rgba(212, 175, 55, 0.45); /* Aura esterna leggermente ridotta per dark mode */
-    }
-    body.dark-mode .chat-header {
-      box-shadow: 0 0 25px 2px rgba(212, 175, 55, 0.40); /* Aura per l'intero header in dark mode */
-    }
-    body.dark-mode .chat-header .title {
-      color: #f5f5f7;
-    }
-    body.dark-mode .chat-header .avatar {
+    body.dark-mode .chat-input-bar {
       background: #23232b;
-      color: #d4af37;
-      box-shadow: 0 0 25px 4px rgba(212, 175, 55, 0.60); /* Aura avatar header dark mode intensificata */
+      border-top: 1px solid #2d2d38;
     }
-    body.dark-mode .chat-container {
-      background: transparent;
-    }
-    body.dark-mode .message {
-      background: rgba(30,30,40,0.85);
+    body.dark-mode .chat-input-bar input {
+      background: #2d2d38;
       color: #f5f5f7;
-      border: 1.5px solid #23232b;
+      border: 1.5px solid #5d8aa8;
     }
-    body.dark-mode .message-row.user .message {
-      background: rgba(212,175,55,0.18);
+    body.dark-mode .chat-input-bar input:focus {
+      border: 1.5px solid #d4af37;
+      background: #23232b;
+    }
+    body.dark-mode .chat-input-bar button, body.dark-mode .chat-input-bar a.feedback-btn {
+      background: #d4af37;
       color: #23232b;
       border: 1.5px solid #d4af37;
     }
-    body.dark-mode .message-row.annina .message {
-      background: linear-gradient(135deg, #23232b 0%, #181a1b 60%, #d4af37 100%);
-      color: #f5f5f7;
-      border: 2px solid #d4af37;
-      box-shadow: 0 0 40px 10px rgba(212, 175, 55, 0.75); /* Aura messaggi Annina dark mode molto intensificata */
-      position: relative;
-      overflow: hidden;
+    body.dark-mode .chat-input-bar button:hover, body.dark-mode .chat-input-bar a.feedback-btn:hover {
+      background: #bfa12e;
+      color: #fffbe6;
     }
-    body.dark-mode .msg-avatar.annina {
-      background: #23232b;
-      box-shadow: 0 0 25px 5px rgba(212, 175, 55, 0.70); /* Aura avatar messaggi Annina dark mode molto intensificata */
-    }
-    body.dark-mode .msg-avatar.user {
-      background: #181a1b;
-    }
-    body.dark-mode .chat-input {
-      background: rgba(26,26,36,0.99); /* Quasi opaco */
-      border-top: 1px solid #23232b;
-      box-shadow: 0 -5px 30px -5px rgba(212, 175, 55, 0.45); /* Aura base dark mode */
-    }
-
-    body.dark-mode .chat-input.chat-input--active-aura {
-      box-shadow: 0 -7px 40px -3px rgba(212, 175, 55, 0.65); /* Aura intensa dark mode */
-    }
-
-    body.dark-mode .chat-input input {
-      background: #23232b;
-      color: #f5f5f7;
-      border: 1.5px solid #a1a1aa;
-    }
-    body.dark-mode .chat-input input:focus {
-      border: 1.5px solid #d4af37;
-    }
-    body.dark-mode .chat-input button, body.dark-mode .chat-input a.feedback-btn {
-      background: linear-gradient(135deg, #23232b, #181a1b);
-      color: #d4af37;
-      border: 1.5px solid #d4af37;
-    }
-    body.dark-mode .chat-input button:hover, body.dark-mode .chat-input a.feedback-btn:hover {
-      background: linear-gradient(135deg, #181a1b, #23232b);
-      color: #e6c567;
-    }
-    body.dark-mode .chat-input button:disabled {
-      opacity: 0.5;
-      background: linear-gradient(135deg, #23232bcc, #181a1bcc); /* Sbiadito per dark mode */
-      border-color: #d4af3799;
-    }
-    .theme-switch .fa-sun { display: none; }
-    body.dark-mode .theme-switch .fa-moon { display: none; }
-    body.dark-mode .theme-switch .fa-sun { display: inline; }
     @media (max-width: 600px) {
-      .chat-header-controls {
-        right: 0.7rem;
-      }
-      .chat-wrapper {
+      .chat-main-wrapper {
         max-width: 100vw;
-        height: 100%; /* Occupa l'intera altezza del body */
-        min-height: 0;
+        height: 100vh;
         border-radius: 0;
         margin: 0;
+        border: none;
       }
-      .chat-header { padding: 0.8rem 0.7rem; }
-      .chat-container { padding: 1rem 0.3rem 0.7rem 0.3rem; }
-      .chat-input { padding: 0.7rem; }
-      .message { font-size: 0.98rem; }      
+      .chat-header { padding: 0.7rem 0.4rem; }
+      .chat-container { padding: 1rem 0.2rem 0.7rem 0.2rem; }
+      .chat-input-bar { padding: 0.6rem; }
+      .message { font-size: 0.97rem; }
+      .chat-header .avatar { width: 32px; height: 32px; }
+      .msg-avatar { width: 26px; height: 26px; }
+    }
+    @media (min-width: 800px) {
+      .chat-main-wrapper {
+        max-width: 100vw;
+        width: 100vw;
+        height: 100vh;
+        min-height: 100vh;
+        border-radius: 0;
+        margin: 0;
+        border: none;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="bg-blur"></div>
-  <div class="chat-wrapper">
+  <div class="chat-main-wrapper">
     <div class="chat-header">
-      <div class="avatar">
-        <img src="/assets/annina.png" alt="Annina" id="annina-avatar" style="width:100%;height:100%;object-fit:cover;" />
-      </div>
-      <div class="title-group">
-        <div class="title">Annina AI❤️</div>
-        <div class="subtitle-beta">Beta Pubblica</div>
+      <div class="chat-header-left">
+        <div class="avatar">
+          <img src="/assets/annina.png" alt="Annina" id="annina-avatar" />
+        </div>
+        <div>
+          <div class="title">Annina</div>
+          <div class="subtitle">Chat</div>
+        </div>
       </div>
       <div class="chat-header-controls">
         <button class="sound-toggle" id="sound-toggle" title="Attiva/Disattiva suono">
@@ -449,12 +409,12 @@
     <div class="chat-container" id="chat-container">
       <div class="message-row annina">
         <div class="msg-avatar annina">
-          <img src="/assets/annina.png" alt="Annina" id="annina-avatar-msg" />
+          <img src="/assets/annina.png" alt="Annina" />
         </div>
         <div class="message">Ciao! Sono Annina 🤖<br>Presto qui potrai chattare con la mia intelligenza artificiale.<br>Scrivi un messaggio per provare l'interfaccia!</div>
       </div>
     </div>
-    <form class="chat-input" id="chat-form" autocomplete="off">
+    <form class="chat-input-bar" id="chat-form" autocomplete="off">
       <input type="text" id="chat-input" placeholder="Scrivi un messaggio..." required />
       <div class="input-btns">
         <button type="submit"><i class="fas fa-paper-plane"></i></button>
@@ -465,41 +425,32 @@
   <script>
     // Avatar di esempio per Annina e utente
     const anninaAvatar = '/assets/annina.png';
-    const userAvatar = '/assets/user.png'; // This variable is used in appendMessage
-    const form = document.getElementById('chat-form'); // Renamed from chatForm
-    const input = document.getElementById('chat-input'); // Renamed from chatInput
-    const chatBox = document.getElementById('chat-container'); // Renamed from chatContainer
+    const userAvatar = '/assets/user.png';
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-input');
+    const chatBox = document.getElementById('chat-container');
     const sendButton = form.querySelector('button[type="submit"]');
-    // Prepara l'audio per la notifica
-    const notificationSound = new Audio('/assets/notification.mp3'); 
-
-    // Per il lampeggio del titolo
+    const notificationSound = new Audio('/assets/notification.mp3');
     let originalTitle = document.title;
     const newMessagesTitle = "💬 Nuovo Messaggio!";
     let blinkIntervalId = null;
     let isBlinking = false;
-
-    // Per il suono di notifica
     const soundToggleBtn = document.getElementById('sound-toggle');
     const volumeUpIcon = soundToggleBtn.querySelector('.fa-volume-up');
     const volumeMuteIcon = soundToggleBtn.querySelector('.fa-volume-mute');
-    let soundEnabled = true; 
-
-    // Aggiunge un messaggio alla chat con la struttura esistente
+    let soundEnabled = true;
     function appendMessage(sender, text, isTyping = false) {
       const messageRow = document.createElement('div');
       messageRow.className = `message-row ${sender === 'Tu' ? 'user' : 'annina'}`;
       if (isTyping) {
         messageRow.classList.add('typing-row');
       }
-
       const msgAvatarDiv = document.createElement('div');
       msgAvatarDiv.className = `msg-avatar ${sender === 'Tu' ? 'user' : 'annina'}`;
       const avatarImg = document.createElement('img');
       avatarImg.src = sender === 'Tu' ? userAvatar : anninaAvatar;
       avatarImg.alt = sender;
       msgAvatarDiv.appendChild(avatarImg);
-
       const messageDiv = document.createElement('div');
       messageDiv.className = 'message';
       if (isTyping) {
@@ -507,53 +458,38 @@
       } else {
         messageDiv.innerHTML = text;
       }
-
       messageRow.appendChild(msgAvatarDiv);
       messageRow.appendChild(messageDiv);
-
-      chatBox.appendChild(messageRow); // Use chatBox instead of chatContainer
+      chatBox.appendChild(messageRow);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-
-    // Rimuove l'ultimo messaggio (usato per togliere "Scrivendo...")
     function removeLastMessage() {
-      const typingRow = chatBox.querySelector('.typing-row'); // Target the typing-row specifically
+      const typingRow = chatBox.querySelector('.typing-row');
       if (typingRow) {
         chatBox.removeChild(typingRow);
       }
     }
-
-    form.addEventListener('submit', async (e) => { // Changed from chatForm to form, added async
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      const message = input.value.trim(); // Changed from text to message, chatInput to input
+      const message = input.value.trim();
       if (!message) {
-        // Applica l'effetto shake al form se il testo è vuoto
-        form.classList.add('chat-input--shake'); // Changed from chatForm to form
-        // Rimuovi la classe dopo l'animazione per permettere di riattivarla
-        setTimeout(() => { form.classList.remove('chat-input--shake'); }, 500); // Changed from chatForm to form
+        form.classList.add('chat-input--shake');
+        setTimeout(() => { form.classList.remove('chat-input--shake'); }, 500);
         return;
       }
-      // Messaggio utente
       appendMessage("Tu", message);
-      input.value = ''; // Changed from chatInput to input
-
-      // Mostra un messaggio di caricamento (typing indicator)
-      appendMessage("Annina", "", true); // Pass true for isTyping
-
+      input.value = '';
+      appendMessage("Annina", "", true);
       try {
-        const response = await fetch('https://anninaai.onrender.com/chat', { // Changed URL, added await
+        const response = await fetch('https://anninaai.onrender.com/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ message }), // Changed from text to message
+          body: JSON.stringify({ message }),
         });
-
-        const data = await response.json(); // Added await
-
-        removeLastMessage(); // Rimuove l'indicatore di digitazione
-
+        const data = await response.json();
+        removeLastMessage();
         if (data.response) {
           appendMessage("Annina", data.response);
           if (soundEnabled) {
@@ -567,13 +503,11 @@
         }
       } catch (error) {
         console.error('Errore durante la comunicazione con il backend:', error);
-        removeLastMessage(); // Rimuove l'indicatore di digitazione anche in caso di errore
+        removeLastMessage();
         appendMessage("Annina", 'Errore di connessione con Annina. Riprova più tardi.');
       }
-      // chatContainer.scrollTop = chatContainer.scrollHeight; // Already handled by appendMessage
-      updateChatInputState(); // Aggiorna stato pulsante e aura dopo invio
+      updateChatInputState();
     });
-    // Theme switch logic
     const themeSwitch = document.getElementById('theme-switch');
     function setTheme(dark) {
       document.body.classList.toggle('dark-mode', dark);
@@ -582,11 +516,8 @@
     themeSwitch.addEventListener('click', function() {
       setTheme(!document.body.classList.contains('dark-mode'));
     });
-    // On load, set theme
     const savedTheme = localStorage.getItem('anninaTheme');
     if(savedTheme === 'dark') setTheme(true);
-
-    // Logica per il toggle del suono
     function setSoundPreference(enabled) {
       soundEnabled = enabled;
       localStorage.setItem('anninaSoundEnabled', enabled);
@@ -601,47 +532,33 @@
     soundToggleBtn.addEventListener('click', () => {
       setSoundPreference(!soundEnabled);
     });
-    // On load, set sound preference
     const savedSoundPreference = localStorage.getItem('anninaSoundEnabled');
-    // Imposta su true di default se non c'è una preferenza salvata o se è 'true'
     setSoundPreference(savedSoundPreference === null ? true : savedSoundPreference === 'true');
-
-    // Logica per l'aura dell'input di chat
-    // const chatForm è già definito sopra (è l'elemento con classe .chat-input)
-    // const chatInput è già definito sopra (è l'elemento #chat-input)
-    // const sendButton è definito sopra
     if (input && form && sendButton) {
       function updateChatInputState() {
         const hasFocus = document.activeElement === input;
-        const hasText = input.value.trim().length > 0; // Usa trim() per controllare il testo effettivo
-
-        // Aggiorna aura: attiva quando l'input ha il focus
-        if (hasFocus) { // L'aura si attiva solo quando l'input ha il focus
+        const hasText = input.value.trim().length > 0;
+        if (hasFocus) {
           form.classList.add('chat-input--active-aura');
         } else {
           form.classList.remove('chat-input--active-aura');
         }
-
-        // Abilita/Disabilita pulsante di invio
         sendButton.disabled = !hasText;
       }
       input.addEventListener('focus', updateChatInputState);
       input.addEventListener('blur', updateChatInputState);
       input.addEventListener('input', updateChatInputState);
-      updateChatInputState(); // Chiamata iniziale per impostare lo stato corretto del pulsante e dell'aura
+      updateChatInputState();
     }
-
-    // Funzioni per il lampeggio del titolo
     function startTitleBlink() {
-      if (isBlinking) return; // Già lampeggiante
+      if (isBlinking) return;
       isBlinking = true;
       let isOriginal = true;
       blinkIntervalId = setInterval(() => {
         document.title = isOriginal ? newMessagesTitle : originalTitle;
         isOriginal = !isOriginal;
-      }, 1000); // Lampeggia ogni secondo
+      }, 1000);
     }
-
     function stopTitleBlink() {
       if (!isBlinking) return;
       clearInterval(blinkIntervalId);
@@ -649,14 +566,13 @@
       isBlinking = false;
       blinkIntervalId = null;
     }
-
     document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) { // La tab è diventata visibile
+      if (!document.hidden) {
         stopTitleBlink();
       }
-    }); // <-- Correzione: Aggiunta parentesi e punto e virgola mancanti
-    </script>
-    <script src="/harmonia/main.js"></script>
+    });
+  </script>
+  <script src="/harmonia/main.js"></script>
 </body>
 </html>
 
