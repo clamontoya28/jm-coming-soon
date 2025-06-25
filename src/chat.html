@@ -465,10 +465,10 @@
   <script>
     // Avatar di esempio per Annina e utente
     const anninaAvatar = '/assets/annina.png';
-    const userAvatar = '/assets/user.png';
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatContainer = document.getElementById('chat-container');
+    const userAvatar = '/assets/user.png'; // This variable is used in appendMessage
+    const form = document.getElementById('chat-form'); // Renamed from chatForm
+    const input = document.getElementById('chat-input'); // Renamed from chatInput
+    const chatBox = document.getElementById('chat-container'); // Renamed from chatContainer
     const sendButton = chatForm.querySelector('button[type="submit"]');
     // Prepara l'audio per la notifica
     const notificationSound = new Audio('/assets/notification.mp3'); 
@@ -485,65 +485,92 @@
     const volumeMuteIcon = soundToggleBtn.querySelector('.fa-volume-mute');
     let soundEnabled = true; 
 
-    chatForm.addEventListener('submit', function(e) {
+    // Aggiunge un messaggio alla chat con la struttura esistente
+    function appendMessage(sender, text, isTyping = false) {
+      const messageRow = document.createElement('div');
+      messageRow.className = `message-row ${sender === 'Tu' ? 'user' : 'annina'}`;
+      if (isTyping) {
+        messageRow.classList.add('typing-row');
+      }
+
+      const msgAvatarDiv = document.createElement('div');
+      msgAvatarDiv.className = `msg-avatar ${sender === 'Tu' ? 'user' : 'annina'}`;
+      const avatarImg = document.createElement('img');
+      avatarImg.src = sender === 'Tu' ? userAvatar : anninaAvatar;
+      avatarImg.alt = sender;
+      msgAvatarDiv.appendChild(avatarImg);
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message';
+      if (isTyping) {
+        messageDiv.innerHTML = `<div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+      } else {
+        messageDiv.innerHTML = text;
+      }
+
+      messageRow.appendChild(msgAvatarDiv);
+      messageRow.appendChild(messageDiv);
+
+      chatBox.appendChild(messageRow); // Use chatBox instead of chatContainer
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Rimuove l'ultimo messaggio (usato per togliere "Scrivendo...")
+    function removeLastMessage() {
+      const typingRow = chatBox.querySelector('.typing-row'); // Target the typing-row specifically
+      if (typingRow) {
+        chatBox.removeChild(typingRow);
+      }
+    }
+
+    form.addEventListener('submit', async (e) => { // Changed from chatForm to form, added async
       e.preventDefault();
-      const text = chatInput.value.trim();
-      if (!text) {
+
+      const message = input.value.trim(); // Changed from text to message, chatInput to input
+      if (!message) {
         // Applica l'effetto shake al form se il testo è vuoto
-        chatForm.classList.add('chat-input--shake');
+        form.classList.add('chat-input--shake'); // Changed from chatForm to form
         // Rimuovi la classe dopo l'animazione per permettere di riattivarla
-        setTimeout(() => {
-          chatForm.classList.remove('chat-input--shake');
-        }, 500); // Durata dell'animazione shake
+        setTimeout(() => { form.classList.remove('chat-input--shake'); }, 500); // Changed from chatForm to form
         return;
       }
       // Messaggio utente
-      const userRow = document.createElement('div');
-      userRow.className = 'message-row user';
-      userRow.innerHTML = `
-        <div class="msg-avatar user"><img src="${userAvatar}" alt="Utente" /></div>
-        <div class="message">${text}</div>
-      `;
-      chatContainer.appendChild(userRow);
-      chatInput.value = '';
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-      // Mostra animazione typing Annina
-      const typingRow = document.createElement('div');
-      typingRow.className = 'message-row annina typing-row';
-      typingRow.innerHTML = `
-        <div class="msg-avatar annina"><img src="${anninaAvatar}" alt="Annina" /></div>
-        <div class="message"><div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>
-      `;
-      chatContainer.appendChild(typingRow);
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-      // Dopo un po', sostituisci con la risposta di Annina
+      appendMessage("Tu", message);
+      input.value = ''; // Changed from chatInput to input
 
-      // Invia il messaggio al backend Flask
-      fetch('http://127.0.0.1:5000/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: text }),
-      })
-      .then(response => response.json())
-      .then(data => {
+      // Mostra un messaggio di caricamento (typing indicator)
+      appendMessage("Annina", "", true); // Pass true for isTyping
+
+      try {
+        const response = await fetch('https://annina-ai.onrender.com/chat', { // Changed URL, added await
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message }), // Changed from text to message
+        });
+
+        const data = await response.json(); // Added await
+
+        removeLastMessage(); // Rimuove l'indicatore di digitazione
+
         if (data.response) {
-          typingRow.querySelector('.message').innerHTML = data.response;
+          appendMessage("Annina", data.response);
           if (soundEnabled) {
             notificationSound.play().catch(error => console.warn("Impossibile riprodurre il suono di notifica:", error));
           }
           if (document.hidden) {
             startTitleBlink();
           }
-        } else if (data.error) {
-          typingRow.querySelector('.message').innerHTML = `Errore: ${data.error}`;
+        } else if (data && data.error) {
+          appendMessage("Annina", `Errore: ${data.error}`);
         }
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Errore durante la comunicazione con il backend:', error);
-        typingRow.querySelector('.message').innerHTML = 'Errore di connessione con Annina. Riprova più tardi.';
-      });
+        removeLastMessage(); // Rimuove l'indicatore di digitazione anche in caso di errore
+        appendMessage("Annina", 'Errore di connessione con Annina. Riprova più tardi.');
+      }
+      // chatContainer.scrollTop = chatContainer.scrollHeight; // Already handled by appendMessage
       updateChatInputState(); // Aggiorna stato pulsante e aura dopo invio
     });
     // Theme switch logic
@@ -629,5 +656,6 @@
       }
     }); // <-- Correzione: Aggiunta parentesi e punto e virgola mancanti
     </script>
+    <script src="/harmonia/main.js"></script>
 </body>
 </html>
