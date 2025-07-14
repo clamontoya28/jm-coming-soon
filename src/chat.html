@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
@@ -686,45 +686,70 @@
       color: var(--primary-dark);
     }
     @media (max-width: 600px) {
+      html, body {
+        height: 100dvh;
+        min-height: 100dvh;
+        overflow: hidden;
+      }
       .chat-main-wrapper {
         max-width: 100vw;
+        width: 100vw;
         height: 100dvh;
+        min-height: 100dvh;
         border-radius: 0;
         margin: 0;
         border: none;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
       }
       .chat-header {
-        padding: 0.2rem 0.2rem;
-        min-height: 40px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        z-index: 100;
+        padding: 0.5rem 0.8rem 0.5rem 0.8rem;
+        min-height: 48px;
+        border-radius: 0;
+        box-shadow: 0 1px 0 #0001;
       }
       .chat-header .avatar {
         width: 28px;
         height: 28px;
       }
       .chat-header .title {
-        font-size: 1rem;
+        font-size: 1.08rem;
       }
       .chat-header .subtitle {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
       }
       .chat-container {
-        padding: 0.7rem 0.2rem 0.5rem 0.2rem;
+        flex: 1 1 auto;
+        padding: 0.7rem 0.5rem 0.7rem 0.5rem;
+        margin-top: 48px;
+        margin-bottom: 56px;
         min-height: 0;
-        max-height: calc(100dvh - 90px);
+        max-height: none;
         background: var(--primary-dark);
+        overflow-y: auto;
+        box-sizing: border-box;
       }
       .chat-input-bar {
-        padding: 0.3rem 0.2rem;
         position: fixed;
         left: 0;
         right: 0;
         bottom: 0;
         width: 100vw;
         border-radius: 0;
-        z-index: 10;
-        box-shadow: none;
+        z-index: 101;
+        box-shadow: 0 -1px 0 #0001;
         background: var(--primary-dark);
+        padding: 0.4rem 0.7rem 0.4rem 0.7rem;
         transition: transform 0.25s, opacity 0.25s;
+        display: flex;
+        align-items: center;
       }
       .chat-input-bar.hidden {
         transform: translateY(100%);
@@ -732,31 +757,35 @@
         pointer-events: none;
       }
       .chat-input-bar input {
-        font-size: 0.98rem;
-        padding: 0.5rem 0.7rem;
-        min-height: 32px;
+        font-size: 1.05rem;
+        padding: 0.7rem 1rem;
+        min-height: 36px;
+        border-radius: 14px;
       }
       .chat-input-bar .input-btns {
         gap: 0.2rem;
       }
       .chat-input-bar button, .chat-input-bar a.feedback-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 1rem;
+        width: 36px;
+        height: 36px;
+        font-size: 1.08rem;
       }
       .message {
-        font-size: 0.96rem;
-        max-width: 90vw;
+        font-size: 0.98rem;
+        max-width: 85vw;
         box-sizing: border-box;
-        padding: 0.6rem 0.7rem;
+        padding: 0.7rem 0.9rem;
+        border-radius: 18px 18px 18px 6px;
       }
       .message-row.user .message {
         margin-right: 2vw;
         margin-left: auto;
+        border-radius: 18px 18px 6px 18px;
       }
       .message-row.annina .message {
         margin-left: 2vw;
         margin-right: auto;
+        border-radius: 18px 18px 18px 6px;
       }
       .msg-avatar { width: 20px; height: 20px; }
     }
@@ -1087,4 +1116,5 @@
   <script src="/harmonia/main.js"></script>
 </body>
 </html>
+
 
