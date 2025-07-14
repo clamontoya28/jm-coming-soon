@@ -727,11 +727,11 @@
       }
       .chat-container {
         flex: 1 1 auto;
-        padding: 0.7rem 0.5rem 0.7rem 0.5rem;
+        padding: 0.7rem 0.5rem 0.2rem 0.5rem;
         margin-top: 48px;
-        margin-bottom: 56px;
+        margin-bottom: 0;
         min-height: 0;
-        max-height: none;
+        max-height: calc(100dvh - 48px - 56px);
         background: var(--primary-dark);
         overflow-y: auto;
         box-sizing: border-box;
@@ -772,10 +772,13 @@
       }
       .message {
         font-size: 0.98rem;
-        max-width: 85vw;
+        max-width: 78vw;
+        min-width: 36px;
         box-sizing: border-box;
         padding: 0.7rem 0.9rem;
         border-radius: 18px 18px 18px 6px;
+        word-break: break-word;
+        white-space: pre-line;
       }
       .message-row.user .message {
         margin-right: 2vw;
@@ -1116,5 +1119,3 @@
   <script src="/harmonia/main.js"></script>
 </body>
 </html>
-
-
